@@ -1,0 +1,314 @@
+
+
+
+
+body {
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(15, 23, 42, 1.0);
+    font-family: 'Inter', sans-serif;
+    height: fit-content;
+  }
+
+  .container {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    height:100vh;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    height: fit-content;
+  }
+
+  @media (max-width: 768px) {
+ 
+    .container {
+      display: flex;
+      flex-direction: column;
+      height:100vh;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      height: fit-content;
+    }
+  }
+ 
+  .left {
+    flex: 1;
+    padding-left: 3rem;
+    height: fit-content;
+  }
+  b {
+    color: rgb(94 234 212);
+  }
+
+  .right {
+    flex: 2;
+    height: fit-content;
+  }
+
+  .icon {
+    width: 24px; /* Fixed width */
+    height: 24px; /* Fixed height */
+    color: #fafafa; /* Define fill color */
+    flex-shrink: 0; /* Prevent icons from shrinking */
+  }
+  
+  .icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .link-box {
+    display: flex; /* Use Flexbox */
+    justify-content: left; /* Center items horizontally */
+    align-items: center; /* Align items vertically */
+    gap: 16px; /* Add spacing between the SVGs */
+    margin-top: 10px;
+  }
+  h1 {
+    font-size: 3rem;
+    color: rgb(226 232 240);
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    color: rgb(226 232 240);
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 400;
+  }
+
+  p {
+    color: white;
+  }
+
+
+  .info-box{
+    border-radius: 25px;
+    padding: 20px;
+    width: 100%;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+
+  }
+  .info-box p {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+.info-box img {
+    flex: 8;
+    width: 100%; /* Make the image fill the width of the container */
+    height: 80%; /* Make the image fill the height of the container */
+    object-fit: contain; /* Ensures the image scales properly to cover the container */
+    opacity: 100%;
+}
+
+  .info-box-header {
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+  }
+
+  .info-box-title {
+    flex: 8;
+  }
+
+  .info-box-title h2 {
+    text-align: center; /
+  }
+
+  .image-and-date{
+    flex: 2;
+    height:inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .image-and-date p {
+    flex: 2;
+    margin: 0; /* Reset margins to prevent overflow */
+    text-align: center; /* Optional: Align text nicely */
+  }
+
+
+.info-box-right h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 10px;
+  }
+
+.uj-gradient {
+    background: linear-gradient(to left, rgba(255, 100, 20, 0.75), rgba(1, 62, 213, 0.25));
+}
+
+.skuuudle-gradient {
+    background: linear-gradient(to left, rgba(180, 179, 179, 0.75), rgba(98, 20, 161, 0.25));
+}
+
+.uofm-gradient {
+  background: linear-gradient(to left, rgba(98, 20, 161, 0.75),rgba(255, 217, 0, 0.25));
+}
+
+.reading-gradient {
+  background: linear-gradient(to left, rgba(238, 243, 249, 0.25),rgba(29, 47, 83, 0.75));
+}
+
+.phs-gradient {
+  background: linear-gradient(to left,rgba(27, 28, 91, 0.75),rgba(238, 243, 249, 0.25));
+}
+
+
+.about {
+  color: rgb(148 163 184);
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.technologies-list{
+  flex-wrap: wrap;
+  display: flex;
+  margin-top: 0.5rem;
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.tech-bubble {
+  color: rgb(94 234 212);
+  border-radius: 9999px;
+  background-color: rgba(45, 212, 191, .1);
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  margin-right: .375rem;
+  margin-top: .5rem;
+  font-weight: 500;
+  list-style-type: none;
+  margin-top: 1em;
+}
+
+
+
+.scroll-watcher {
+  height:10px;
+  position: fixed;
+  top:0;
+  z-index: 1000;
+  background-color: #eb9b33;
+  width: 100%;
+  scale:0 1;
+  animation: scroll-watcher linear;
+  animation-timeline: scroll();
+}
+
+
+
+.slide-in-right {
+  animation: slide-in-right 0.5s linear forwards;
+  transform: translateX(100vw);
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100vw);  /* Start from 100% to the right */
+  }
+  100% {
+    transform: translateX(0);     /* End at the original position */
+  }
+}
+
+:root {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+
+.toggle-button{
+  color: rgb(94 234 212);
+  border-radius: 9999px;
+  background-color: rgba(45, 212, 191, .1);
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  margin-right: .375rem;
+  margin-top: .5rem;
+  font-weight: 500;
+  list-style-type: none;
+  margin-top: 1em;
+}
+.toggle-button:hover {
+  color: rgb(56, 147, 133);; /* Darker Green */
+}
+
+.mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1000;
+  background-color: rgba(15, 23, 42, 1.0);
+  background:radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgba(29, 78, 216, 0.15),
+    transparent 80%);
+}
+
+#pictureContainerUJ {
+  overflow: hidden;
+  transition: height 0.5s ease;
+}
+
+#pictureContainerUJ img {
+  display: block;
+  width: 100%; /* Adjust as needed */
+  margin-bottom: 10px;
+}
+
+/* Collapsed state */
+.collapsed {
+  height: 0;
+}
+
+/* Expanded state */
+.expanded {
+  height: 500px; /* Adjust this to the max height of your content */
+}
+
+.clickable {
+  text-decoration: none;
+}
+
+.seperator{
+  width: 100%;
+  height: 1px; /* Thickness of the line */
+  background-color: grey; /* Line color */
+  margin: 20px 0; /* Spacing above and below the line */
+}
+
+.experience{
+  display: grid;
+  justify-items: center;
+}
+
+.title-bar{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.menu-item{
+  margin-top: 20px;
+  font-size: 2rem;
+  color: rgb(226 232 240);
+  text-align: left;
+  font-weight: 800;
+}
