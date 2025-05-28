@@ -24,6 +24,9 @@ jobs:
       - name: Build Angular app
         run: npm run build -- --base-href=/
 
+      - name: Add CNAME
+        run: echo "jackhygate.co.uk" > dist/angular-site/browser/CNAME
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
