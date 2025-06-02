@@ -1,11 +1,17 @@
-import { Component, ElementRef, HostListener, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('maskElement') maskElement!: ElementRef<HTMLDivElement>;
@@ -13,24 +19,23 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('toggleButton') toggleButton!: ElementRef<HTMLButtonElement>;
 
   ngAfterViewInit() {
-    this.updateDivPos(); // initial position
+    // No need for initial position update since we're using fixed positioning
   }
 
-  @HostListener('window:resize')
-  @HostListener('window:scroll')
-  @HostListener('window:load')
-  updateDivPos() {
-    const scrollPosition = window.scrollY;
-    this.maskElement.nativeElement.style.setProperty('top', `${scrollPosition}px`);
-  }
+  // Remove scroll and resize listeners since we don't need them anymore
+  // The mask will stay fixed in the viewport
 
   @HostListener('document:pointermove', ['$event'])
   updateMousePos(pos: PointerEvent) {
-    const x = Math.floor((pos.clientX / window.innerWidth) * 100);
-    const y = Math.floor((pos.clientY / window.innerHeight) * 100);
+    if (this.maskElement?.nativeElement) {
+      // Calculate position as percentage of viewport
+      const x = (pos.clientX / window.innerWidth) * 100;
+      const y = (pos.clientY / window.innerHeight) * 100;
 
-    this.maskElement.nativeElement.style.setProperty('--mouse-x', `${x}%`);
-    this.maskElement.nativeElement.style.setProperty('--mouse-y', `${y}%`);
+      // Update CSS custom properties
+      this.maskElement.nativeElement.style.setProperty('--mouse-x', `${x}%`);
+      this.maskElement.nativeElement.style.setProperty('--mouse-y', `${y}%`);
+    }
   }
 
   togglePictureContainer() {
@@ -40,7 +45,9 @@ export class AppComponent implements AfterViewInit {
     container.classList.toggle('collapsed');
     container.classList.toggle('expanded');
 
-    button.innerHTML = container.classList.contains('expanded') ? '&#x25B2;' : '&#x25BC;';
+    button.innerHTML = container.classList.contains('expanded')
+      ? '&#x25B2;'
+      : '&#x25BC;';
   }
 
   redirectToWebsite(url: string) {
