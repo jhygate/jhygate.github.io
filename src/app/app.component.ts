@@ -5,11 +5,13 @@ import {
   ViewChild,
   AfterViewInit,
 } from '@angular/core';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ExperienceComponent } from './components/experience/experience.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ProfileComponent, ExperienceComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
