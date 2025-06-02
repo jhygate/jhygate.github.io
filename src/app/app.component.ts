@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ExperienceComponent } from './components/experience/experience.component';
-import { RouterOutlet } from '@angular/router';
+import { LeftsideComponent } from './components/leftside/leftside.component';
 
 @Component({
   selector: 'app-root',
-  imports: [ProfileComponent, ExperienceComponent],
+  imports: [ProfileComponent, ExperienceComponent, LeftsideComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
