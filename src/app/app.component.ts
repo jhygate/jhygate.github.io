@@ -9,9 +9,16 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ExperienceComponent } from './components/experience/experience.component';
 import { LeftsideComponent } from './components/leftside/leftside.component';
 
+import { PostitComponent } from './components/postit/postit.component';
+
 @Component({
   selector: 'app-root',
-  imports: [ProfileComponent, ExperienceComponent, LeftsideComponent],
+  imports: [
+    ProfileComponent,
+    ExperienceComponent,
+    LeftsideComponent,
+    PostitComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

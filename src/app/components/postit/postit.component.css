@@ -1,0 +1,9 @@
+:host {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+}
+
+.postit-text {
+  color: inherit !important;
+}
