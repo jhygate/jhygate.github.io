@@ -1,3 +1,25 @@
-<app-postit></app-postit>
+<app-postit>
+<p class="text-center font-hand font-bold leading-none text-[70px] text-blue-black" >
+    J H
+  </p>
+</app-postit>
 
-<div class="bg-jack-yellow text-black p-4 rounded">Tailwind is working!</div>
+<app-postit  [size]="'w-64 h-64'"
+
+[bgColor]="'bg-light-blue'" [top]="'left-600px'"  [left]="'top-100px'" [left]="'-50px'" [rotation]="'rotate-12'">
+  <p class=" font-hand font-bold leading-none text-[70px] text-blue-black" >
+    about me
+  </p>
+</app-postit>
+
+
+<div class="w-full h-auto ">
+
+  <h1 class="text-center text-blue-black font-hand text-[100px] tracking-[0.2em]">
+    Jack Hygate
+  </h1>
+  <h2 class="text-center -translate-x-[120px] -translate-y-[50px] text-white font-hand text-[30px] tracking-[0.2em]">
+    Full Stack Engineer
+  </h2>
+</div>
+

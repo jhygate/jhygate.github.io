@@ -1,18 +1,36 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
-
+import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import { NgClass } from '@angular/common'; 
 @Component({
   selector: 'app-postit',
   standalone: true,
   templateUrl: './postit.component.html',
   styleUrls: ['./postit.component.css'],
+  imports: [NgClass], 
 })
 export class PostitComponent {
+  @Input() text: string = 'J H';
+  @Input() bgColor: string = 'bg-yellow-200';
+  @Input() textColor: string = 'text-gray-700';
+  @Input() textSize: string = 'text-[70px]';
+  @Input() size: string = 'w-32 h-32';
+  @Input() rotation: string = 'rotate-[-6deg]';
+  @Input() top: string = '0px';
+  @Input() left: string = '0px';
+
+  
   private isDragging = false;
   private offset = { x: 0, y: 0 };
 
-  constructor(private el: ElementRef) {}
+  constructor(public el: ElementRef) {}
 
-  // Mouse Events
+  ngOnInit() {
+    const el = this.el.nativeElement;
+    el.style.position = 'absolute'; // ensure it's positioned
+    el.style.top = this.top;
+    el.style.left = this.left;
+  }
+
+  // Drag logic omitted for brevity (unchanged)
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     this.startDrag(event.pageX, event.pageY);
@@ -29,7 +47,6 @@ export class PostitComponent {
     this.endDrag();
   }
 
-  // Touch Events
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     const touch = event.touches[0];
