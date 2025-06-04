@@ -15,13 +15,13 @@ export class PostitComponent {
   // Mouse Events
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
-    this.startDrag(event.clientX, event.clientY);
+    this.startDrag(event.pageX, event.pageY);
     event.preventDefault();
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    this.drag(event.clientX, event.clientY);
+    this.drag(event.pageX, event.pageY);
   }
 
   @HostListener('document:mouseup')
@@ -33,14 +33,14 @@ export class PostitComponent {
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     const touch = event.touches[0];
-    this.startDrag(touch.clientX, touch.clientY);
+    this.startDrag(touch.pageX, touch.pageY);
     event.preventDefault();
   }
 
   @HostListener('document:touchmove', ['$event'])
   onTouchMove(event: TouchEvent) {
     const touch = event.touches[0];
-    this.drag(touch.clientX, touch.clientY);
+    this.drag(touch.pageX, touch.pageY);
   }
 
   @HostListener('document:touchend')
@@ -48,18 +48,21 @@ export class PostitComponent {
     this.endDrag();
   }
 
-  // Shared Methods
-  private startDrag(clientX: number, clientY: number) {
+  private startDrag(pageX: number, pageY: number) {
     this.isDragging = true;
-    const rect = this.el.nativeElement.getBoundingClientRect();
-    this.offset.x = clientX - rect.left;
-    this.offset.y = clientY - rect.top;
+    const el = this.el.nativeElement;
+    const rect = el.getBoundingClientRect();
+    const scrollLeft = window.pageXOffset;
+    const scrollTop = window.pageYOffset;
+    this.offset.x = pageX - (rect.left + scrollLeft);
+    this.offset.y = pageY - (rect.top + scrollTop);
   }
 
-  private drag(clientX: number, clientY: number) {
+  private drag(pageX: number, pageY: number) {
     if (!this.isDragging) return;
-    this.el.nativeElement.style.left = `${clientX - this.offset.x}px`;
-    this.el.nativeElement.style.top = `${clientY - this.offset.y}px`;
+    const el = this.el.nativeElement;
+    el.style.left = `${pageX - this.offset.x}px`;
+    el.style.top = `${pageY - this.offset.y}px`;
   }
 
   private endDrag() {
