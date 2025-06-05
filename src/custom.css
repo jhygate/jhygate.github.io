@@ -275,13 +275,6 @@ body {
   text-decoration: none;
 }
 
-.seperator{
-  width: 100%;
-  height: 1px; /* Thickness of the line */
-  background-color: grey; /* Line color */
-  margin: 20px 0; /* Spacing above and below the line */
-}
-
 .experience{
   display: grid;
   justify-items: center;

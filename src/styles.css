@@ -214,29 +214,7 @@
   text-decoration: none;
 }
 
-.seperator{
-  width: 100%;
-  height: 1px; /* Thickness of the line */
-  background-color: grey; /* Line color */
-  margin: 20px 0; /* Spacing above and below the line */
-}
 
-.experience{
-  display: grid;
-  justify-items: center;
-}
 
-.title-bar{
-  display:flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
 
-.menu-item{
-  margin-top: 20px;
-  font-size: 2rem;
-  color: rgb(226 232 240);
-  text-align: left;
-  font-weight: 800;
-}
+
