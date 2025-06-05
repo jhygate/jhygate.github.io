@@ -2,47 +2,16 @@
 
 @import "tailwindcss";
 
-
- 
-  .left {
-    flex: 1;
-    padding-left: 3rem;
-    height: fit-content;
-  }
   b {
     color: rgb(94 234 212);
   }
 
-  .right {
-    flex: 2;
-    height: fit-content;
-  }
 
-  .icon {
-    width: 24px; /* Fixed width */
-    height: 24px; /* Fixed height */
-    color: #fafafa; /* Define fill color */
-    flex-shrink: 0; /* Prevent icons from shrinking */
-  }
   
-  .icon svg {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .link-box {
-    display: flex; /* Use Flexbox */
-    justify-content: left; /* Center items horizontally */
-    align-items: center; /* Align items vertically */
-    gap: 16px; /* Add spacing between the SVGs */
-    margin-top: 10px;
-  }
+
   h1 {
     font-size: 3rem;
     color: rgb(226 232 240);
-    text-align: left;
-    margin-top: 0;
-    margin-bottom: 0;
   }
 
   h2 {
