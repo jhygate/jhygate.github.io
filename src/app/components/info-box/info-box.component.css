@@ -1,0 +1,13 @@
+.slide-in-right {
+  animation: slide-in-right 0.5s linear forwards;
+  transform: translateX(100vw);
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100vw); /* Start from 100% to the right */
+  }
+  100% {
+    transform: translateX(0); /* End at the original position */
+  }
+}
