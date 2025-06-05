@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "purgecss:custom": "purgecss --css src/styles.css --content src/**/*.html src/**/*.ts --output src/"
   },
   "private": true,
   "dependencies": {

@@ -1,8 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './custom.css';
+
 @import "tailwindcss";
 
 
+body {
+    background-color: rgba(15, 23, 42, 1.0)
+  }
+
+  .container {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    height:100vh;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    height: fit-content;
+  }
+
+  @media (max-width: 768px) {
+ 
+    .container {
+      display: flex;
+      flex-direction: column;
+      height:100vh;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      height: fit-content;
+    }
+  }
  
   .left {
     flex: 1;
