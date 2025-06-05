@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { InfoBoxComponent } from '../../info-box/info-box.component'
 
 @Component({
   selector: 'app-education',
-  imports: [],
+  imports: [InfoBoxComponent],
   templateUrl: './education.component.html',
-  styleUrl: './education.component.css'
+  styleUrl: './education.component.css',
 })
-export class EducationComponent {
-
-}
+export class EducationComponent {}
