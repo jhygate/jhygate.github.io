@@ -7,12 +7,15 @@ b {
 }
 
 h1 {
-  font-size: 3rem;
   color: rgb(226 232 240);
 }
 
 p {
   color: white;
+}
+
+.green-gradient {
+  background: linear-gradient(to bottom, #a5c882, #4e6766);
 }
 
 .uj-gradient {
