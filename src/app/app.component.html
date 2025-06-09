@@ -1,6 +1,8 @@
 <app-mouse-glow></app-mouse-glow>
 
-<header class="fixed top-0 w-full z-50 bg-[#4e6766] h-[150px] border-b-2 border-[#1e152a] flex items-center justify-between px-12">
+<header
+  class="fixed top-0 w-full z-50 bg-[#4b6a6d] h-[150px] border-b-2 border-[#1e152a] flex items-center justify-between px-12"
+>
   <app-postit [fixed]="true" [top]="'20px'" [left]="'20px'">
     <div class="flex items-center justify-center w-full h-full">
       <p
@@ -13,10 +15,7 @@
   </app-postit>
 
   <div class="flex flex-col items-center flex-1">
-    <h1
-      class="text-[100px] tracking-[0.3em]"
-      style="font-family: 'Just Another Hand', cursive"
-    >
+    <h1 class="text-[100px] tracking-[0.3em]" style="font-family: 'Just Another Hand', cursive">
       Jack Hygate
     </h1>
     <h2
@@ -82,14 +81,12 @@
         </a>
       </div>
     </div>
-    <p class="text-[#fafafa] text-sm whitespace-nowrap">
-      jhygate&#64;gmail.com
-    </p>
+    <p class="text-[#fafafa] text-sm whitespace-nowrap">jhygate&#64;gmail.com</p>
   </div>
 </header>
 
-<div class="px-12 flex flex-col h-fit md:flex-row md:min-h-screen">
-  <div class="flex-1  h-fit">
+<div class="px-12 flex flex-col md:flex-row">
+  <div class="flex-1 h-fit">
     <app-profile />
 
     <!-- <app-leftside /> -->
@@ -98,4 +95,44 @@
   <div class="flex-[2] h-fit">
     <app-experience />
   </div>
+</div>
+<div class="w-full h-px bg-gray-500 my-[20px] mx-[20px]"></div>
+
+<div class="flex flex-row space-x-10 mx-10">
+  <a href="https://myurbanjungle.com/" target="_blank" rel="noopener noreferrer">
+    <app-info-box
+      gradientClass="green-gradient"
+      imageSrc="assets/images/UJ.png"
+      imageAlt="UJ logo"
+      date="2024 – Present"
+      title="Full Stack Software Engineer – Urban Jungle"
+      [techStack]="['Python', 'Typescript', 'SQL', 'Dagster', 'MlFlow', 'AWS', 'RabbitMQ']"
+    >
+      <div class="space-y-4 text-[17px] text-slate-100 leading-relaxed tracking-tight"></div>
+    </app-info-box>
+  </a>
+  <a href="https://myurbanjungle.com/" target="_blank" rel="noopener noreferrer">
+    <app-info-box
+      gradientClass="green-gradient"
+      imageSrc="assets/images/UJ.png"
+      imageAlt="UJ logo"
+      date="2024 – Present"
+      title="Full Stack Software Engineer – Urban Jungle"
+      [techStack]="['Python', 'Typescript', 'SQL', 'Dagster', 'MlFlow', 'AWS', 'RabbitMQ']"
+    >
+      <div class="space-y-4 text-[17px] text-slate-100 leading-relaxed tracking-tight"></div>
+    </app-info-box>
+  </a>
+  <a href="https://myurbanjungle.com/" target="_blank" rel="noopener noreferrer">
+    <app-info-box
+      gradientClass="green-gradient"
+      imageSrc="assets/images/UJ.png"
+      imageAlt="UJ logo"
+      date="2024 – Present"
+      title="Full Stack Software Engineer – Urban Jungle"
+      [techStack]="['Python', 'Typescript', 'SQL', 'Dagster', 'MlFlow', 'AWS', 'RabbitMQ']"
+    >
+      <div class="space-y-4 text-[17px] text-slate-100 leading-relaxed tracking-tight"></div>
+    </app-info-box>
+  </a>
 </div>

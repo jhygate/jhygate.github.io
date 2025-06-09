@@ -5,6 +5,7 @@ import { ExperienceComponent } from './components/experience/experience.componen
 import { LeftsideComponent } from './components/leftside/leftside.component'
 import { PostitComponent } from './components/postit/postit.component'
 import { MouseGlowComponent } from './components/mouse-glow/mouse-glow.component'
+import { InfoBoxComponent } from './components/info-box/info-box.component'
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { MouseGlowComponent } from './components/mouse-glow/mouse-glow.component
     LeftsideComponent,
     PostitComponent,
     MouseGlowComponent,
+    InfoBoxComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

@@ -20,6 +20,6 @@ export class MouseGlowComponent implements AfterViewInit {
   }
 
   private buildGradient(x: number, y: number): string {
-    return `radial-gradient(circle at ${x}% ${y}%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)`
+    return `radial-gradient(circle at ${x}% ${y}%, rgba(255, 255, 255, 0.05) 0%, transparent 50%)`
   }
 }
