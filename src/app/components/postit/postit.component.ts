@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { NgClass } from '@angular/common'; 
+
 @Component({
   selector: 'app-postit',
   standalone: true,
@@ -16,8 +17,8 @@ export class PostitComponent {
   @Input() rotation: string = 'rotate-[-6deg]';
   @Input() top: string = '0px';
   @Input() left: string = '0px';
+  @Input() fixed: boolean = false;
 
-  
   private isDragging = false;
   private offset = { x: 0, y: 0 };
 
@@ -25,21 +26,20 @@ export class PostitComponent {
 
   ngOnInit() {
     const el = this.el.nativeElement;
-    el.style.position = 'absolute'; // ensure it's positioned
+    el.style.position = this.fixed ? 'fixed' : 'absolute';
     el.style.top = this.top;
     el.style.left = this.left;
   }
 
-  // Drag logic omitted for brevity (unchanged)
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
-    this.startDrag(event.pageX, event.pageY);
+    this.startDrag(event.clientX, event.clientY);
     event.preventDefault();
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    this.drag(event.pageX, event.pageY);
+    this.drag(event.clientX, event.clientY);
   }
 
   @HostListener('document:mouseup')
@@ -50,14 +50,14 @@ export class PostitComponent {
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     const touch = event.touches[0];
-    this.startDrag(touch.pageX, touch.pageY);
+    this.startDrag(touch.clientX, touch.clientY);
     event.preventDefault();
   }
 
   @HostListener('document:touchmove', ['$event'])
   onTouchMove(event: TouchEvent) {
     const touch = event.touches[0];
-    this.drag(touch.pageX, touch.pageY);
+    this.drag(touch.clientX, touch.clientY);
   }
 
   @HostListener('document:touchend')
@@ -65,21 +65,19 @@ export class PostitComponent {
     this.endDrag();
   }
 
-  private startDrag(pageX: number, pageY: number) {
+  private startDrag(clientX: number, clientY: number) {
     this.isDragging = true;
     const el = this.el.nativeElement;
     const rect = el.getBoundingClientRect();
-    const scrollLeft = window.pageXOffset;
-    const scrollTop = window.pageYOffset;
-    this.offset.x = pageX - (rect.left + scrollLeft);
-    this.offset.y = pageY - (rect.top + scrollTop);
+    this.offset.x = clientX - rect.left;
+    this.offset.y = clientY - rect.top;
   }
 
-  private drag(pageX: number, pageY: number) {
+  private drag(clientX: number, clientY: number) {
     if (!this.isDragging) return;
     const el = this.el.nativeElement;
-    el.style.left = `${pageX - this.offset.x}px`;
-    el.style.top = `${pageY - this.offset.y}px`;
+    el.style.left = `${clientX - this.offset.x}px`;
+    el.style.top = `${clientY - this.offset.y}px`;
   }
 
   private endDrag() {

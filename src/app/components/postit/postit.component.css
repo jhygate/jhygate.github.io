@@ -1,8 +1,10 @@
 :host {
   position: absolute;
-  top: 100px;
-  left: 100px;
   touch-action: none;
+}
+
+:host(.fixed) {
+  position: fixed;
 }
 
 .postit-text {
