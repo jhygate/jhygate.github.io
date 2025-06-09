@@ -1,6 +1,6 @@
 <div
-  class="absolute bg-yellow-200 shadow-lg w-48 h-48 p-4 rounded-md cursor-move select-none"
+  class="absolute drop-shadow-md shadow-lg p-4 rounded-sm cursor-move select-none flex z-50"
+  [ngClass]="[bgColor, size, rotation]"
 >
-  <h3 class="text-lg font-bold mb-2">Note</h3>
-  <p class="postit-text text-gray-700">Under Construction</p>
+  <ng-content></ng-content>
 </div>

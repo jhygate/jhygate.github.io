@@ -10,9 +10,9 @@ h1 {
   color: rgb(226 232 240);
 }
 
-p {
+/* p {
   color: white;
-}
+} */
 
 .green-gradient {
   background: linear-gradient(to bottom, #a5c882, #4e6766);
