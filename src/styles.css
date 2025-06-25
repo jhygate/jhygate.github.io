@@ -37,3 +37,6 @@ h1 {
 .phs-gradient {
   background: linear-gradient(to left, rgba(27, 28, 91, 0.25), rgba(238, 243, 249, 0.25));
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

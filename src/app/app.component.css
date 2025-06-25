@@ -1,0 +1,4 @@
+::ng-deep .mat-sidenav-container,
+::ng-deep .mat-drawer-container {
+  background: transparent !important;
+}
