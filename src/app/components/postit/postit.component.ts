@@ -20,7 +20,10 @@ export class PostitComponent {
   @Input() fixed: boolean = false;
 
   private isDragging = false;
-  private offset = { x: 0, y: 0 };
+  private startX = 0;
+  private startY = 0;
+  private translateX = 0;
+  private translateY = 0;
 
   constructor(public el: ElementRef) {}
 
@@ -29,6 +32,7 @@ export class PostitComponent {
     el.style.position = this.fixed ? 'fixed' : 'absolute';
     el.style.top = this.top;
     el.style.left = this.left;
+    el.style.transform = 'translate(0px, 0px)';
   }
 
   @HostListener('mousedown', ['$event'])
@@ -67,17 +71,18 @@ export class PostitComponent {
 
   private startDrag(clientX: number, clientY: number) {
     this.isDragging = true;
-    const el = this.el.nativeElement;
-    const rect = el.getBoundingClientRect();
-    this.offset.x = clientX - rect.left;
-    this.offset.y = clientY - rect.top;
+    this.startX = clientX - this.translateX;
+    this.startY = clientY - this.translateY;
   }
 
   private drag(clientX: number, clientY: number) {
     if (!this.isDragging) return;
+    
+    this.translateX = clientX - this.startX;
+    this.translateY = clientY - this.startY;
+    
     const el = this.el.nativeElement;
-    el.style.left = `${clientX - this.offset.x}px`;
-    el.style.top = `${clientY - this.offset.y}px`;
+    el.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
   }
 
   private endDrag() {
