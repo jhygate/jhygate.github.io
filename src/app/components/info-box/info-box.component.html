@@ -6,9 +6,11 @@
 >
   <div class="flex flex-row gap-4 items-center">
     <!-- Logo column -->
+    @if (imageSrc) {
     <div class="w-[90px] flex flex-col items-center justify-center">
       <img [src]="imageSrc" [alt]="imageAlt" class="w-[60px] h-[60px] object-contain" />
     </div>
+  }
 
     <!-- Title and date -->
     <div class="flex-1">
