@@ -1,4 +1,4 @@
-name: Deploy Angular to GitHub Pages
+name: Deploy Angular to GitHub Pages (Safe Multi-Folder)
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout source repo
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -24,10 +24,24 @@ jobs:
       - name: Build Angular app
         run: npm run build -- --base-href=/
 
-      - name: Add CNAME
-        run: echo "jackhygate.co.uk" > dist/angular-site/browser/CNAME
+      - name: Clone gh-pages branch
+        run: |
+          git clone --branch gh-pages https://x-access-token:${{ secrets.GH_PAGES_TOKEN }}@github.com/jhygate/jhygate.github.io.git gh-pages
+        env:
+          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist/angular-site/browser
+      - name: Copy built site into root (preserve other folders)
+        run: |
+          rm -rf gh-pages/*
+          cp -r dist/angular-site/browser/* gh-pages/
+          echo "jackhygate.co.uk" > gh-pages/CNAME
+          touch gh-pages/.nojekyll
+
+      - name: Commit and push to gh-pages
+        run: |
+          cd gh-pages
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Deploy main site from main branch" || echo "No changes"
+          git push
