@@ -34,3 +34,4 @@ jobs:
           publish_dir: ./dist
           publish_branch: deploy
           force_orphan: false
+          keep_files: true
