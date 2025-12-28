@@ -80,7 +80,7 @@ const Index = () => {
       githubUrl: "https://github.com/jhygate",
     },
     {
-      name: "Git Commit Visualiser -TEST",
+      name: "Git Commit Visualiser -TEST AGAIN",
       description: "A tool to visualise code changes over time as animated text diffs.",
       bullets: [
         "Plays back commits as animated edits to show how code evolves.",
