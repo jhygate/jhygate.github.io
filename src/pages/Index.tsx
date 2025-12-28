@@ -66,7 +66,7 @@ const Index = () => {
         "Built from scratch in TypeScript with a focus on performance and state management.",
       ],
       techStack: ["TypeScript", "Web Audio API"],
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/jhygate",
     },
     {
       name: "CSS Museum",
@@ -77,7 +77,7 @@ const Index = () => {
         "Built as a personal reference and teaching tool.",
       ],
       techStack: ["CSS", "HTML", "Frontend fundamentals"],
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/jhygate",
     },
     {
       name: "Git Commit Visualiser",
@@ -88,7 +88,7 @@ const Index = () => {
         "Focus on developer tooling and clarity.",
       ],
       techStack: ["TypeScript", "Git", "Developer tooling"],
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/jhygate",
     },
   ];
 
@@ -131,7 +131,7 @@ const Index = () => {
 
           <nav className="flex items-center gap-5">
             <a
-              href="https://github.com"
+              href="https://github.com/jhygate"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-accent transition-colors duration-150 flex items-center gap-1.5 text-sm"
@@ -140,7 +140,7 @@ const Index = () => {
               <span>GitHub</span>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/jack-hygate/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-accent transition-colors duration-150 flex items-center gap-1.5 text-sm"
@@ -149,7 +149,7 @@ const Index = () => {
               <span>LinkedIn</span>
             </a>
             <a
-              href="mailto:hello@example.com"
+              href="mailto:jhygate@gmail.com"
               className="text-muted-foreground hover:text-accent transition-colors duration-150 flex items-center gap-1.5 text-sm"
             >
               <Mail className="w-4 h-4" />

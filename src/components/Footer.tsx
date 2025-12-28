@@ -4,17 +4,17 @@ const Footer = () => {
   const links = [
     {
       label: "GitHub",
-      href: "https://github.com",
+      href: "https://github.com/jhygate",
       icon: Github,
     },
     {
       label: "LinkedIn",
-      href: "https://linkedin.com",
+      href: "https://www.linkedin.com/in/jack-hygate/",
       icon: Linkedin,
     },
     {
       label: "Email",
-      href: "mailto:hello@example.com",
+      href: "mailto:jhygate@gmail.com",
       icon: Mail,
     },
   ];
