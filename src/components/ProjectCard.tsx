@@ -1,5 +1,5 @@
 import TechTag from "./TechTag";
-import { ExternalLink, Github } from "lucide-react";
+import { Github, ExternalLink } from "lucide-react";
 
 interface ProjectCardProps {
   name: string;
@@ -18,8 +18,17 @@ const ProjectCard = ({
   githubUrl,
   projectUrl,
 }: ProjectCardProps) => {
+  const handleCardClick = () => {
+    if (projectUrl) {
+      window.open(projectUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
-    <article className="group p-5 -mx-5 rounded-lg transition-colors duration-150 hover:bg-secondary/50">
+    <article
+      className={`group p-5 -mx-5 rounded-lg transition-colors duration-150 hover:bg-secondary/50 ${projectUrl ? 'cursor-pointer' : ''}`}
+      onClick={handleCardClick}
+    >
       <header className="mb-3">
         <div className="flex items-center gap-2 mb-1">
           <h3 className="text-base font-semibold text-foreground">
@@ -27,23 +36,16 @@ const ProjectCard = ({
           </h3>
           <div className="flex items-center gap-2">
             {projectUrl && (
-              <a
-                href={projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors duration-150"
-                aria-label={`View ${name} live project`}
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
             )}
             {githubUrl && (
               <a
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors duration-150"
+                className="text-muted-foreground hover:text-accent transition-colors duration-150 relative z-10"
                 aria-label={`View ${name} on GitHub`}
+                onClick={(e) => e.stopPropagation()}
               >
                 <Github className="w-3.5 h-3.5" />
               </a>
