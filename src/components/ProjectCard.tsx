@@ -1,5 +1,5 @@
 import TechTag from "./TechTag";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 
 interface ProjectCardProps {
   name: string;
@@ -7,6 +7,7 @@ interface ProjectCardProps {
   bullets: string[];
   techStack: string[];
   githubUrl?: string;
+  projectUrl?: string;
 }
 
 const ProjectCard = ({
@@ -15,6 +16,7 @@ const ProjectCard = ({
   bullets,
   techStack,
   githubUrl,
+  projectUrl,
 }: ProjectCardProps) => {
   return (
     <article className="group p-5 -mx-5 rounded-lg transition-colors duration-150 hover:bg-secondary/50">
@@ -23,17 +25,30 @@ const ProjectCard = ({
           <h3 className="text-base font-semibold text-foreground">
             {name}
           </h3>
-          {githubUrl && (
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-colors duration-150"
-              aria-label={`View ${name} on GitHub`}
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          )}
+          <div className="flex items-center gap-2">
+            {projectUrl && (
+              <a
+                href={projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-accent transition-colors duration-150"
+                aria-label={`View ${name} live project`}
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-accent transition-colors duration-150"
+                aria-label={`View ${name} on GitHub`}
+              >
+                <Github className="w-3.5 h-3.5" />
+              </a>
+            )}
+          </div>
         </div>
         <p className="text-sm text-muted-foreground">{description}</p>
       </header>

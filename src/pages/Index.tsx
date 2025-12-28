@@ -67,6 +67,7 @@ const Index = () => {
       ],
       techStack: ["TypeScript", "Web Audio API"],
       githubUrl: "https://github.com/jhygate",
+      projectUrl: "https://jackhygate.co.uk/looppad/",
     },
     {
       name: "CSS Museum",
