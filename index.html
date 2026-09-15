@@ -288,7 +288,22 @@ body {
 
 /* the player: a photo, with a strip of masking tape under it saying what was on */
 .player { position: relative; margin: 0; min-width: 0; }
-.player img { display: block; width: 100%; height: auto; filter: drop-shadow(0 1.2em 1.2em rgba(20,10,0,.45)) drop-shadow(0 .15em .3em rgba(20,10,0,.35)); transform: rotate(-1.2deg); }
+.player .shell { position: relative; transform: rotate(-1.2deg); }
+.player img { display: block; width: 100%; height: auto; filter: drop-shadow(0 1.2em 1.2em rgba(20,10,0,.45)) drop-shadow(0 .15em .3em rgba(20,10,0,.35)); }
+/* the yellow key is its own layer; pressing slides it down into the body, the body hides the rest */
+.player .key { position: absolute; left: 66.96%; top: 0; width: 7.44%; height: 7.47%; overflow: hidden; pointer-events: none; }
+.player .key img { display: block; width: 100%; height: 100%; filter: none;
+  transition: transform .12s cubic-bezier(.3,.7,.4,1); }
+.player.playing .key img { transform: translateY(62%); }
+.player:not(.playing) .key img { transition: transform .28s cubic-bezier(.2,1.6,.4,1); }
+.player .yellow {
+  position: absolute; left: 64.5%; top: -6%; width: 12.5%; height: 18%;
+  border: 0; padding: 0; cursor: pointer; background: transparent;
+}
+.player .yellow:hover ~ .key img, .player .yellow:hover + .key img { filter: brightness(1.08); }
+.player .yellow:focus-visible { outline: 2px solid #fff; outline-offset: -2px; border-radius: 20%; }
+.player figcaption #np-state { color: #6a5a3a; }
+.player.playing figcaption #np-state { color: #a8562f; }
 .player figcaption {
   position: relative; display: inline-block; margin: 1.1em 0 0 6%;
   padding: .45em .9em .4em; max-width: 92%;
@@ -351,7 +366,7 @@ body {
   background: linear-gradient(180deg,#faf6ea,#ece5d2);
   box-shadow: 0 0 0 0.0625em rgba(0,0,0,.3), inset 0 0.0625em 0.125em rgba(255,255,255,.35);
   display: flex; align-items: stretch; color: #1d1913; }
-.spine .sp-cover { flex: none; width: 2.125em; background: linear-gradient(135deg, #2190d8, #0b3e68); box-shadow: inset -1px 0 0 rgba(0,0,0,.28), inset 0 0.0625em 0 rgba(255,255,255,.14); }
+.spine .sp-cover { flex: none; width: 2.125em; background: linear-gradient(135deg, #2190d8, #0b3e68) center / cover no-repeat; box-shadow: inset -1px 0 0 rgba(0,0,0,.28), inset 0 0.0625em 0 rgba(255,255,255,.14); }
 .spine .ty-body { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5625em; padding: 0 0.5em; }
 .spine .ty-mid { min-width: 0; display: flex; flex-direction: column; gap: 0.0625em; }
 .spine .ty-title { font: 700 0.75em/1.2 'Courier Prime', monospace; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -505,17 +520,21 @@ body {
   <h2 class="tapes-title" id="tapes-title">what i've been listening to</h2>
 
   <figure class="player">
-    <img src="pins/player.png" alt="an orange We Are Rewind cassette player">
-    <figcaption><b id="np-song">last played</b><span id="np-album"></span> <span id="np-when"></span><br>from my <a href="https://jacks-cassettes.jackhygate.co.uk/" target="_blank" rel="noopener noreferrer">cassette rack</a></figcaption>
+    <div class="shell">
+      <img src="pins/player.png" alt="an orange We Are Rewind cassette player">
+      <div class="key" aria-hidden="true"><img src="pins/yellow.png" alt=""></div>
+      <button class="yellow" id="yellow" aria-label="play or pause" title="play / pause"></button>
+    </div>
+    <figcaption><b id="np-song">last played</b><span id="np-album"></span> <span id="np-when"></span><br><span id="np-state">the yellow button plays it</span> · from my <a href="https://jacks-cassettes.jackhygate.co.uk/" target="_blank" rel="noopener noreferrer">cassette rack</a></figcaption>
   </figure>
 
   <div class="insert-wrap">
     <div class="spine" aria-hidden="true">
       <div class="case"></div><div class="hinge l"></div><div class="hinge r"></div>
       <div class="insert">
-        <div class="sp-cover"></div>
+        <div class="sp-cover" id="sp-cover"></div>
         <div class="ty-body">
-          <div class="ty-mid"><div class="ty-title">RECENTLY PLAYED</div><div class="ty-sub">jack · <span id="sp-year">2026</span></div></div>
+          <div class="ty-mid"><div class="ty-title" id="sp-title">RECENTLY PLAYED</div><div class="ty-sub" id="sp-sub">jack · <span id="sp-year">2026</span></div></div>
           <div class="ty-right"><div class="ty-rule"></div><div class="ty-side">SIDE A</div></div>
         </div>
         <div class="shade"></div>
@@ -640,7 +659,28 @@ body {
     return `${Math.round(m / 60 / 24)} days ago`;
   };
   const inlay = document.getElementById('inlay');
-  let tracks = [], at = 0;
+  const RACK = new URLSearchParams(location.search).get('rack') || 'https://jacks-cassettes.jackhygate.co.uk';
+  const player = document.querySelector('.player');
+  const yellow = document.getElementById('yellow');
+  const state = document.getElementById('np-state');
+  const audio = new Audio(); audio.preload = 'none';
+  let tracks = [], at = 0, playing = false;
+
+  function showState() {
+    const t = tracks[at];
+    player.classList.toggle('playing', playing);
+    state.textContent = playing ? '▶ playing' : (t && t.stream ? 'the yellow button plays it' : 'no tape for this one');
+  }
+  async function play() {
+    const t = tracks[at]; if (!t || !t.stream) { playing = false; showState(); return; }
+    if (audio.dataset.id !== t.id) { audio.src = t.stream; audio.dataset.id = t.id; }
+    try { await audio.play(); playing = true; } catch (e) { playing = false; }
+    showState();
+  }
+  function pause() { audio.pause(); playing = false; showState(); }
+  yellow.addEventListener('click', () => playing ? pause() : play());
+  audio.addEventListener('ended', () => { cue(at + 1); play(); });
+  audio.addEventListener('error', () => { playing = false; showState(); });
 
   function cue(i) {
     at = (i + tracks.length) % tracks.length;
@@ -649,6 +689,10 @@ body {
     document.getElementById('np-album').textContent = `${t.album || ''}${t.album ? ' · ' : ''}${t.artist}`;
     document.getElementById('np-when').textContent = t.playedAt ? `· ${ago(t.playedAt)}` : '';
     inlay.querySelectorAll('.ilr').forEach((r, k) => r.classList.toggle('on', k === at));
+    document.getElementById('sp-title').textContent = t.album || t.title;
+    document.getElementById('sp-sub').textContent = t.artist;
+    document.getElementById('sp-cover').style.backgroundImage = t.cover ? `url("${t.cover}")` : '';
+    showState();
   }
   function render(list) {
     tracks = list;
@@ -657,13 +701,18 @@ body {
       <span class="ilr-n">${i + 1}</span>
       <span class="ilr-main"><span class="ilr-nm">${t.title}</span><span class="ilr-src">${t.artist}</span></span>
       <span class="ilr-d">${t.secs ? fmt(t.secs) : ''}</span></div>`).join('');
-    inlay.querySelectorAll('.ilr').forEach(r => r.addEventListener('click', () => cue(+r.dataset.i)));
+    inlay.querySelectorAll('.ilr').forEach(r => r.addEventListener('click', () => { const was = playing; cue(+r.dataset.i); if (was) play(); }));
     document.getElementById('inlay-count').textContent = `${list.length} songs · ${fmt(list.reduce((a, t) => a + (t.secs || 0), 0))}`;
     const latest = list.find(t => t.playedAt);
     if (latest) document.getElementById('sp-year').textContent = new Date(latest.playedAt).getFullYear();
     cue(0);
   }
-  fetch('recent.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => render(Array.isArray(d) ? d : d.tracks || [])).catch(() => render(SAMPLE));
+  const fromRack = fetch(RACK + '/api/public/recent', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => (d.tracks || []).map(t => ({ ...t, stream: t.stream ? RACK + t.stream : null, cover: t.cover ? RACK + t.cover + '?size=120' : null })))
+    .then(list => list.length ? list : Promise.reject());
+  const fromFile = () => fetch('recent.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => Array.isArray(d) ? d : d.tracks || []);
+  fromRack.catch(fromFile).then(render).catch(() => render(SAMPLE));
 
   const clock = document.getElementById('clock');
   const tick = () => { const d = new Date(); clock.textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; };
