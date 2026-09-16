@@ -642,6 +642,32 @@ body {
 }
 @media (prefers-reduced-motion:reduce){.sb *{transition:none!important}}
 
+/* ---------- webring: two vinyl stickers at the foot of the board ---------- */
+.ring { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 10vh; font-size: clamp(15px, 1.45vh, 24px); display: flex; justify-content: space-between; align-items: center; gap: 2em; }
+.sticker {
+  position: relative; display: inline-flex; align-items: center; gap: .55em;
+  padding: .55em 1.1em .5em; border-radius: 999px;
+  background: linear-gradient(160deg, #fff 0%, #f1efe8 60%, #e6e2d6 100%);
+  color: #1d1a15; text-decoration: none;
+  font: 700 .95em/1 'Archivo', sans-serif; letter-spacing: .02em;
+  box-shadow: 0 .1em .15em rgba(0,0,0,.25), 0 .6em .9em -.5em rgba(20,10,0,.5), inset 0 0 0 .22em #fff, inset 0 0 0 .3em rgba(0,0,0,.12);
+  transform: rotate(var(--r, -2deg));
+  transition: transform .2s;
+}
+.sticker::after {   /* the peel: a lifted corner catching the light */
+  content: ""; position: absolute; right: -.1em; bottom: -.1em; width: 1.1em; height: 1.1em; border-radius: 0 0 999px 0;
+  background: linear-gradient(315deg, rgba(255,255,255,.9) 0 45%, rgba(0,0,0,.08) 46%, transparent 60%);
+  opacity: .7;
+}
+.sticker b { font: 700 1.25em/1 'Archivo Narrow', sans-serif; }
+.sticker small { font: 600 .62em/1.1 'Archivo', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #6a5a3a; display: block; }
+.sticker span { display: flex; flex-direction: column; gap: .2em; }
+.sticker:hover { transform: rotate(0deg) translateY(-.15em); }
+.sticker:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.sticker.next { --r: 2deg; }
+.sticker.next span { text-align: right; }
+@media (max-width: 640px) { .ring { flex-direction: column; align-items: stretch; gap: 1.2em; } .sticker.next { align-self: flex-end; } }
+
 /* things pinned around the set: paper gets a push pin, magnets sit flat and thick */
 .pin {
   position: absolute; z-index: 4; margin: 0;
@@ -820,6 +846,11 @@ body {
   <h2 class="tapes-title" id="scrap-title">things i've read online</h2>
   <div id="reading-scrapbook"></div>
 </section>
+
+<nav class="ring" aria-label="webring">
+  <a class="sticker prev" href="https://akira.computer" rel="noopener" title="akira.computer"><b>←</b><span><small>previous site</small>akira.computer</span></a>
+  <a class="sticker next" href="https://carly.zone" rel="noopener" title="carly.zone"><span><small>next site</small>carly.zone</span><b>→</b></a>
+</nav>
 
 <script>
 /* =====================================================================
