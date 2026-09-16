@@ -475,6 +475,11 @@ body {
 }
 .book .t { font-weight: 700; font-size: .78em; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; }
 .book .a { font: 400 .5em/1 'Courier Prime', monospace; letter-spacing: .1em; text-transform: uppercase; opacity: .8; white-space: nowrap; overflow: hidden; }
+/* a photographed spine replaces the generated one entirely */
+.book .side { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: none; }
+.book.has-side { background: none; text-shadow: none; }
+.book.has-side .side { display: block; }
+.book.has-side .t, .book.has-side .a { visibility: hidden; }
 .book.serif .t { font-family: 'Playfair Display', serif; }
 .book.caps .t { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1em; letter-spacing: .05em; }
 .book:hover { transform: translateY(-.7em); box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 1em 1em -.4em rgba(0,0,0,.7); z-index: 2; }
@@ -1404,7 +1409,9 @@ body {
       const height = 11 + (h % 7) * .45, width = 1.7 + ((h >> 4) % 6) * .18;
       const face = ['', 'serif', 'caps'][(h >> 9) % 3], bands = (h >> 11) % 3 === 0 ? 1 : 0;
       const art = coverUrl(b, 'M');
+      const side = b.spine || (b.isbn ? `spines/${b.isbn}.jpg` : '');
       return `<button class="book ${face}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};--bands:${bands};${art ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
+        ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');this.parentElement.style.setProperty('--w','calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + ')');window.dispatchEvent(new Event('resize'))" onerror="this.remove()">` : ''}
         <span class="t">${esc(b.title)}</span><span class="a">${esc(b.author)}</span></button>`;
     }).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
     fitSpines();
@@ -1412,14 +1419,14 @@ body {
       el.addEventListener('click', () => openBook(+el.dataset.i));
       const b = list[+el.dataset.i], art = coverUrl(b, 'M');
       if (art) computePalette(art).then(pal => {
-        if (pal === FALLBACK || pal.join() === FALLBACK.join()) return;
+        if (el.classList.contains('has-side') || pal === FALLBACK || pal.join() === FALLBACK.join()) return;
         el.style.setProperty('--c1', pal[0]); el.style.setProperty('--c2', pal[1]);
         el.style.setProperty('--ink', lum(pal[0]) < .5 ? '#f4efe4' : '#181410');
       });
     });
   }
   function fitSpines() {
-    const el = document.getElementById('spines');
+    const el = document.getElementById('spines'); if (!el) return;
     el.style.setProperty('--fit', '1em');
     let f = 1;
     const total = () => [...el.children].reduce((w, c) => w + c.offsetWidth, 0) + parseFloat(getComputedStyle(el).columnGap || 0) * Math.max(0, el.children.length - 1);
