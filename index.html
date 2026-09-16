@@ -26,7 +26,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&family=Archivo+Narrow:wght@700&family=Archivo:wght@600;700&family=Bebas+Neue&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&family=Archivo+Narrow:wght@700&family=Archivo:wght@600;700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Caveat:wght@700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #c9955c;
@@ -219,7 +219,6 @@ body {
 .links li:first-child { border-top: 0; }
 .links .take { display: block; opacity: .85; }
 
-.book { list-style: none; margin: 0 0 1.4em; padding: 0; }
 .book li { padding: .5em 0; border-top: 1px dotted rgba(111,152,147,.35); max-width: 60ch; }
 .book li:first-child { border-top: 0; }
 .book .who { color: var(--accent); }
@@ -413,6 +412,236 @@ body {
   .inlay-grid { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; grid-template-rows: none; }
 }
 
+/* ---------- the bookshelf ---------- */
+.books {
+  position: relative; z-index: 1;
+  max-width: 73.75em; margin: 0 auto;
+  padding: 0 5vw 14vh;
+  font-size: clamp(15px, 1.45vh, 24px);
+  --wood: linear-gradient(178deg, #5f4029, #33210f); --wood-border: #1a1108;
+}
+.books .tapes-title { margin-bottom: 2.2em; display: inline-block; }
+/* two floating planks (the same photo twice); books stand on the front-edge line */
+.planks { display: grid; gap: 0; }
+.plank {
+  position: relative; width: min(60em, 100%); aspect-ratio: 889 / 103; margin: 0;
+}
+.plank img.wood { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+  filter: drop-shadow(0 1.6em 1.4em rgba(20,10,0,.5)) drop-shadow(0 .2em .3em rgba(20,10,0,.35)); }
+.plank-top { margin-top: 14em; }
+.plank-bottom { margin-top: 15em; }
+.pot { position: absolute; left: 4%; bottom: 32%; width: 22%; z-index: 2; pointer-events: none; margin: 0; }
+.pot img { display: block; width: 100%; height: auto; filter: drop-shadow(-.3em .6em .8em rgba(20,10,0,.45)); }
+/* now reading: face out, leaning on the back board, a taped note */
+.reading { position: absolute; left: 31%; bottom: 33%; z-index: 2; display: flex; align-items: flex-end; }
+.reading .cover {
+  position: relative; width: 9.3em; aspect-ratio: 2 / 3; flex: none;
+  transform: perspective(40em) rotateY(-9deg); transform-origin: right center;
+  border-radius: .12em .35em .35em .12em;
+  box-shadow: -.6em .8em 1.2em -.4em rgba(0,0,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35);
+  overflow: hidden; background: #6b5a44;
+}
+.cover img, .cover .gen { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reading .tape { position: absolute; left: 112%; bottom: 14%; width: 12em; z-index: 3; }
+.tape-note {
+  position: relative; display: inline-block; padding: .5em .9em .45em;
+  background: rgba(238,228,200,.94); color: #3a3226; font: 400 1.05em/1.15 var(--pen);
+  box-shadow: 0 .1em .2em rgba(0,0,0,.4); transform: rotate(-2deg);
+}
+.tape-note::before, .tape-note::after { content: ""; position: absolute; top: 0; bottom: 0; width: .5em; background: rgba(238,228,200,.6); }
+.tape-note::before { left: -.5em; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.tape-note::after { right: -.5em; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+.tape-note b { display: block; font: 400 .8em/1.1 var(--marker); margin-bottom: .15em; color: #2a2218; }
+/* generated cover for books without an image */
+.gen { display: flex; flex-direction: column; justify-content: space-between; padding: 8% 9%; color: var(--ink, #f4efe4); background: var(--c1, #6b5a44); }
+.gen b { font: 700 1em/1.05 'Playfair Display', serif; }
+.gen span { font: 600 .55em/1.2 'Archivo', sans-serif; letter-spacing: .18em; text-transform: uppercase; opacity: .8; }
+.gen i { display: block; height: .3em; background: var(--c2, #c8a97a); margin: .6em 0; }
+/* the spines */
+.spines { position: absolute; left: 3%; right: 3%; bottom: 33%; z-index: 2; font-size: var(--fit, 1em); display: flex; justify-content: center; align-items: flex-end; gap: .22em; }
+.book {
+  position: relative; flex: none; border: 0; padding: 0; cursor: pointer;
+  font-size: .9em;
+  height: var(--h, 10em); width: var(--w, 1.8em);
+  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.42)), var(--art, none) left center / auto 100% no-repeat, var(--c1, #6b5a44);
+  color: var(--ink, #f4efe4); text-shadow: 0 1px 2px rgba(0,0,0,.55);
+  border-radius: .12em .12em .08em .08em;
+  box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 .3em .4em -.2em rgba(0,0,0,.6);
+  transition: transform .28s cubic-bezier(.2,.9,.25,1), box-shadow .28s;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  padding: .55em 0 .5em;
+  font-family: 'Archivo Narrow', sans-serif;
+}
+.book .t { font-weight: 700; font-size: .78em; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; }
+.book .a { font: 400 .5em/1 'Courier Prime', monospace; letter-spacing: .1em; text-transform: uppercase; opacity: .8; white-space: nowrap; overflow: hidden; }
+.book.serif .t { font-family: 'Playfair Display', serif; }
+.book.caps .t { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1em; letter-spacing: .05em; }
+.book:hover { transform: translateY(-.7em); box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 1em 1em -.4em rgba(0,0,0,.7); z-index: 2; }
+.book:focus-visible { outline: 2px solid #c8a97a; outline-offset: 2px; }
+.book.out { transform: translateY(-2.2em); opacity: .35; }
+/* the pulled-out book: cover up, notes on a ruled card */
+.opened {
+  display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 1.6em; align-items: start;
+  margin-top: 1.8em; padding: 0 .4em;
+  animation: pullout .35s cubic-bezier(.2,.9,.25,1) both;
+}
+.opened[hidden] { display: none; }
+@keyframes pullout { from { opacity: 0; transform: translateY(-1.2em); } to { opacity: 1; transform: none; } }
+.opened .cover { position: relative; width: 9.5em; aspect-ratio: 2 / 3; border-radius: .12em .35em .35em .12em; overflow: hidden; background: #6b5a44;
+  box-shadow: 0 1.2em 1.4em -.8em rgba(20,10,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35); }
+.opened .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.card {
+  position: relative; padding: 1.1em 1.3em 1em;
+  background: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(64,54,36,.28) 1.55em calc(1.55em + 1px)), linear-gradient(180deg, #faf5e6, #efe7d1);
+  background-position: 0 1.7em, 0 0;
+  border-radius: .2em; color: #1d1a15; transform: rotate(.5deg);
+  box-shadow: 0 1em 1.4em -.9em rgba(20,10,0,.7), inset 0 0 0 1px rgba(0,0,0,.05);
+}
+.card::before { content: ""; position: absolute; left: 0; right: 0; top: 2.9em; height: 2px; background: rgba(168,86,47,.55); }
+.card h3 { margin: 0; font: 700 1.15em/1.55em 'Courier Prime', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .by { font: 400 .8em/1.94em 'Courier Prime', monospace; letter-spacing: .12em; text-transform: uppercase; color: #8a7f68; display: flex; justify-content: space-between; gap: 1em; }
+.card .stars { color: #a8562f; letter-spacing: .05em; }
+.card p { margin: .4em 0 0; font: 400 1.25em/1.24em var(--pen); color: #2a2418; }
+.card .close { position: absolute; right: .7em; top: .55em; border: 0; background: none; cursor: pointer; font: 400 1.1em/1 'Courier Prime', monospace; color: #8a7f68; }
+.card .close:hover { color: #a8562f; }
+.book:hover { z-index: 3; }
+.shelf-empty { color: #9c9080; font: 400 .9em/1.4 'Courier Prime', monospace; padding: 1em 0 2em; }
+
+@media (max-width: 900px) {
+  .opened { grid-template-columns: minmax(0, 1fr); }
+  .opened .cover { width: 7.5em; }
+}
+@media (max-width: 640px) {
+  .plank-top { margin-top: 9em; }
+  .plank-bottom { margin-top: 9em; }
+  .reading .cover { width: 6.4em; }
+  .reading .tape { width: 8em; font-size: .85em; left: 106%; }
+}
+@media (prefers-reduced-motion: reduce) { .opened { animation: none; } .book { transition: none; } }
+
+/* sound toggle: a scrap of masking tape under the set */
+.sfx {
+  position: absolute; left: -16%; bottom: 4%; transform: rotate(-3deg);
+  border: 0; cursor: pointer; padding: .35em .9em .3em;
+  background: rgba(238,228,200,.94); color: #3a3226; font: 400 1.05em/1.1 var(--pen);
+  box-shadow: 0 .1em .2em rgba(0,0,0,.35); z-index: 3;
+}
+.sfx::before, .sfx::after { content: ""; position: absolute; top: 0; bottom: 0; width: .5em; background: rgba(238,228,200,.6); }
+.sfx::before { left: -.5em; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.sfx::after { right: -.5em; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+.sfx[aria-pressed="false"] { text-decoration: line-through; opacity: .8; }
+.sfx:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (max-width: 640px) { .sfx { left: 50%; bottom: auto; top: 101%; transform: translateX(-50%) rotate(-1.5deg); font-size: 13px; } }
+
+/* ---------- the reading list: a folder of clippings ---------- */
+.scrap { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 14vh; font-size: clamp(15px, 1.45vh, 24px); }
+.scrap .tapes-title { margin-bottom: 1.6em; display: inline-block; }
+.scrap .sb { max-width: 62em; }
+
+/* =====================================================================
+   READING SCRAPBOOK
+   Everything is scoped under .sb and prefixed sb- so it can't clash
+   with existing site styles.
+   ===================================================================== */
+.sb{
+  /* Folder look. To use a real folder photo, override --sb-texture, e.g.
+     .sb{ --sb-texture: url('/images/folder.jpg') center / cover; }        */
+  --sb-kraft:#ccb58c;          /* the folder photo's average colour, shown while it loads */
+  --sb-kraft-edge:#b39c74;     /* darker line between stacked sheets */
+  --sb-sheet:#eee5cf;          /* lighter line between stacked sheets */
+  --sb-texture:url('images/folder.webp') center / cover;
+
+  --sb-hand:"Caveat","Bradley Hand","Segoe Print",cursive;
+  --sb-serif:"Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --sb-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sb-ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+
+
+  max-width:1000px;margin:0;color:#1d1b18;
+}
+.sb *,.sb *::before,.sb *::after{box-sizing:border-box}
+:where(.sb) button{font:inherit} /* zero-specificity reset so component styles win */
+.sb :focus-visible{outline:2px solid #3d6fd6;outline-offset:3px}
+
+/* Tabs */
+.sb-tabs{display:flex;gap:4px;padding:6px 16px 0 22px;position:relative;z-index:1}
+.sb-tab{flex:none;min-width:42px;border:0;cursor:pointer;padding:8px 14px 10px;border-radius:8px 8px 0 0;
+  font:600 12px var(--sb-mono);letter-spacing:.06em;color:#4f3f25;background:var(--sb-tab-tint);
+  opacity:.8;transform:translateY(4px);transition:transform .15s,opacity .15s}
+.sb-tab:hover{opacity:1;transform:translateY(1px)}
+.sb-tab[aria-selected="true"]{background:var(--sb-texture),var(--sb-kraft);opacity:1;transform:none}
+.sb-tab--more{box-shadow:3px -3px 0 -1px rgba(255,255,255,.35),6px -6px 0 -2px rgba(0,0,0,.08)}
+
+/* Folder page */
+.sb-book{position:relative;perspective:2400px}
+.sb-page{position:relative;border-radius:6px;padding:28px 34px 70px;min-height:520px;
+  background:var(--sb-texture),var(--sb-kraft);
+  box-shadow:0 2px 0 -1px var(--sb-sheet),0 4px 0 -1px var(--sb-kraft-edge),0 6px 0 -2px var(--sb-sheet),0 8px 0 -2px var(--sb-kraft-edge),
+             0 26px 30px -20px rgba(0,0,0,.45)}
+/* thicker stack of sheets while there are more pages behind this one */
+.sb-page--more{box-shadow:0 2px 0 -1px var(--sb-sheet),0 4px 0 -1px var(--sb-kraft-edge),0 6px 0 -2px var(--sb-sheet),0 8px 0 -2px var(--sb-kraft-edge),
+             0 10px 0 -3px var(--sb-sheet),0 12px 0 -3px var(--sb-kraft-edge),0 14px 0 -4px var(--sb-sheet),0 16px 0 -4px var(--sb-kraft-edge),
+             0 30px 30px -20px rgba(0,0,0,.45)}
+/* the sheet that swings over during a page turn */
+.sb-page--leaf{position:absolute;top:0;left:0;right:0;z-index:3;transform-origin:left center;pointer-events:none;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .85s cubic-bezier(.45,.05,.3,1);
+  box-shadow:0 24px 40px -18px rgba(0,0,0,.45)}
+
+.sb-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.sb-label{display:inline-block;font:700 32px/1.1 var(--sb-hand);color:#2c2418;padding:4px 20px 2px;
+  background:rgba(247,241,222,.92);transform:rotate(-2deg);box-shadow:0 2px 3px rgba(0,0,0,.15)}
+.sb-count{font:500 11px var(--sb-mono);letter-spacing:.1em;text-transform:uppercase;color:#5e4d31}
+
+/* Clippings */
+.sb-clips{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;align-items:start;grid-auto-flow:dense}
+.sb-clip{display:block;position:relative;text-decoration:none;color:inherit;padding-top:10px;
+  filter:drop-shadow(0 3px 3px rgba(40,25,5,.28));transform:rotate(var(--sb-r));transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.sb-clip:hover,.sb-clip:focus-visible{transform:rotate(0deg) translateY(-5px)}
+.sb-clip--feature{grid-column:span 2}
+.sb-tape{position:absolute;top:0;left:50%;width:92px;height:26px;z-index:2;background:rgba(246,238,205,.72);
+  transform:translateX(-50%) rotate(var(--sb-tr));
+  clip-path:polygon(0 8%,6% 0,12% 10%,18% 2%,82% 0,88% 8%,94% 0,100% 10%,100% 92%,94% 100%,88% 90%,82% 100%,18% 98%,12% 90%,6% 100%,0 90%)}
+.sb-paper{background:#f3eee1;padding:20px}
+.sb-paper--aged{background:#eee4c9}
+.sb-kicker{display:flex;justify-content:space-between;gap:10px;padding-bottom:6px;border-bottom:1px solid #1d1b18;
+  font:600 9.5px var(--sb-ui);letter-spacing:.16em;text-transform:uppercase}
+.sb-kicker span:last-child{white-space:nowrap}
+.sb-title{font:700 21px/1.15 var(--sb-serif);margin:10px 0 6px}
+.sb-clip--feature .sb-title{font-size:30px;line-height:1.08}
+.sb-by{font:italic 12.5px var(--sb-serif);color:#5b564d;margin-bottom:9px}
+.sb-blurb{font:14px/1.55 var(--sb-serif);margin:0;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.sb-clip--feature .sb-blurb{font-size:15px;max-width:560px}
+.sb-clip--feature .sb-blurb::first-letter{float:left;font-size:46px;line-height:.82;padding:5px 6px 0 0;font-weight:700}
+
+/* Page-turn controls on the page */
+.sb-turn{position:absolute;bottom:18px;border:0;background:none;cursor:pointer;padding:4px 8px;font:700 25px var(--sb-hand);color:#2c2418}
+.sb-turn--next{right:78px}
+.sb-turn--prev{left:26px}
+.sb-turn:hover{text-decoration:underline wavy #7d5f33;text-underline-offset:6px}
+.sb-turn .sb-short{display:none}
+.sb-curl{position:absolute;right:0;bottom:0;width:62px;height:62px;border:0;padding:0;cursor:pointer;border-radius:0 0 6px 0;
+  background:linear-gradient(135deg,transparent 50%,#b79e72 50%,#e6d5b2 100%);
+  filter:drop-shadow(-2px -2px 2px rgba(0,0,0,.18));transition:width .2s,height .2s}
+.sb-curl:hover{width:84px;height:84px}
+.sb-empty{font:700 26px var(--sb-hand);color:#5e4d31;text-align:center;padding:80px 0}
+
+@media (max-width:860px){.sb-clips{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){
+  .sb-clips{grid-template-columns:1fr}
+  .sb-clip--feature{grid-column:auto}
+  .sb-page{padding:22px 18px 70px}
+  .sb-tabs{padding-left:8px}
+  .sb-tab{padding:8px 11px 10px}
+  .sb-turn{font-size:22px}
+  .sb-turn--next{right:56px}
+  .sb-turn--prev{left:10px}
+  .sb-turn .sb-long{display:none}
+  .sb-turn .sb-short{display:inline}
+  .sb-curl{width:48px;height:48px}
+}
+@media (prefers-reduced-motion:reduce){.sb *{transition:none!important}}
+
 /* things pinned around the set: paper gets a push pin, magnets sit flat and thick */
 .pin {
   position: absolute; z-index: 4; margin: 0;
@@ -540,6 +769,7 @@ body {
   <figure class="pin paper pin-polaroid"><img src="pins/polaroid.png" alt="polaroid of friends in rat masks in the back of a van"></figure>
   <figure class="pin paper pin-me"><img src="pins/painting-me.png" alt="ink and watercolour self portrait"></figure>
   <figure class="pin magnet pin-bsod"><img src="pins/magnet-bsod.jpg" alt="Phreaking Collective '26 blue screen magnet"></figure>
+  <button class="sfx" id="sfx" aria-pressed="true" title="telly sounds">sound on</button>
   <figure class="pin magnet pin-pylons"><img src="pins/magnet-pylons.jpg" alt="Phreaking Collective '26 pylons magnet"></figure>
 
 </div>
@@ -570,6 +800,262 @@ body {
   </div>
 </section>
 
+<section class="books" aria-labelledby="books-title">
+  <h2 class="tapes-title" id="books-title">what i've been reading</h2>
+  <div class="planks">
+    <div class="plank plank-top">
+      <img class="wood" src="pins/plank.png" alt="">
+      <figure class="pot"><img src="pins/pot.png" alt="a plant in a ribbed white pot"></figure>
+      <div class="reading" id="reading"></div>
+    </div>
+    <div class="plank plank-bottom">
+      <img class="wood" src="pins/plank.png" alt="">
+      <div class="spines" id="spines" role="list"></div>
+    </div>
+  </div>
+  <div class="opened" id="opened" hidden></div>
+</section>
+
+<section class="scrap" aria-labelledby="scrap-title">
+  <h2 class="tapes-title" id="scrap-title">things i've read online</h2>
+  <div id="reading-scrapbook"></div>
+</section>
+
+<script>
+/* =====================================================================
+   READING SCRAPBOOK — createScrapbook(rootElement, articles, options)
+
+   articles: [{ title, author, source, url, date: "YYYY-MM-DD", minutes, blurb }]
+   options (all optional):
+     perPage        clippings per page on wide screens      (default 5)
+     perPageNarrow  clippings per page on phones            (default 3)
+     narrowQuery    media query for "phone"                 (default "(max-width: 600px)")
+     tabCount       number of tabs; the last one becomes
+                    "N+" and holds every older page         (default 5)
+     tabTints       colours for the inactive tabs
+     newTab         open article links in a new tab         (default false)
+     keyboard       ← → turn pages while the folder is on screen (default true)
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const parts = iso => { const [y, m, d] = iso.split('-').map(Number); return { y, m, d }; };
+  const shortDate = iso => { const { m, d } = parts(iso); return `${d} ${MONTHS[m - 1]}`; };
+
+  // "11–15 Sep 2026", "14 Aug – 3 Sep 2026", "30 Dec 2025 – 4 Jan 2026"
+  function rangeLabel(newestIso, oldestIso) {
+    const n = parts(newestIso), o = parts(oldestIso);
+    if (newestIso === oldestIso) return `${n.d} ${MONTHS[n.m - 1]} ${n.y}`;
+    if (n.y === o.y && n.m === o.m) return `${o.d}–${n.d} ${MONTHS[n.m - 1]} ${n.y}`;
+    if (n.y === o.y) return `${o.d} ${MONTHS[o.m - 1]} – ${n.d} ${MONTHS[n.m - 1]} ${n.y}`;
+    return `${o.d} ${MONTHS[o.m - 1]} ${o.y} – ${n.d} ${MONTHS[n.m - 1]} ${n.y}`;
+  }
+
+  // Small seeded random so each clipping keeps the same tilt, tape and torn edge on every visit
+  function hash(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  // Torn-paper outline as a clip-path polygon
+  function tornEdge(r) {
+    const pts = [], j = () => (r() * 4).toFixed(1);
+    for (let x = 0; x <= 100; x += 4) pts.push(`${x}% ${j()}px`);
+    for (let y = 4; y <= 96; y += 6) pts.push(`calc(100% - ${j()}px) ${y}%`);
+    for (let x = 100; x >= 0; x -= 4) pts.push(`${x}% calc(100% - ${j()}px)`);
+    for (let y = 96; y >= 4; y -= 6) pts.push(`${j()}px ${y}%`);
+    return `polygon(${pts.join(',')})`;
+  }
+
+  function createScrapbook(root, articles, options = {}) {
+    const o = Object.assign({
+      perPage: 5, perPageNarrow: 3, narrowQuery: '(max-width: 600px)', tabCount: 5,
+      tabTints: ['#e7c9a0', '#c9d7b8', '#e3b9ad', '#bcd0dc'], newTab: false, keyboard: true
+    }, options);
+
+    const items = [...articles].sort((a, b) => b.date.localeCompare(a.date)); // newest first
+    const narrow = matchMedia(o.narrowQuery);
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    let pages = [], current = 0, anchor = 0, busy = false;
+
+    root.classList.add('sb');
+    root.innerHTML = `
+      <div class="sb-tabs" role="tablist" aria-label="Reading list pages"></div>
+      <div class="sb-book"><div class="sb-page" role="tabpanel"></div></div>
+      <span class="sb-status" aria-live="polite" hidden></span>`;
+    const tabsEl = root.querySelector('.sb-tabs');
+    const book = root.querySelector('.sb-book');
+    const page = root.querySelector('.sb-page');
+    const status = root.querySelector('.sb-status');   // screen-reader announcement only
+
+    const perPage = () => (narrow.matches ? o.perPageNarrow : o.perPage);
+    const tabFor = i => Math.min(i, o.tabCount - 1);
+
+    function paginate() {
+      const n = perPage();
+      pages = [];
+      for (let i = 0; i < items.length; i += n) pages.push(items.slice(i, i + n));
+    }
+
+    function renderTabs() {
+      const n = pages.length, overflow = n > o.tabCount;
+      tabsEl.innerHTML = pages.slice(0, o.tabCount).map((pg, i) => {
+        const isMore = overflow && i === o.tabCount - 1;
+        const range = isMore ? rangeLabel(pg[0].date, items[items.length - 1].date) : rangeLabel(pg[0].date, pg[pg.length - 1].date);
+        const label = isMore ? `Pages ${i + 1} to ${n}` : `Page ${i + 1}`;
+        return `<button type="button" role="tab" class="sb-tab${isMore ? ' sb-tab--more' : ''}" data-sb-tab="${i}"
+          style="--sb-tab-tint:${o.tabTints[i % o.tabTints.length]}" title="${range}" aria-label="${label}, ${range}">${isMore ? `${i + 1}+` : i + 1}</button>`;
+      }).join('');
+    }
+
+    function clipHTML(a, isFeature) {
+      const r = rng(hash(`${a.title}|${a.date}`));
+      const tilt = (r() * 3 - 1.5).toFixed(2), tapeTilt = (r() * 10 - 5).toFixed(1), aged = r() > 0.55;
+      const byline = [a.author && `By ${esc(a.author)}`, a.minutes && `${esc(a.minutes)} min read`].filter(Boolean).join(' · ');
+      const target = o.newTab ? ' target="_blank" rel="noopener"' : '';
+      return `<a class="sb-clip${isFeature ? ' sb-clip--feature' : ''}" href="${esc(a.url || '#')}"${target} style="--sb-r:${tilt}deg">
+        <span class="sb-tape" style="--sb-tr:${tapeTilt}deg" aria-hidden="true"></span>
+        <div class="sb-paper${aged ? ' sb-paper--aged' : ''}" style="clip-path:${tornEdge(r)}">
+          <div class="sb-kicker"><span>${esc(a.source)}</span><span>${shortDate(a.date)}</span></div>
+          <h3 class="sb-title">${esc(a.title)}</h3>
+          ${byline ? `<div class="sb-by">${byline}</div>` : ''}
+          ${a.blurb ? `<p class="sb-blurb">${esc(a.blurb)}</p>` : ''}
+        </div>
+      </a>`;
+    }
+
+    function pageHTML(i) {
+      const pg = pages[i], n = pages.length;
+      return `<div class="sb-head">
+          <span class="sb-label">${rangeLabel(pg[0].date, pg[pg.length - 1].date)}</span>
+          <span class="sb-count">Page ${i + 1} of ${n}</span>
+        </div>
+        <div class="sb-clips">${pg.map((a, j) => clipHTML(a, j === 0)).join('')}</div>
+        ${i > 0 ? `<button type="button" class="sb-turn sb-turn--prev" data-sb-step="-1">← <span class="sb-long">previous page</span><span class="sb-short">back</span></button>` : ''}
+        ${i < n - 1 ? `<button type="button" class="sb-turn sb-turn--next" data-sb-step="1"><span class="sb-long">continued overleaf</span><span class="sb-short">overleaf</span> →</button>
+                       <button type="button" class="sb-curl" data-sb-step="1" aria-label="Next page"></button>` : ''}`;
+    }
+
+    function syncControls() {
+      const n = pages.length;
+      tabsEl.querySelectorAll('.sb-tab').forEach((t, i) => t.setAttribute('aria-selected', String(i === tabFor(current))));
+      page.classList.toggle('sb-page--more', current < n - 1);
+      status.textContent = `Page ${current + 1} of ${n}`;
+    }
+
+    function goTo(i) {
+      if (busy || i < 0 || i >= pages.length || i === current) return;
+      const dir = i > current ? 1 : -1;
+      const oldHTML = page.innerHTML, oldHeight = page.offsetHeight;
+      current = i;
+      anchor = i * perPage(); // remember the first article shown, so resizing keeps your place
+
+      // Don't let the folder shrink while browsing, so the controls below stay put
+      page.style.minHeight = Math.max(oldHeight, parseFloat(page.style.minHeight) || 0) + 'px';
+      const top = root.getBoundingClientRect().top;
+      if (top < 0) window.scrollBy({ top: top - 24, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      syncControls();
+
+      if (reducedMotion.matches) { page.innerHTML = pageHTML(i); return; }
+
+      // Page turn: a copy of a sheet swings around the left edge
+      busy = true;
+      const leaf = document.createElement('div');
+      leaf.className = 'sb-page sb-page--leaf';
+      leaf.setAttribute('aria-hidden', 'true');
+      leaf.inert = true;
+      if (dir > 0) {               // forward: current sheet lifts away, revealing the next one
+        leaf.innerHTML = oldHTML;
+        leaf.style.minHeight = oldHeight + 'px';
+        page.innerHTML = pageHTML(i);
+      } else {                     // back: previous sheet swings back over the top
+        leaf.innerHTML = pageHTML(i);
+        leaf.style.transform = 'rotateY(-180deg)';
+      }
+      book.appendChild(leaf);
+      leaf.getBoundingClientRect(); // commit the start position before animating
+      requestAnimationFrame(() => { leaf.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(0deg)'; });
+
+      let done = false;
+      const finish = () => {
+        if (done) return; done = true;
+        if (dir < 0) page.innerHTML = pageHTML(i);
+        leaf.remove();
+        busy = false;
+      };
+      leaf.addEventListener('transitionend', e => { if (e.target === leaf && e.propertyName === 'transform') finish(); });
+      setTimeout(finish, 1200); // safety net if transitionend never fires
+    }
+    const step = d => goTo(current + d);
+
+    // Tabs: the last "N+" tab jumps to page N, but does nothing if you're already inside it
+    tabsEl.addEventListener('click', e => {
+      const t = e.target.closest('[data-sb-tab]'); if (!t) return;
+      const i = Number(t.dataset.sbTab);
+      if (i === o.tabCount - 1 && tabFor(current) === i) return;
+      goTo(i);
+    });
+    // "continued overleaf", "previous page", the curled corner
+    root.addEventListener('click', e => {
+      const s = e.target.closest('[data-sb-step]');
+      if (s) step(Number(s.dataset.sbStep));
+    });
+    // Swipe left/right on touch screens
+    let touch = null;
+    book.addEventListener('touchstart', e => { touch = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
+    book.addEventListener('touchend', e => {
+      if (!touch) return;
+      const dx = e.changedTouches[0].clientX - touch.x, dy = e.changedTouches[0].clientY - touch.y;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+      touch = null;
+    });
+    // Arrow keys, only while the folder is mostly on screen
+    let onScreen = false;
+    const observer = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }, { threshold: 0.35 });
+    observer.observe(book);
+    const onKey = e => {
+      if (!o.keyboard || !onScreen || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+      if (e.key === 'ArrowRight') { step(1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { step(-1); e.preventDefault(); }
+    };
+    document.addEventListener('keydown', onKey);
+    // Re-paginate when crossing the phone breakpoint, staying on the same articles
+    const onBreakpoint = () => {
+      if (!items.length) return;
+      paginate(); renderTabs();
+      current = Math.min(Math.floor(anchor / perPage()), pages.length - 1);
+      page.style.minHeight = '';
+      page.innerHTML = pageHTML(current);
+      syncControls();
+    };
+    narrow.addEventListener('change', onBreakpoint);
+
+    // First render
+    if (!items.length) {
+      page.innerHTML = `<div class="sb-empty">Nothing clipped yet</div>`;
+    } else {
+      paginate(); renderTabs();
+      page.innerHTML = pageHTML(0);
+      syncControls();
+    }
+
+    return {
+      goTo, next: () => step(1), prev: () => step(-1),
+      destroy() { document.removeEventListener('keydown', onKey); narrow.removeEventListener('change', onBreakpoint); observer.disconnect(); root.innerHTML = ''; root.classList.remove('sb'); }
+    };
+  }
+
+  window.createScrapbook = createScrapbook;
+})();
+</script>
+
 <script>
 (() => {
   const telly = document.getElementById('telly');
@@ -579,6 +1065,49 @@ body {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let current = 0;
   let zoom = 1;
+
+  /* ---------- sounds: a few oscillators and noise bursts, nothing downloaded ---------- */
+  let ac = null, sfxOn = true;
+  try { sfxOn = localStorage.getItem('sfx') !== 'off'; } catch (e) {}
+  const sfxBtn = document.getElementById('sfx');
+  const reflectSfx = () => { sfxBtn.setAttribute('aria-pressed', String(sfxOn)); sfxBtn.textContent = sfxOn ? 'sound on' : 'sound off'; };
+  reflectSfx();
+  function ctx() { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); return ac; }
+  function noise(dur) {
+    const c = ctx(), buf = c.createBuffer(1, Math.ceil(c.sampleRate * dur), c.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const src = c.createBufferSource(); src.buffer = buf; return src;
+  }
+  function env(node, t0, peak, attack, decay) {
+    const g = ctx().createGain(); g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(peak, t0 + attack); g.gain.exponentialRampToValueAtTime(0.0001, t0 + attack + decay);
+    node.connect(g); g.connect(ctx().destination); return g;
+  }
+  const sfx = {
+    tick() {                                  // a small plastic button
+      if (!sfxOn) return; const c = ctx(), t = c.currentTime, n = noise(.04), f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1800; n.connect(f); env(f, t, .25, .002, .035); n.start(t);
+    },
+    clunk() {                                 // the yellow key: heavier, lower
+      if (!sfxOn) return; const c = ctx(), t = c.currentTime;
+      const n = noise(.08), f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 900; n.connect(f); env(f, t, .5, .003, .07); n.start(t);
+      const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(60, t + .09); env(o, t, .35, .002, .09); o.start(t); o.stop(t + .12);
+    },
+    zap() {                                   // channel change: click, then a burst of static
+      if (!sfxOn) return; const c = ctx(), t = c.currentTime; sfx.tick();
+      const n = noise(.22), f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2400; f.Q.value = .6; n.connect(f); env(f, t + .02, .22, .005, .18); n.start(t + .02);
+    },
+    on() {                                    // power on: degauss thump, then the line whine rising
+      if (!sfxOn) return; const c = ctx(), t = c.currentTime;
+      const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(70, t); o.frequency.exponentialRampToValueAtTime(28, t + .3); env(o, t, .9, .004, .32); o.start(t); o.stop(t + .4);
+      const n = noise(.35), f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(3000, t); f.frequency.exponentialRampToValueAtTime(300, t + .3); n.connect(f); env(f, t, .35, .005, .3); n.start(t);
+      const w = c.createOscillator(); w.type = 'sine'; w.frequency.setValueAtTime(6000, t + .25); w.frequency.exponentialRampToValueAtTime(9800, t + .8); env(w, t + .25, .06, .3, .5); w.start(t + .25); w.stop(t + 1.2);
+    },
+    off() {                                   // power off: click, the whine falling away, a soft thump
+      if (!sfxOn) return; const c = ctx(), t = c.currentTime; sfx.tick();
+      const w = c.createOscillator(); w.type = 'sine'; w.frequency.setValueAtTime(7000, t); w.frequency.exponentialRampToValueAtTime(180, t + .45); env(w, t, .08, .01, .42); w.start(t); w.stop(t + .5);
+      const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(90, t + .05); o.frequency.exponentialRampToValueAtTime(35, t + .3); env(o, t + .05, .5, .004, .3); o.start(t + .05); o.stop(t + .4);
+    },
+  };
+  sfxBtn.addEventListener('click', () => { sfxOn = !sfxOn; try { localStorage.setItem('sfx', sfxOn ? 'on' : 'off'); } catch (e) {} reflectSfx(); if (sfxOn) sfx.tick(); });
 
   const flash = (cls, ms) => {
     telly.classList.remove(cls); void telly.offsetWidth; telly.classList.add(cls);
@@ -598,6 +1127,7 @@ body {
     fit();
     history.replaceState(null, '', '#' + channels[current].id.slice(3));
     if (!quiet) {
+      sfx.zap();
       if (!reduced) flash('zap', 220);
       showOsd(channels[current].dataset.n, channels[current].querySelector('h1').textContent);
     }
@@ -619,6 +1149,7 @@ body {
   function setZoom(z) {
     zoom = Math.min(1.6, Math.max(.7, +z.toFixed(2)));
     document.documentElement.style.setProperty('--zoom', zoom);
+    sfx.tick();
     showOsd('vol', '▮'.repeat(Math.round((zoom - .7) / .9 * 10)).padEnd(10, '▯'));
   }
 
@@ -641,12 +1172,16 @@ body {
 
   document.getElementById('power').addEventListener('click', () => {
     const off = telly.classList.toggle('off');
+    off ? sfx.off() : sfx.on();
     if (!off && !reduced) flash('warm', 900);
   });
 
   // remote-ish keyboard: digits tune, arrows step, space toggles power
   addEventListener('keydown', e => {
-    if (e.target.matches('input, textarea')) return;
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target && e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+    const r = telly.getBoundingClientRect();
+    if (r.bottom < innerHeight * .25 || r.top > innerHeight * .75) return;   // the remote only works when the set is on screen
     const n = parseInt(e.key, 10);
     if (n >= 1 && n <= channels.length) return tune(n - 1);
     if (e.key === 'ArrowRight') acts['ch+']();
@@ -700,7 +1235,7 @@ body {
     showState();
   }
   function pause() { audio.pause(); playing = false; showState(); }
-  yellow.addEventListener('click', () => playing ? pause() : play());
+  yellow.addEventListener('click', () => { sfx.clunk(); playing ? pause() : play(); });
   audio.addEventListener('ended', () => { cue(at + 1); play(); });
   audio.addEventListener('error', () => { playing = false; showState(); });
 
@@ -805,6 +1340,92 @@ body {
     .then(list => list.length ? list : Promise.reject());
   const fromFile = () => fetch('recent.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => Array.isArray(d) ? d : d.tracks || []);
   fromRack.catch(fromFile).then(render).catch(() => render(SAMPLE));
+
+  /* ---------- the bookshelf: books.json → face-out current read + coloured spines ---------- */
+  // covers are served from covers/<isbn>.jpg (see fetch-covers.py); Open Library is the fallback
+  const apiCover = (b, size) => b.isbn ? `https://covers.openlibrary.org/b/isbn/${b.isbn}-${size}.jpg?default=false` : '';
+  const coverUrl = (b, size = 'L') => b.cover || (b.isbn ? `covers/${b.isbn}.jpg` : '');
+  const BOOK_INK = ['#f4efe4', '#181410'];
+  function bookPalette(b) {
+    const h = hash(b.title + b.author);
+    const hue = h % 360, sat2 = 28 + (h >> 3) % 30, lit = 26 + (h >> 7) % 30;
+    return [`hsl(${hue} ${sat2}% ${lit}%)`, `hsl(${(hue + 40) % 360} ${sat2 + 20}% ${Math.min(80, lit + 35)}%)`, lit < 45 ? BOOK_INK[0] : BOOK_INK[1]];
+  }
+  function genCover(b, pal) {
+    return `<div class="gen" style="--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]}"><span>${esc(b.author)}</span><div><i></i><b>${esc(b.title)}</b></div></div>`;
+  }
+  function coverHTML(b, pal, size = 'L') {
+    const u = coverUrl(b, size);
+    if (!u) return genCover(b, pal);
+    const alts = b.cover ? '' : `data-alt="${apiCover(b, size)}|${apiCover(b, 'M')}"`;
+    return `${genCover(b, pal)}<img src="${u}" alt="" loading="lazy" ${alts} onerror="const a=(this.dataset.alt||'').split('|').filter(Boolean);if(a.length){this.src=a.shift();this.dataset.alt=a.join('|')}else{this.remove()}">`;
+  }
+  const stars = n => n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '';
+  const monthName = ym => { if (!ym) return ''; const [y, m] = ym.split('-'); return ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'][+m - 1] + ' ' + y; };
+  let shelf = { reading: [], read: [] }, openIdx = -1;
+
+  function renderShelf(data) {
+    shelf = data;
+    const now = data.reading && data.reading[0];
+    const readingEl = document.getElementById('reading');
+    if (now) {
+      const pal = bookPalette(now);
+      readingEl.innerHTML = `<div class="cover">${coverHTML(now, pal, 'M')}</div>
+        <div class="tape"><div class="tape-note"><b>reading now</b>${esc(now.title)}, ${esc(now.author)}. ${esc(now.note || '')}</div></div>`;
+    } else readingEl.innerHTML = '';
+    const list = data.read || [];
+    const spinesEl = document.getElementById('spines');
+    spinesEl.innerHTML = list.map((b, i) => {
+      const h = hash(b.author + b.title), pal = bookPalette(b);
+      const height = 11 + (h % 7) * .45, width = 1.7 + ((h >> 4) % 6) * .18;
+      const face = ['', 'serif', 'caps'][(h >> 9) % 3], bands = (h >> 11) % 3 === 0 ? 1 : 0;
+      const art = coverUrl(b, 'M');
+      return `<button class="book ${face}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};--bands:${bands};${art ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
+        <span class="t">${esc(b.title)}</span><span class="a">${esc(b.author)}</span></button>`;
+    }).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
+    fitSpines();
+    document.querySelectorAll('.book').forEach(el => {
+      el.addEventListener('click', () => openBook(+el.dataset.i));
+      const b = list[+el.dataset.i], art = coverUrl(b, 'M');
+      if (art) computePalette(art).then(pal => {
+        if (pal === FALLBACK || pal.join() === FALLBACK.join()) return;
+        el.style.setProperty('--c1', pal[0]); el.style.setProperty('--c2', pal[1]);
+        el.style.setProperty('--ink', lum(pal[0]) < .5 ? '#f4efe4' : '#181410');
+      });
+    });
+  }
+  function fitSpines() {
+    const el = document.getElementById('spines');
+    el.style.setProperty('--fit', '1em');
+    let f = 1;
+    const total = () => [...el.children].reduce((w, c) => w + c.offsetWidth, 0) + parseFloat(getComputedStyle(el).columnGap || 0) * Math.max(0, el.children.length - 1);
+    while (f > .45 && total() > el.clientWidth + 1) { f -= .03; el.style.setProperty('--fit', f.toFixed(2) + 'em'); }
+  }
+  addEventListener('resize', fitSpines);
+  function openBook(i) {
+    const panel = document.getElementById('opened');
+    if (i === openIdx) return closeBook();
+    openIdx = i;
+    const b = shelf.read[i], pal = bookPalette(b);
+    document.querySelectorAll('.book').forEach((el, k) => el.classList.toggle('out', k === i));
+    panel.hidden = false;
+    panel.innerHTML = `<div class="cover">${coverHTML(b, pal)}</div>
+      <div class="card"><button class="close" aria-label="put it back">✕</button>
+        <h3>${esc(b.title)}</h3>
+        <div class="by"><span>${esc(b.author)}${b.finished ? ' · finished ' + monthName(b.finished) : ''}</span><span class="stars">${stars(b.rating)}</span></div>
+        <p>${esc(b.note || 'no notes on this one.')}</p></div>`;
+    panel.querySelector('.close').addEventListener('click', closeBook);
+    if (matchMedia('(max-width: 900px)').matches) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function closeBook() {
+    openIdx = -1;
+    document.getElementById('opened').hidden = true;
+    document.querySelectorAll('.book.out').forEach(el => el.classList.remove('out'));
+  }
+  fetch('articles.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+    .then(list => createScrapbook(document.getElementById('reading-scrapbook'), list, { newTab: true }))
+    .catch(() => createScrapbook(document.getElementById('reading-scrapbook'), [], { newTab: true }));
+  fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(renderShelf).catch(() => renderShelf({ reading: [], read: [] }));
 
   const clock = document.getElementById('clock');
   const tick = () => { const d = new Date(); clock.textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; };
