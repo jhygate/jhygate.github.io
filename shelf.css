@@ -1,0 +1,126 @@
+/* ---------- the bookshelf (shared by index.html and books.html) ---------- */
+.books {
+  position: relative; z-index: 1;
+  max-width: 73.75em; margin: 0 auto;
+  padding: 0 5vw 14vh;
+  font-size: clamp(15px, 1.45vh, 24px);
+  --wood: linear-gradient(178deg, #5f4029, #33210f); --wood-border: #1a1108;
+}
+.books .tapes-title { margin-bottom: 2.2em; display: inline-block; }
+/* two floating planks (the same photo twice); books stand on the front-edge line */
+.planks { display: grid; gap: 0; }
+.plank {
+  position: relative; width: min(60em, 100%); aspect-ratio: 889 / 103; margin: 0;
+}
+.plank img.wood { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+  filter: drop-shadow(0 1.6em 1.4em rgba(20,10,0,.5)) drop-shadow(0 .2em .3em rgba(20,10,0,.35)); }
+.plank-top { margin-top: 14em; }
+.plank-bottom { margin-top: 15em; }
+.pot { position: absolute; left: 4%; bottom: 32%; width: 22%; z-index: 2; pointer-events: none; margin: 0; }
+.pot img { display: block; width: 100%; height: auto; filter: drop-shadow(-.3em .6em .8em rgba(20,10,0,.45)); }
+/* now reading: face out, leaning on the back board, a taped note */
+.reading { position: absolute; left: 31%; bottom: 33%; z-index: 2; display: flex; align-items: flex-end; }
+.reading .cover {
+  position: relative; width: 9.3em; aspect-ratio: 2 / 3; flex: none;
+  transform: perspective(40em) rotateY(-9deg); transform-origin: right center;
+  border-radius: .12em .35em .35em .12em;
+  box-shadow: -.6em .8em 1.2em -.4em rgba(0,0,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35);
+  overflow: hidden; background: #6b5a44;
+}
+.cover img, .cover .gen { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reading .tape { position: absolute; left: 112%; bottom: 14%; width: 12em; z-index: 3; }
+.tape-note {
+  position: relative; display: inline-block; padding: .5em .9em .45em;
+  background: rgba(238,228,200,.94); color: #3a3226; font: 400 1.05em/1.15 var(--pen);
+  box-shadow: 0 .1em .2em rgba(0,0,0,.4); transform: rotate(-2deg);
+}
+.tape-note::before, .tape-note::after { content: ""; position: absolute; top: 0; bottom: 0; width: .5em; background: rgba(238,228,200,.6); }
+.tape-note::before { left: -.5em; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.tape-note::after { right: -.5em; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+.tape-note b { display: block; font: 400 .8em/1.1 var(--marker); margin-bottom: .15em; color: #2a2218; }
+/* generated cover for books without an image */
+.gen { display: flex; flex-direction: column; justify-content: space-between; padding: 8% 9%; color: var(--ink, #f4efe4); background: var(--c1, #6b5a44); }
+.gen b { font: 700 1em/1.05 'Playfair Display', serif; }
+.gen span { font: 600 .55em/1.2 'Archivo', sans-serif; letter-spacing: .18em; text-transform: uppercase; opacity: .8; }
+.gen i { display: block; height: .3em; background: var(--c2, #c8a97a); margin: .6em 0; }
+/* the spines */
+.spines { position: absolute; left: 3%; right: 3%; bottom: 33%; z-index: 2; font-size: var(--fit, 1em); display: flex; justify-content: center; align-items: flex-end; gap: .22em; }
+.book {
+  position: relative; flex: none; border: 0; padding: 0; cursor: pointer;
+  font-size: .9em;
+  height: var(--h, 10em); width: var(--w, 1.8em);
+  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.42)), var(--art, none) left center / auto 100% no-repeat, var(--c1, #6b5a44);
+  color: var(--ink, #f4efe4); text-shadow: 0 1px 2px rgba(0,0,0,.55);
+  border-radius: .12em .12em .08em .08em;
+  box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 .3em .4em -.2em rgba(0,0,0,.6);
+  transition: transform .28s cubic-bezier(.2,.9,.25,1), box-shadow .28s;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  padding: .55em 0 .5em;
+  font-family: 'Archivo Narrow', sans-serif;
+}
+.book .t { font-weight: 700; font-size: .78em; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; }
+.book .a { font: 400 .5em/1 'Courier Prime', monospace; letter-spacing: .1em; text-transform: uppercase; opacity: .8; white-space: nowrap; overflow: hidden; }
+/* a photographed spine replaces the generated one entirely */
+.book .side { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: none; }
+.book.has-side { background: none; text-shadow: none; }
+.book.has-side .side { display: block; }
+.book.has-side .t, .book.has-side .a { visibility: hidden; }
+.book.serif .t { font-family: 'Playfair Display', serif; }
+.book.caps .t { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1em; letter-spacing: .05em; }
+.book:hover { transform: translateY(-.7em); box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 1em 1em -.4em rgba(0,0,0,.7); z-index: 2; }
+.book:focus-visible { outline: 2px solid #c8a97a; outline-offset: 2px; }
+.book.out { transform: translateY(-2.2em); opacity: .35; }
+/* the pulled-out book: cover up, notes on a ruled card */
+.opened {
+  display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 1.6em; align-items: start;
+  margin-top: 1.8em; padding: 0 .4em;
+  animation: pullout .35s cubic-bezier(.2,.9,.25,1) both;
+}
+.opened[hidden] { display: none; }
+@keyframes pullout { from { opacity: 0; transform: translateY(-1.2em); } to { opacity: 1; transform: none; } }
+.opened .cover { position: relative; width: 9.5em; aspect-ratio: 2 / 3; border-radius: .12em .35em .35em .12em; overflow: hidden; background: #6b5a44;
+  box-shadow: 0 1.2em 1.4em -.8em rgba(20,10,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35); }
+.opened .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.card {
+  position: relative; padding: 1.1em 1.3em 1em;
+  background: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(64,54,36,.28) 1.55em calc(1.55em + 1px)), linear-gradient(180deg, #faf5e6, #efe7d1);
+  background-position: 0 1.7em, 0 0;
+  border-radius: .2em; color: #1d1a15; transform: rotate(.5deg);
+  box-shadow: 0 1em 1.4em -.9em rgba(20,10,0,.7), inset 0 0 0 1px rgba(0,0,0,.05);
+}
+.card::before { content: ""; position: absolute; left: 0; right: 0; top: 2.9em; height: 2px; background: rgba(168,86,47,.55); }
+.card h3 { margin: 0; font: 700 1.15em/1.55em 'Courier Prime', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .by { font: 400 .8em/1.94em 'Courier Prime', monospace; letter-spacing: .12em; text-transform: uppercase; color: #8a7f68; display: flex; justify-content: space-between; gap: 1em; }
+.card .stars { color: #a8562f; letter-spacing: .05em; }
+.card p { margin: .4em 0 0; font: 400 1.25em/1.24em var(--pen); color: #2a2418; }
+.card .close { position: absolute; right: .7em; top: .55em; border: 0; background: none; cursor: pointer; font: 400 1.1em/1 'Courier Prime', monospace; color: #8a7f68; }
+.card .close:hover { color: #a8562f; }
+.book:hover { z-index: 3; }
+.shelf-empty { color: #9c9080; font: 400 .9em/1.4 'Courier Prime', monospace; padding: 1em 0 2em; }
+
+@media (max-width: 900px) {
+  .opened { grid-template-columns: minmax(0, 1fr); }
+  .opened .cover { width: 7.5em; }
+}
+@media (max-width: 640px) {
+  .plank-top { margin-top: 9em; }
+  .plank-bottom { margin-top: 9em; }
+  .reading .cover { width: 6.4em; }
+  .reading .tape { width: 8em; font-size: .85em; left: 106%; }
+}
+@media (prefers-reduced-motion: reduce) { .opened { animation: none; } .book { transition: none; } }
+
+/* the see-all note, stuck to the cork beside the top plank */
+.see-all {
+  position: absolute; right: -2%; top: -9.5em; width: 11em; padding: 1em 1em .9em; z-index: 3;
+  color: #262218; text-decoration: none;
+  background: linear-gradient(175deg, rgba(255,255,255,.45), rgba(255,255,255,0) 40%), #f4df57;
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 .5em .7em -.4em rgba(30,30,40,.6), 0 1px 2px rgba(0,0,0,.25);
+  transform: rotate(4deg); font: 400 1.2em/1.05 var(--pen); transition: transform .2s;
+}
+.see-all b { display: block; font: 400 .85em/1.1 var(--marker); margin-bottom: .25em; }
+.see-all:hover { transform: rotate(1deg) translateY(-.15em); }
+.see-all::after { content: ""; position: absolute; left: 50%; top: -6px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff8 0, transparent 45%), #d8322a; box-shadow: 0 5px 5px -2px rgba(20,10,0,.55), inset 0 -2px 3px rgba(0,0,0,.35); }
+@media (max-width: 640px) { .see-all { right: 0; top: -7.5em; width: 8.5em; font-size: .95em; } }

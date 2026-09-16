@@ -27,6 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&family=Archivo+Narrow:wght@700&family=Archivo:wght@600;700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Caveat:wght@700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shelf.css">
 <style>
 :root {
   --bg: #c9955c;
@@ -412,119 +413,6 @@ body {
   .inlay-grid { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; grid-template-rows: none; }
 }
 
-/* ---------- the bookshelf ---------- */
-.books {
-  position: relative; z-index: 1;
-  max-width: 73.75em; margin: 0 auto;
-  padding: 0 5vw 14vh;
-  font-size: clamp(15px, 1.45vh, 24px);
-  --wood: linear-gradient(178deg, #5f4029, #33210f); --wood-border: #1a1108;
-}
-.books .tapes-title { margin-bottom: 2.2em; display: inline-block; }
-/* two floating planks (the same photo twice); books stand on the front-edge line */
-.planks { display: grid; gap: 0; }
-.plank {
-  position: relative; width: min(60em, 100%); aspect-ratio: 889 / 103; margin: 0;
-}
-.plank img.wood { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-  filter: drop-shadow(0 1.6em 1.4em rgba(20,10,0,.5)) drop-shadow(0 .2em .3em rgba(20,10,0,.35)); }
-.plank-top { margin-top: 14em; }
-.plank-bottom { margin-top: 15em; }
-.pot { position: absolute; left: 4%; bottom: 32%; width: 22%; z-index: 2; pointer-events: none; margin: 0; }
-.pot img { display: block; width: 100%; height: auto; filter: drop-shadow(-.3em .6em .8em rgba(20,10,0,.45)); }
-/* now reading: face out, leaning on the back board, a taped note */
-.reading { position: absolute; left: 31%; bottom: 33%; z-index: 2; display: flex; align-items: flex-end; }
-.reading .cover {
-  position: relative; width: 9.3em; aspect-ratio: 2 / 3; flex: none;
-  transform: perspective(40em) rotateY(-9deg); transform-origin: right center;
-  border-radius: .12em .35em .35em .12em;
-  box-shadow: -.6em .8em 1.2em -.4em rgba(0,0,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35);
-  overflow: hidden; background: #6b5a44;
-}
-.cover img, .cover .gen { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.reading .tape { position: absolute; left: 112%; bottom: 14%; width: 12em; z-index: 3; }
-.tape-note {
-  position: relative; display: inline-block; padding: .5em .9em .45em;
-  background: rgba(238,228,200,.94); color: #3a3226; font: 400 1.05em/1.15 var(--pen);
-  box-shadow: 0 .1em .2em rgba(0,0,0,.4); transform: rotate(-2deg);
-}
-.tape-note::before, .tape-note::after { content: ""; position: absolute; top: 0; bottom: 0; width: .5em; background: rgba(238,228,200,.6); }
-.tape-note::before { left: -.5em; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
-.tape-note::after { right: -.5em; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
-.tape-note b { display: block; font: 400 .8em/1.1 var(--marker); margin-bottom: .15em; color: #2a2218; }
-/* generated cover for books without an image */
-.gen { display: flex; flex-direction: column; justify-content: space-between; padding: 8% 9%; color: var(--ink, #f4efe4); background: var(--c1, #6b5a44); }
-.gen b { font: 700 1em/1.05 'Playfair Display', serif; }
-.gen span { font: 600 .55em/1.2 'Archivo', sans-serif; letter-spacing: .18em; text-transform: uppercase; opacity: .8; }
-.gen i { display: block; height: .3em; background: var(--c2, #c8a97a); margin: .6em 0; }
-/* the spines */
-.spines { position: absolute; left: 3%; right: 3%; bottom: 33%; z-index: 2; font-size: var(--fit, 1em); display: flex; justify-content: center; align-items: flex-end; gap: .22em; }
-.book {
-  position: relative; flex: none; border: 0; padding: 0; cursor: pointer;
-  font-size: .9em;
-  height: var(--h, 10em); width: var(--w, 1.8em);
-  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.42)), var(--art, none) left center / auto 100% no-repeat, var(--c1, #6b5a44);
-  color: var(--ink, #f4efe4); text-shadow: 0 1px 2px rgba(0,0,0,.55);
-  border-radius: .12em .12em .08em .08em;
-  box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 .3em .4em -.2em rgba(0,0,0,.6);
-  transition: transform .28s cubic-bezier(.2,.9,.25,1), box-shadow .28s;
-  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-  writing-mode: vertical-rl; text-orientation: mixed;
-  padding: .55em 0 .5em;
-  font-family: 'Archivo Narrow', sans-serif;
-}
-.book .t { font-weight: 700; font-size: .78em; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; }
-.book .a { font: 400 .5em/1 'Courier Prime', monospace; letter-spacing: .1em; text-transform: uppercase; opacity: .8; white-space: nowrap; overflow: hidden; }
-/* a photographed spine replaces the generated one entirely */
-.book .side { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: none; }
-.book.has-side { background: none; text-shadow: none; }
-.book.has-side .side { display: block; }
-.book.has-side .t, .book.has-side .a { visibility: hidden; }
-.book.serif .t { font-family: 'Playfair Display', serif; }
-.book.caps .t { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1em; letter-spacing: .05em; }
-.book:hover { transform: translateY(-.7em); box-shadow: inset .18em 0 .25em -.15em rgba(255,255,255,.45), inset -.18em 0 .25em -.15em rgba(0,0,0,.5), 0 1em 1em -.4em rgba(0,0,0,.7); z-index: 2; }
-.book:focus-visible { outline: 2px solid #c8a97a; outline-offset: 2px; }
-.book.out { transform: translateY(-2.2em); opacity: .35; }
-/* the pulled-out book: cover up, notes on a ruled card */
-.opened {
-  display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 1.6em; align-items: start;
-  margin-top: 1.8em; padding: 0 .4em;
-  animation: pullout .35s cubic-bezier(.2,.9,.25,1) both;
-}
-.opened[hidden] { display: none; }
-@keyframes pullout { from { opacity: 0; transform: translateY(-1.2em); } to { opacity: 1; transform: none; } }
-.opened .cover { position: relative; width: 9.5em; aspect-ratio: 2 / 3; border-radius: .12em .35em .35em .12em; overflow: hidden; background: #6b5a44;
-  box-shadow: 0 1.2em 1.4em -.8em rgba(20,10,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35); }
-.opened .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.card {
-  position: relative; padding: 1.1em 1.3em 1em;
-  background: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(64,54,36,.28) 1.55em calc(1.55em + 1px)), linear-gradient(180deg, #faf5e6, #efe7d1);
-  background-position: 0 1.7em, 0 0;
-  border-radius: .2em; color: #1d1a15; transform: rotate(.5deg);
-  box-shadow: 0 1em 1.4em -.9em rgba(20,10,0,.7), inset 0 0 0 1px rgba(0,0,0,.05);
-}
-.card::before { content: ""; position: absolute; left: 0; right: 0; top: 2.9em; height: 2px; background: rgba(168,86,47,.55); }
-.card h3 { margin: 0; font: 700 1.15em/1.55em 'Courier Prime', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card .by { font: 400 .8em/1.94em 'Courier Prime', monospace; letter-spacing: .12em; text-transform: uppercase; color: #8a7f68; display: flex; justify-content: space-between; gap: 1em; }
-.card .stars { color: #a8562f; letter-spacing: .05em; }
-.card p { margin: .4em 0 0; font: 400 1.25em/1.24em var(--pen); color: #2a2418; }
-.card .close { position: absolute; right: .7em; top: .55em; border: 0; background: none; cursor: pointer; font: 400 1.1em/1 'Courier Prime', monospace; color: #8a7f68; }
-.card .close:hover { color: #a8562f; }
-.book:hover { z-index: 3; }
-.shelf-empty { color: #9c9080; font: 400 .9em/1.4 'Courier Prime', monospace; padding: 1em 0 2em; }
-
-@media (max-width: 900px) {
-  .opened { grid-template-columns: minmax(0, 1fr); }
-  .opened .cover { width: 7.5em; }
-}
-@media (max-width: 640px) {
-  .plank-top { margin-top: 9em; }
-  .plank-bottom { margin-top: 9em; }
-  .reading .cover { width: 6.4em; }
-  .reading .tape { width: 8em; font-size: .85em; left: 106%; }
-}
-@media (prefers-reduced-motion: reduce) { .opened { animation: none; } .book { transition: none; } }
-
 /* sound toggle: a scrap of masking tape under the set */
 .sfx {
   position: absolute; left: -16%; bottom: 4%; transform: rotate(-3deg);
@@ -831,10 +719,7 @@ body {
       <img class="wood" src="pins/plank.png" alt="">
       <figure class="pot"><img src="pins/pot.png" alt="a plant in a ribbed white pot"></figure>
       <div class="reading" id="reading"></div>
-    </div>
-    <div class="plank plank-bottom">
-      <img class="wood" src="pins/plank.png" alt="">
-      <div class="spines" id="spines" role="list"></div>
+      <a class="see-all" id="see-all" href="books.html" hidden><b>the rest</b><span>all the books →</span></a>
     </div>
   </div>
   <div class="opened" id="opened" hidden></div>
@@ -1085,6 +970,7 @@ body {
 })();
 </script>
 
+<script src="shelf.js"></script>
 <script>
 (() => {
   const telly = document.getElementById('telly');
@@ -1370,93 +1256,13 @@ body {
   const fromFile = () => fetch('recent.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => Array.isArray(d) ? d : d.tracks || []);
   fromRack.catch(fromFile).then(render).catch(() => render(SAMPLE));
 
-  /* ---------- the bookshelf: books.json → face-out current read + coloured spines ---------- */
-  // covers are served from covers/<isbn>.jpg (see fetch-covers.py); Open Library is the fallback
-  const apiCover = (b, size) => b.isbn ? `https://covers.openlibrary.org/b/isbn/${b.isbn}-${size}.jpg?default=false` : '';
-  const coverUrl = (b, size = 'L') => b.cover || (b.isbn ? `covers/${b.isbn}.jpg` : '');
-  const BOOK_INK = ['#f4efe4', '#181410'];
-  function bookPalette(b) {
-    const h = hash(b.title + b.author);
-    const hue = h % 360, sat2 = 28 + (h >> 3) % 30, lit = 26 + (h >> 7) % 30;
-    return [`hsl(${hue} ${sat2}% ${lit}%)`, `hsl(${(hue + 40) % 360} ${sat2 + 20}% ${Math.min(80, lit + 35)}%)`, lit < 45 ? BOOK_INK[0] : BOOK_INK[1]];
-  }
-  function genCover(b, pal) {
-    return `<div class="gen" style="--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]}"><span>${esc(b.author)}</span><div><i></i><b>${esc(b.title)}</b></div></div>`;
-  }
-  function coverHTML(b, pal, size = 'L') {
-    const u = coverUrl(b, size);
-    if (!u) return genCover(b, pal);
-    const alts = b.cover ? '' : `data-alt="${apiCover(b, size)}|${apiCover(b, 'M')}"`;
-    return `${genCover(b, pal)}<img src="${u}" alt="" loading="lazy" ${alts} onerror="const a=(this.dataset.alt||'').split('|').filter(Boolean);if(a.length){this.src=a.shift();this.dataset.alt=a.join('|')}else{this.remove()}">`;
-  }
-  const stars = n => n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '';
-  const monthName = ym => { if (!ym) return ''; const [y, m] = ym.split('-'); return ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'][+m - 1] + ' ' + y; };
-  let shelf = { reading: [], read: [] }, openIdx = -1;
 
-  function renderShelf(data) {
-    shelf = data;
-    const now = data.reading && data.reading[0];
-    const readingEl = document.getElementById('reading');
-    if (now) {
-      const pal = bookPalette(now);
-      readingEl.innerHTML = `<div class="cover">${coverHTML(now, pal, 'M')}</div>
-        <div class="tape"><div class="tape-note"><b>reading now</b>${esc(now.title)}, ${esc(now.author)}. ${esc(now.note || '')}</div></div>`;
-    } else readingEl.innerHTML = '';
-    const list = data.read || [];
-    const spinesEl = document.getElementById('spines');
-    spinesEl.innerHTML = list.map((b, i) => {
-      const h = hash(b.author + b.title), pal = bookPalette(b);
-      const height = 11 + (h % 7) * .45, width = 1.7 + ((h >> 4) % 6) * .18;
-      const face = ['', 'serif', 'caps'][(h >> 9) % 3], bands = (h >> 11) % 3 === 0 ? 1 : 0;
-      const art = coverUrl(b, 'M');
-      const side = b.spine || (b.isbn ? `spines/${b.isbn}.jpg` : '');
-      return `<button class="book ${face}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};--bands:${bands};${art ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
-        ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');this.parentElement.style.setProperty('--w','calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + ')');window.dispatchEvent(new Event('resize'))" onerror="this.remove()">` : ''}
-        <span class="t">${esc(b.title)}</span><span class="a">${esc(b.author)}</span></button>`;
-    }).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
-    fitSpines();
-    document.querySelectorAll('.book').forEach(el => {
-      el.addEventListener('click', () => openBook(+el.dataset.i));
-      const b = list[+el.dataset.i], art = coverUrl(b, 'M');
-      if (art) computePalette(art).then(pal => {
-        if (el.classList.contains('has-side') || pal === FALLBACK || pal.join() === FALLBACK.join()) return;
-        el.style.setProperty('--c1', pal[0]); el.style.setProperty('--c2', pal[1]);
-        el.style.setProperty('--ink', lum(pal[0]) < .5 ? '#f4efe4' : '#181410');
-      });
-    });
-  }
-  function fitSpines() {
-    const el = document.getElementById('spines'); if (!el) return;
-    el.style.setProperty('--fit', '1em');
-    let f = 1;
-    const total = () => [...el.children].reduce((w, c) => w + c.offsetWidth, 0) + parseFloat(getComputedStyle(el).columnGap || 0) * Math.max(0, el.children.length - 1);
-    while (f > .45 && total() > el.clientWidth + 1) { f -= .03; el.style.setProperty('--fit', f.toFixed(2) + 'em'); }
-  }
-  addEventListener('resize', fitSpines);
-  function openBook(i) {
-    const panel = document.getElementById('opened');
-    if (i === openIdx) return closeBook();
-    openIdx = i;
-    const b = shelf.read[i], pal = bookPalette(b);
-    document.querySelectorAll('.book').forEach((el, k) => el.classList.toggle('out', k === i));
-    panel.hidden = false;
-    panel.innerHTML = `<div class="cover">${coverHTML(b, pal)}</div>
-      <div class="card"><button class="close" aria-label="put it back">✕</button>
-        <h3>${esc(b.title)}</h3>
-        <div class="by"><span>${esc(b.author)}${b.finished ? ' · finished ' + monthName(b.finished) : ''}</span><span class="stars">${stars(b.rating)}</span></div>
-        <p>${esc(b.note || 'no notes on this one.')}</p></div>`;
-    panel.querySelector('.close').addEventListener('click', closeBook);
-    if (matchMedia('(max-width: 900px)').matches) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-  function closeBook() {
-    openIdx = -1;
-    document.getElementById('opened').hidden = true;
-    document.querySelectorAll('.book.out').forEach(el => el.classList.remove('out'));
-  }
+  fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => renderBookshelf(document.querySelector('.books'), d, { limit: 10 }))
+    .catch(() => renderBookshelf(document.querySelector('.books'), { reading: [], read: [] }, {}));
   fetch('articles.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
     .then(list => createScrapbook(document.getElementById('reading-scrapbook'), list, { newTab: true }))
     .catch(() => createScrapbook(document.getElementById('reading-scrapbook'), [], { newTab: true }));
-  fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(renderShelf).catch(() => renderShelf({ reading: [], read: [] }));
 
   const clock = document.getElementById('clock');
   const tick = () => { const d = new Date(); clock.textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; };

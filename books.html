@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jack's bookshelf</title>
+<meta name="description" content="Every book on Jack Hygate's shelf, with a note on each.">
+<link rel="canonical" href="https://jackhygate.co.uk/books.html">
+<meta name="theme-color" content="#c9955c">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&family=Archivo+Narrow:wght@700&family=Archivo:wght@600;700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Caveat:wght@700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shelf.css">
+<style>
+:root {
+  --bg: #c9955c;
+  --ink: #d6ebe6;
+  --ink-dim: #6f9893;
+  --accent: #78f1dd;
+  --osd: #7dff9a;
+  --yellow: #f4df57;
+  --pink: #f5a2bc;
+  --blue: #9ed9f2;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --marker: "Permanent Marker", "Comic Sans MS", cursive;
+  --pen: "Reenie Beanie", "Segoe Print", cursive;
+  --zoom: 1;
+}
+
+* { box-sizing: border-box; }
+html { overflow-x: hidden; }
+body {
+  margin: 0;
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg) url(cork.jpg) center / 800px 600px repeat;
+  font-family: var(--mono);
+  overflow-x: hidden;
+}
+.top { position: relative; min-height: 100vh; display: grid; place-items: center; }
+/* the board: the tile, a second copy at another scale to break the repeat, mottling, grain, vignette */
+.board { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.board::before {
+  content: ""; position: absolute; inset: 0;
+  background: url(cork.jpg) 37% 63% / 1130px 848px repeat;
+  opacity: .5;
+}
+.board::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(110% 90% at 50% 40%, rgba(0,0,0,0) 55%, rgba(60,30,0,.28) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.0035' numOctaves='4' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .35  0 0 0 0 .2  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>") 0 0 / 900px 900px repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>") 0 0 / 240px 240px repeat;
+  mix-blend-mode: soft-light;
+}
+
+
+.wrap { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 6vh 5vw 14vh; font-size: clamp(15px, 1.45vh, 24px); }
+.tapes-title {
+  grid-column: 1 / -1; justify-self: start;
+  font: 400 clamp(1.25em, 2.6vh, 1.75em)/1 var(--marker); color: #2a2218;
+  background: rgba(238,228,200,.94); padding: .35em .8em .3em;
+  box-shadow: 0 0.0625em 0.125em rgba(0,0,0,.3);
+  transform: rotate(-1.5deg);
+  position: relative;
+}
+.tapes-title::before, .tapes-title::after { content: ""; position: absolute; top: 0; bottom: 0; width: 0.5em; background: rgba(238,228,200,.6); }
+.tapes-title::before { left: -8px; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.tapes-title::after { right: -8px; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+
+
+.back { display: inline-block; margin-bottom: 1.2em; text-decoration: none; color: #2a2218; font: 400 1.1em/1.1 var(--pen); padding: .35em .8em .3em; background: rgba(238,228,200,.94); box-shadow: 0 1px 2px rgba(0,0,0,.3); transform: rotate(1.5deg); position: relative; }
+.back::before, .back::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8px; background: rgba(238,228,200,.6); }
+.back::before { left: -8px; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.back::after { right: -8px; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+.books { position: relative; padding: 0; }
+.books .tapes-title { margin-bottom: 0; }
+.count { display: block; margin: 1.2em 0 0 .4em; font: 400 1.1em/1.2 var(--pen); color: #4a3a22; }
+</style>
+</head>
+<body>
+<div class="board" aria-hidden="true"></div>
+<main class="wrap">
+  <a class="back" href="index.html">← back to the board</a>
+  <section class="books" aria-labelledby="books-title">
+    <h1 class="tapes-title" id="books-title">the whole bookshelf</h1>
+    <span class="count" id="count"></span>
+    <div class="planks">
+      <div class="plank plank-top">
+        <img class="wood" src="pins/plank.png" alt="">
+        <figure class="pot"><img src="pins/pot.png" alt="a plant in a ribbed white pot"></figure>
+        <div class="reading" id="reading"></div>
+      </div>
+    </div>
+    <div class="opened" id="opened" hidden></div>
+  </section>
+</main>
+<script src="shelf.js"></script>
+<script>
+fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => {
+  renderBookshelf(document.querySelector('.books'), d, { perPlank: 14 });
+  const n = (d.read || []).length;
+  document.getElementById('count').textContent = `${n} finished, newest first. click a spine.`;
+}).catch(() => renderBookshelf(document.querySelector('.books'), { reading: [], read: [] }, {}));
+</script>
+</body>
+</html>
