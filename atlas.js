@@ -118,8 +118,12 @@ function layout(s){
       else { halves.push({file:f,page:null,x:W+10,y:0,w,h:H}); W+=w+10; }
     }
     halves.sort((a,b)=>a.x-b.x);
+    // the two pages touch at the spine: the right page is pulled left over the geographic gap,
+    // and remembers the shift so pins on it stay true
+    let shift=0;
+    if(halves.length>1&&halves[0].page&&halves[1].page){ shift=halves[1].x-(halves[0].x+halves[0].w); halves[1].x-=shift; halves[1].dx=-shift; W-=shift; }
     const spineX = halves.length>1 ? (halves[0].x+halves[0].w + halves[1].x)/2 : halves[0].w;
-    L={w:W,h:H,spineX,halves,geo:{E0,N0}};
+    L={w:W,h:H,spineX,halves,geo:{E0,N0},shift};
   } else {
     const items=[fa,fb].filter(Boolean).map(f=>({file:f,d:DIM[f]}));
     const H=Math.max(...items.map(i=>i.d[1]));
@@ -138,10 +142,13 @@ function layout(s){
 function halfOfPage(s,p){ return layout(s).halves.find(q=>q.page===p); }
 function spreadPx(s,Ek,Nk){                       // km -> spread px
   const L=layout(s); if(!L.geo) return null;
-  return {x:(Ek-L.geo.E0)*PPK, y:(L.geo.N0-Nk)*PPK};
+  let x=(Ek-L.geo.E0)*PPK; const y=(L.geo.N0-Nk)*PPK;
+  if(L.shift&&x>=L.spineX+L.shift/2) x-=L.shift;     // on the right-hand page
+  return {x, y};
 }
 function spreadKm(s,x,y){                         // spread px -> km
   const L=layout(s); if(!L.geo) return null;
+  if(L.shift&&x>=L.spineX) x+=L.shift;
   return {Ek:L.geo.E0+x/PPK, Nk:L.geo.N0-y/PPK};
 }
 function pagesAt(Ek,Nk){
@@ -206,7 +213,7 @@ function renderSpread(s){
   for(const q of L.halves) sheet.appendChild(halfImg(q));
   if(L.halves.length>1){
     const g=document.createElement('div'); g.className='at-gutter';
-    const gw=Math.max(26,(L.halves[1].x-(L.halves[0].x+L.halves[0].w))+34);
+    const gw=Math.max(22,(L.halves[1].x-(L.halves[0].x+L.halves[0].w))+22);
     g.style.left=(L.spineX-gw/2)+'px'; g.style.top='0'; g.style.width=gw+'px';
     g.style.height=L.h+'px';
     sheet.appendChild(g);
@@ -308,7 +315,7 @@ function describe(){
   $('.at-label').textContent=curS===KEY_S?'all of london':spreadLabel(curS);
   $('.at-whole').hidden = curS===KEY_S;
   $('.at-prev').disabled = curS<=0; $('.at-next').disabled = curS>=MAXS;
-  renderCards(pgs);
+  renderCards();
 }
 /* ---------- page turn ---------- */
 const preloaded=new Set();
@@ -440,26 +447,25 @@ function renderIndex(){
       <span class="ref${v.geo&&v.page?'':' none'}">${v.geo?(v.page?(v.ref?v.ref+' ':'')+v.page:'off map'):'—'}</span></button>`).join('');
   $('.at-count').textContent=`${VENUES.filter(passes).length} places`;
 }
-function renderCards(pgs){
-  const here=new Set(curS===KEY_S?VENUES.filter(v=>v.page).map(v=>v.page):pgs);
-  const list=[...VENUES].filter(passes).sort((a,b)=>(here.has(b.page)-here.has(a.page))||a.name.localeCompare(b.name));
-  $('.at-cards').innerHTML=list.map(v=>`<button class="at-card${here.has(v.page)?' here':''}${selected===v.id?' cur':''}" data-v="${v.id}" style="--c:${catColour(v.category)}">
-      ${v.image_url?`<img src="${esc(v.image_url)}" alt="" loading="lazy" onerror="this.remove()">`:'<span class="noimg"></span>'}
-      <span class="body"><span class="cat"><i class="dot"></i>${esc(v.category||'other')}${v.page?` · p.${v.page}${v.ref?' '+v.ref:''}`:''}</span>
+function renderCards(){
+  const v=VENUES.find(x=>x.id===selected);
+  $('.at-cards').innerHTML=!v?'':`<div class="at-card" style="--c:${catColour(v.category)}">
+      ${v.image_url?`<img src="${esc(v.image_url)}" alt="" onerror="this.remove()">`:'<span class="noimg"></span>'}
+      <span class="body"><span class="cat"><i class="dot"></i>${esc(v.category||'other')}${v.page?` · page ${v.page}${v.ref?' · sq '+v.ref:''}`:''}${v.upcoming_count?` · ${v.upcoming_count} upcoming`:''}</span>
       <b>${esc(v.name)}</b>${v.description?`<span class="blurb">${esc(v.description)}</span>`:''}
-      ${v.address?`<span class="addr">${esc(v.address)}</span>`:''}</span></button>`).join('');
+      ${v.address?`<span class="addr">${esc(v.address)}</span>`:''}${v.opening_hours&&typeof v.opening_hours==='string'?`<span class="addr">${esc(v.opening_hours)}</span>`:''}
+      <span class="links">${v.website?`<a href="${esc(v.website)}" target="_blank" rel="noopener">website</a>`:''}${v.geo?`<a href="https://www.google.com/maps?q=${v.lat},${v.lng}" target="_blank" rel="noopener">google maps</a>`:''}</span></span></div>`;
 }
 function selectVenue(id, fromCard){
   const v=VENUES.find(x=>x.id===id); if(!v) return;
   selected=id; renderIndex();
-  if(v.geo&&v.page){ target={Ek:v.Ek,Nk:v.Nk}; if(curS===KEY_S&&fromCard!=='turn'){ drawOverlay(); renderCards([]); } else goToPage(v.page,{centre:true}); }
-  else { target=null; drawOverlay(); renderCards(layout(curS).halves.filter(q=>q.page).map(q=>q.page)); }
-  if(!fromCard){ const c=$(`.at-card[data-v="${id}"]`); if(c) c.scrollIntoView({block:'nearest',behavior:'smooth'}); }
-  else root.scrollIntoView({block:'start',behavior:'smooth'});
+  if(v.geo&&v.page){ target={Ek:v.Ek,Nk:v.Nk}; if(curS===KEY_S&&fromCard!=='turn'){ drawOverlay(); renderCards(); } else goToPage(v.page,{centre:true}); }
+  else { target=null; drawOverlay(); }
+  renderCards();
+
 }
-$('.at-cats').onclick=e=>{const b=e.target.closest('[data-cat]'); if(!b) return; catFilter=catFilter===b.dataset.cat?null:b.dataset.cat; renderCats(); renderIndex(); drawOverlay(); renderCards(layout(curS).halves.filter(q=>q.page).map(q=>q.page));};
+$('.at-cats').onclick=e=>{const b=e.target.closest('[data-cat]'); if(!b) return; catFilter=catFilter===b.dataset.cat?null:b.dataset.cat; if(selected!=null&&!passes(VENUES.find(v=>v.id===selected))){selected=null;target=null;} renderCats(); renderIndex(); drawOverlay(); renderCards();};
 $('.at-index').onclick=e=>{const b=e.target.closest('.at-idx'); if(b) selectVenue(+b.dataset.v);};
-$('.at-cards').onclick=e=>{const b=e.target.closest('.at-card'); if(b) selectVenue(+b.dataset.v,true);};
 ov.addEventListener('click',e=>{const p=e.target.closest('.at-vpin,.at-dot'); if(p&&!dragged){e.stopPropagation(); const id=+p.dataset.v; selectVenue(id, (curS===KEY_S&&selected===id)?'turn':false);}});
 $('.at-whole').onclick=()=>{ zoom=null; goTo(KEY_S); };
 sheet.addEventListener('click',e=>{
