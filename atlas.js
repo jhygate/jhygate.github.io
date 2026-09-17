@@ -327,7 +327,9 @@ function faceEl(cls,img,rect,within){
   im.src=fileUrl(img.file); im.style.left=rect.x+'px'; im.style.top=rect.y+'px';
   im.style.width=rect.w+'px'; im.style.height=rect.h+'px'; im.draggable=false;
   f.appendChild(im);
-  const sh=document.createElement('div'); sh.className='at-shade'; f.appendChild(sh);
+  const sh=document.createElement('div'); sh.className='at-shade';
+  sh.style.left=rect.x+'px'; sh.style.top=rect.y+'px'; sh.style.width=rect.w+'px'; sh.style.height=rect.h+'px';   // shade only the paper, never the empty strip beside it
+  f.appendChild(sh);
   return f;
 }
 function settle(anim,ms){          // resolves on finish, cancel or timeout — never wedges
