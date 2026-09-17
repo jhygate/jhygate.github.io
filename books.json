@@ -1,13 +1,5 @@
 {
-  "reading": [
-    {
-      "title": "Piranesi",
-      "author": "Susanna Clarke",
-      "isbn": "9781526622426",
-      "started": "2026-09",
-      "note": "very late to it. the house is the internet, isn't it."
-    }
-  ],
+  "reading": [],
   "read": [
     {
       "title": "Siddhartha",
@@ -70,135 +62,238 @@
       "author": "Stefan Zweig",
       "spine": "spines/chess.png",
       "finished": "2026-09",
-      "note": ""
+      "note": "",
+      "cover": "covers/chess.png"
     },
     {
-      "title": "The Peregrine",
-      "author": "J. A. Baker",
-      "isbn": "9780008174461",
-      "finished": "2026-08",
-      "rating": 5,
-      "note": "a man watches birds in essex for ten winters and it reads like a thriller. no idea how."
+      "title": "Brave New World",
+      "author": "Aldous Huxley",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/brave-new-world.png",
+      "spine": "spines/brave-new-world.png"
     },
     {
-      "title": "Snow Crash",
-      "author": "Neal Stephenson",
-      "isbn": "9780553380958",
-      "finished": "2026-07",
-      "rating": 4,
-      "note": "the first fifty pages are the best thing he's written. then it's a lecture, but a good one."
+      "title": "The Courage to Be Disliked",
+      "author": "Ichiro Kishimi & Fumitake Koga",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-courage-to-be-disliked.png",
+      "spine": "spines/the-courage-to-be-disliked.png"
     },
     {
-      "title": "Stoner",
-      "author": "John Williams",
-      "isbn": "9780099561545",
-      "finished": "2026-06",
-      "rating": 5,
-      "note": "nothing happens. couldn't put it down."
+      "title": "Switch Bitch",
+      "author": "Roald Dahl",
+      "finished": "2026-09",
+      "note": "",
+      "spine": "spines/switch-bitch.png"
     },
     {
-      "title": "Klara and the Sun",
-      "author": "Kazuo Ishiguro",
-      "isbn": "9780571364886",
-      "finished": "2026-05",
-      "rating": 3,
-      "note": "sad robot. ishiguro does one thing and does it perfectly every time."
+      "title": "Fear and Loathing in Las Vegas",
+      "author": "Hunter S. Thompson",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/fear-and-loathing-in-las-vegas.png",
+      "spine": "spines/fear-and-loathing-in-las-vegas.png"
     },
     {
-      "title": "Designing Data-Intensive Applications",
-      "author": "Martin Kleppmann",
-      "isbn": "9781449373320",
-      "finished": "2026-04",
-      "rating": 5,
-      "note": "the one book that's actually made me better at my job. chapter 7 twice."
+      "title": "The Alchemist",
+      "author": "Paulo Coelho",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-alchemist.png",
+      "spine": "spines/the-alchemist.png"
     },
     {
-      "title": "Dune",
-      "author": "Frank Herbert",
-      "isbn": "9780441172719",
-      "finished": "2026-03",
-      "rating": 4,
-      "note": "the spice must flow. the dialogue must not."
+      "title": "Wise and Otherwise",
+      "author": "Sudha Murty",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/wise-and-otherwise.png",
+      "spine": "spines/wise-and-otherwise.png"
     },
     {
-      "title": "Flowers for Algernon",
-      "author": "Daniel Keyes",
-      "isbn": "9780156030304",
-      "finished": "2026-02",
-      "rating": 4,
-      "note": "read on a train. regretted reading on a train."
+      "title": "On Connection",
+      "author": "Kae Tempest",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/on-connection.png",
+      "spine": "spines/on-connection.png"
     },
     {
-      "title": "The Remains of the Day",
-      "author": "Kazuo Ishiguro",
-      "isbn": "9780571258246",
-      "finished": "2026-01",
-      "rating": 5,
-      "note": "the saddest book about a butler ever written."
+      "title": "Post Office",
+      "author": "Charles Bukowski",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/post-office.png",
+      "spine": "spines/post-office.png"
     },
     {
-      "title": "Normal People",
-      "author": "Sally Rooney",
-      "isbn": "9780571334650",
-      "finished": "2025-12",
-      "rating": 3,
-      "note": "just talk to each other."
+      "title": "The Long Dark Tea-Time of the Soul",
+      "author": "Douglas Adams",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-long-dark-tea-time-of-the-soul.png",
+      "spine": "spines/the-long-dark-tea-time-of-the-soul.png"
     },
     {
-      "title": "British Politics for Dummies",
-      "author": "Julian Knight",
-      "isbn": "9781119986775",
-      "finished": "2025-11",
-      "rating": 2,
-      "note": "a gift. a hint, probably. it's on the desk in the photo."
+      "title": "Slaughterhouse 5",
+      "author": "Kurt Vonnegut",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/slaughterhouse-5.png",
+      "spine": "spines/slaughterhouse-5.png"
     },
     {
-      "title": "Cloud Atlas",
-      "author": "David Mitchell",
-      "isbn": "9780340822784",
-      "finished": "2025-10",
-      "rating": 4,
-      "note": "six books in a trench coat. the middle one is the best one."
+      "title": "The Evolution Man",
+      "author": "Roy Lewis",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-evolution-man.png",
+      "spine": "spines/the-evolution-man.png"
     },
     {
-      "title": "The Left Hand of Darkness",
-      "author": "Ursula K. Le Guin",
-      "isbn": "9780441478125",
-      "finished": "2025-09",
-      "rating": 5,
-      "note": "the ice crossing. that's the whole review."
+      "title": "Mindfulness",
+      "author": "Christophe André",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/mindfulness.png",
+      "spine": "spines/mindfulness.png"
     },
     {
-      "title": "Never Let Me Go",
-      "author": "Kazuo Ishiguro",
-      "isbn": "9780571224135",
-      "finished": "2025-08",
-      "rating": 4,
-      "note": "third ishiguro this year. i have a problem."
+      "title": "The Road to Wigan Pier",
+      "author": "George Orwell",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-road-to-wigan-pier.png",
+      "spine": "spines/the-road-to-wigan-pier.png"
     },
     {
-      "title": "Project Hail Mary",
-      "author": "Andy Weir",
-      "isbn": "9780593135204",
-      "finished": "2025-07",
-      "rating": 3,
-      "note": "fun. rocky is the best character in anything."
+      "title": "Down and Out in Paris and London",
+      "author": "George Orwell",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/down-and-out-in-paris-and-london.png",
+      "spine": "spines/down-and-out-in-paris-and-london.png"
     },
     {
-      "title": "The Pragmatic Programmer",
-      "author": "David Thomas, Andrew Hunt",
-      "isbn": "9780135957059",
-      "finished": "2025-06",
-      "rating": 4,
-      "note": "reread every few years. different chapters land each time."
+      "title": "The Doors of Perception & Heaven and Hell",
+      "author": "Aldous Huxley",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-doors-of-perception.png",
+      "spine": "spines/the-doors-of-perception.png"
     },
     {
-      "title": "Piranesi",
-      "author": "Susanna Clarke",
-      "isbn": "9781526622426",
-      "finished": "2025-05",
-      "rating": 5,
-      "note": "first time round. clearly didn't stick, i'm reading it again."
+      "title": "If Cats Disappeared from the World",
+      "author": "Genki Kawamura",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/if-cats-disappeared-from-the-world.png",
+      "spine": "spines/if-cats-disappeared-from-the-world.png"
+    },
+    {
+      "title": "They",
+      "author": "Kay Dick",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/they.png",
+      "spine": "spines/they.png"
+    },
+    {
+      "title": "Twenty Something",
+      "author": "Iain Hollingshead",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/twenty-something.png",
+      "spine": "spines/twenty-something.png"
+    },
+    {
+      "title": "The Perks of Being a Wallflower",
+      "author": "Stephen Chbosky",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-perks-of-being-a-wallflower.png",
+      "spine": "spines/the-perks-of-being-a-wallflower.png"
+    },
+    {
+      "title": "The Tao of Pooh",
+      "author": "Benjamin Hoff",
+      "finished": "2026-09",
+      "note": "",
+      "spine": "spines/the-tao-of-pooh.png"
+    },
+    {
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/to-kill-a-mockingbird.png",
+      "spine": "spines/to-kill-a-mockingbird.png"
+    },
+    {
+      "title": "White Nights",
+      "author": "Fyodor Dostoyevsky",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/white-nights.png",
+      "spine": "spines/white-nights.png"
+    },
+    {
+      "title": "The Time Mercenaries",
+      "author": "Philip E. High",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-time-mercenaries.png",
+      "spine": "spines/the-time-mercenaries.png"
+    },
+    {
+      "title": "Naive. Super",
+      "author": "Erlend Loe",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/naive-super.png",
+      "spine": "spines/naive-super.png"
+    },
+    {
+      "title": "Posh",
+      "author": "Laura Wade",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/posh.png",
+      "spine": "spines/posh.png"
+    },
+    {
+      "title": "Of Mice and Men",
+      "author": "John Steinbeck",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/of-mice-and-men.png",
+      "spine": "spines/of-mice-and-men.png"
+    },
+    {
+      "title": "The Martian Way",
+      "author": "Isaac Asimov",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-martian-way.png",
+      "spine": "spines/the-martian-way.png"
+    },
+    {
+      "title": "The Unbearable Lightness of Being",
+      "author": "Milan Kundera",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-unbearable-lightness-of-being.png",
+      "spine": "spines/the-unbearable-lightness-of-being.png"
+    },
+    {
+      "title": "All Quiet on the Western Front",
+      "author": "Erich Maria Remarque",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/all-quiet-on-the-western-front.png",
+      "spine": "spines/all-quiet-on-the-western-front.png"
     }
   ]
 }
