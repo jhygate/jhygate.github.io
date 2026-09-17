@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn hand-held photos of books into clean cut-outs with Gemini, then crop to the book's edges.
+"""Turn hand-held photos of books into clean cut-outs with Gemini, then remove the backdrop.
 
   GEMINI_API_KEY=... python3 gemini-cutouts.py photos/ manifest.json
 
@@ -36,32 +36,44 @@ def generate(path, kind):
     for attempt in range(3):
         try:
             with urllib.request.urlopen(req, timeout=180) as r: res = json.load(r)
-            for part in res["candidates"][0]["content"]["parts"]:
+            cand = (res.get("candidates") or [{}])[0]
+            for part in cand.get("content", {}).get("parts", []):
                 if "inlineData" in part: return base64.b64decode(part["inlineData"]["data"])
-            raise RuntimeError("no image in response: " + json.dumps(res)[:300])
+            raise RuntimeError("no image in response (" + str(cand.get("finishReason")) + "): " + json.dumps(res)[:200])
         except Exception as e:
             if attempt == 2: raise
             time.sleep(4 * (attempt + 1))
 
-def trim_rect(im, frac=0.85):
-    """Crop to the book's rectangle: rows and columns where most pixels are clearly not the
-    white backdrop or its soft shadow. A straight crop leaves any shadow outside."""
-    rgb = im.convert('RGB'); W, H = rgb.size; px = rgb.load()
-    def strong(x, y):
-        r, g, b = px[x, y]; mx, mn = max(r, g, b), min(r, g, b)
-        return (mx < 205) or (mx - mn > 12)          # darker than a soft shadow, or has any colour (shadows are neutral)
-    cols = [sum(1 for y in range(0, H, 2) if strong(x, y)) for x in range(W)]
-    rows = [sum(1 for x in range(0, W, 2) if strong(x, y)) for y in range(H)]
-    cx = [x for x, c in enumerate(cols) if c >= max(cols) * frac]; ry = [y for y, c in enumerate(rows) if c >= max(rows) * frac]
-    return rgb.crop((min(cx) + 3, min(ry) + 3, max(cx) - 2, max(ry) - 2)).convert('RGBA')
+def cut_out(im):
+    """Remove the backdrop, keeping the book's real outline. rembg (pip install "rembg[cpu]") does
+    this cleanly on a flat white background; without it, near-white connected to the border is keyed."""
+    im = im.convert('RGBA')
+    try:
+        from rembg import remove
+        out = remove(im, alpha_matting=True, alpha_matting_foreground_threshold=240, alpha_matting_background_threshold=20, alpha_matting_erode_size=4)
+    except ImportError:
+        from PIL import ImageDraw
+        rgb = im.convert('RGB'); W, H = rgb.size; work = rgb.copy(); KEYC = (255, 0, 255)
+        for seed in [(2, 2), (W-3, 2), (2, H-3), (W-3, H-3), (W//2, 2), (W//2, H-3), (2, H//2), (W-3, H//2)]:
+            if sum(work.getpixel(seed)) > 690: ImageDraw.floodfill(work, seed, KEYC, thresh=24)
+        wp = work.load(); a = Image.new('L', (W, H), 255); ap = a.load()
+        for y in range(H):
+            for x in range(W):
+                if wp[x, y] == KEYC: ap[x, y] = 0
+        a = a.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.7)); out = rgb.convert('RGBA'); out.putalpha(a)
+    bbox = out.split()[3].point(lambda v: 255 if v > 8 else 0).getbbox()
+    return out.crop(bbox)
 
 def run(item):
     name, meta = item; kind, slug = meta['kind'], meta['slug']
     png = generate(photos / name, kind)
     import io; im = Image.open(io.BytesIO(png))
-    cut = trim_rect(im)
+    cut = cut_out(im)
     dest = ROOT / ('covers' if kind == 'front' else 'spines') / f'{slug}.png'; cut.save(dest)
     return f"{slug:<28} {kind:<6} {cut.size[0]}x{cut.size[1]}  → {dest.relative_to(ROOT)}"
 
+def safe(item):
+    try: return run(item)
+    except Exception as e: return f"FAILED {item[1]['slug']} {item[1]['kind']}: {e}"
 with concurrent.futures.ThreadPoolExecutor(4) as ex:
-    for line in ex.map(run, manifest.items()): print(line)
+    for line in ex.map(safe, manifest.items()): print(line, flush=True)
