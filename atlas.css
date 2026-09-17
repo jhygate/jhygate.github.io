@@ -65,3 +65,11 @@
 .at-card .blurb { display: block; font: 500 .95em/1.15 var(--pen); color: #2b3a5a; }
 .at-card .addr { display: block; margin-top: .4em; font-size: .78em; color: #8a8373; }
 @media (max-width: 900px) { .at-root { grid-template-columns: minmax(0, 1fr); } .at-key { max-height: 18em; } .at-viewport { height: 60vh; } }
+/* the key spread: one dot per venue, a page box turns to that page */
+.at-dot { position: absolute; z-index: 4; pointer-events: auto; cursor: pointer; width: 13px; height: 13px; border-radius: 50%; background: var(--c); border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.at-dot.cur { width: 19px; height: 19px; outline: 3px solid #ff3b30; outline-offset: 1px; z-index: 5; }
+.at-dot .l { position: absolute; left: 50%; top: -6px; transform: translate(-50%,-100%); white-space: nowrap; font: 600 11px 'Archivo Narrow', Arial, sans-serif; color: #1f1c17; background: rgba(255,253,244,.95); padding: 2px 6px; border-radius: 2px; box-shadow: 0 2px 6px rgba(0,0,0,.35); opacity: 0; transition: opacity .12s; pointer-events: none; }
+.at-dot:hover .l, .at-dot.cur .l { opacity: 1; }
+.at-whole { position: absolute; left: .8em; bottom: .8em; border: 0; cursor: pointer; padding: .35em .8em .3em; background: rgba(238,228,200,.94); color: #2a2218; box-shadow: 0 1px 2px rgba(0,0,0,.35); font: 400 .95em/1 var(--pen); transform: rotate(-1.5deg); }
+.at-whole:hover { transform: rotate(0deg); }
+.at-whole[hidden] { display: none; }

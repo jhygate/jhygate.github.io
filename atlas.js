@@ -176,9 +176,17 @@ function neighbourPage(p,dir){
 }
 
 
+/* the 'Key to map pages' spread (files 5–6): the whole of London, every page a numbered box.
+   Affine from km to spread pixels, fitted to the printed grid (rms ≈ 6 px). */
+const KEY_S = spreadOfFile(5);
+const KEY_AFF = {ax:[31.43013,-0.06712,-15731.59506], ay:[0.03223,-32.07847,6438.11423]};
+function keyPx(Ek,Nk){const [a,b,c]=KEY_AFF.ax,[d,e,f]=KEY_AFF.ay; return {x:a*Ek+b*Nk+c, y:d*Ek+e*Nk+f};}
+function keyKm(x,y){const [a,b,c]=KEY_AFF.ax,[d,e,f]=KEY_AFF.ay, det=a*e-b*d, X=x-c, Y=y-f; return {Ek:(e*X-b*Y)/det, Nk:(a*Y-d*X)/det};}
+
 /* ---------- state ---------- */
 root.innerHTML=`<div class="at-book-wrap"><div class="at-viewport"><div class="at-box"><div class="at-bookel"><div class="at-sheet"></div><div class="at-overlay"></div><div class="at-turn"></div></div></div></div>
-    <div class="at-flip"><button class="at-prev" aria-label="previous page">‹</button><span class="at-label">—</span><button class="at-next" aria-label="next page">›</button></div></div>
+    <div class="at-flip"><button class="at-prev" aria-label="previous page">‹</button><span class="at-label">—</span><button class="at-next" aria-label="next page">›</button></div>
+    <button class="at-whole" title="the whole of London">all of london</button></div>
   <aside class="at-key"><h3>Key <span class="at-count"></span></h3><div class="at-cats"></div><div class="at-index"></div></aside>
   <div class="at-cards"></div>`;
 const vp=$('.at-viewport'), box=$('.at-box'), book=$('.at-bookel'), sheet=$('.at-sheet'), ov=$('.at-overlay'), turnLayer=$('.at-turn');
@@ -222,6 +230,7 @@ function applyZoom(keepCentre){
   box.style.width=(L.w*z)+'px'; box.style.height=(L.h*z)+'px';
   book.style.perspective=(L.w*1.7)+'px';
   ov.querySelectorAll('.at-pin,.at-vpin').forEach(el=>el.style.transform=`translate(-50%,-100%) scale(${1/z})`);
+  ov.querySelectorAll('.at-dot').forEach(el=>el.style.transform=`translate(-50%,-50%) scale(${1/z})`);
   ov.querySelectorAll('.at-probe').forEach(el=>el.style.transform=`translate(-50%,-50%) scale(${1/z})`);
   if(keepCentre){ vp.scrollLeft=cx*z-vp.clientWidth/2; vp.scrollTop=cy*z-vp.clientHeight/2; }
 }
@@ -249,11 +258,18 @@ function drawOverlay(){
     for(const q of L.halves)
       ov.insertAdjacentHTML('beforeend',`<div style="position:absolute;left:${q.x}px;top:${q.y}px;
         width:${q.w}px;height:${q.h}px;border:${2/z}px dashed #ffd54f;opacity:.85"></div>`);
-  if(target && L.geo){
+  if(target && curS===KEY_S){ /* the selected venue is the highlighted dot */ }
+  else if(target && L.geo){
     const q=spreadPx(curS,target.Ek,target.Nk);
     if(q && q.x>=-40 && q.y>=-40 && q.x<=L.w+40 && q.y<=L.h+40)
       ov.insertAdjacentHTML('beforeend',
         `<div class="at-pin" style="left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${1/z})">${PIN}</div>`);
+  }
+  if(curS===KEY_S) for(const v of VENUES){
+    if(!v.geo || !passes(v)) continue;
+    const q=keyPx(v.Ek,v.Nk); if(q.x<0||q.y<0||q.x>L.w||q.y>L.h) continue;
+    ov.insertAdjacentHTML('beforeend',
+      `<div class="at-dot${selected===v.id?' cur':''}" data-v="${v.id}" style="left:${q.x}px;top:${q.y}px;--c:${catColour(v.category)};transform:translate(-50%,-50%) scale(${1/z})"><div class="l">${esc(v.name)}</div></div>`);
   }
   if(L.geo) for(const v of VENUES){
     if(!v.geo || !passes(v)) continue;
@@ -289,7 +305,8 @@ function spreadLabel(s){
 }
 function describe(){
   const L=layout(curS), pgs=L.halves.filter(q=>q.page).map(q=>q.page);
-  $('.at-label').textContent=spreadLabel(curS);
+  $('.at-label').textContent=curS===KEY_S?'all of london':spreadLabel(curS);
+  $('.at-whole').hidden = curS===KEY_S;
   $('.at-prev').disabled = curS<=0; $('.at-next').disabled = curS>=MAXS;
   renderCards(pgs);
 }
@@ -424,7 +441,7 @@ function renderIndex(){
   $('.at-count').textContent=`${VENUES.filter(passes).length} places`;
 }
 function renderCards(pgs){
-  const here=new Set(pgs);
+  const here=new Set(curS===KEY_S?VENUES.filter(v=>v.page).map(v=>v.page):pgs);
   const list=[...VENUES].filter(passes).sort((a,b)=>(here.has(b.page)-here.has(a.page))||a.name.localeCompare(b.name));
   $('.at-cards').innerHTML=list.map(v=>`<button class="at-card${here.has(v.page)?' here':''}${selected===v.id?' cur':''}" data-v="${v.id}" style="--c:${catColour(v.category)}">
       ${v.image_url?`<img src="${esc(v.image_url)}" alt="" loading="lazy" onerror="this.remove()">`:'<span class="noimg"></span>'}
@@ -435,7 +452,7 @@ function renderCards(pgs){
 function selectVenue(id, fromCard){
   const v=VENUES.find(x=>x.id===id); if(!v) return;
   selected=id; renderIndex();
-  if(v.geo&&v.page){ target={Ek:v.Ek,Nk:v.Nk}; goToPage(v.page,{centre:true}); }
+  if(v.geo&&v.page){ target={Ek:v.Ek,Nk:v.Nk}; if(curS===KEY_S&&fromCard!=='turn'){ drawOverlay(); renderCards([]); } else goToPage(v.page,{centre:true}); }
   else { target=null; drawOverlay(); renderCards(layout(curS).halves.filter(q=>q.page).map(q=>q.page)); }
   if(!fromCard){ const c=$(`.at-card[data-v="${id}"]`); if(c) c.scrollIntoView({block:'nearest',behavior:'smooth'}); }
   else root.scrollIntoView({block:'start',behavior:'smooth'});
@@ -443,7 +460,13 @@ function selectVenue(id, fromCard){
 $('.at-cats').onclick=e=>{const b=e.target.closest('[data-cat]'); if(!b) return; catFilter=catFilter===b.dataset.cat?null:b.dataset.cat; renderCats(); renderIndex(); drawOverlay(); renderCards(layout(curS).halves.filter(q=>q.page).map(q=>q.page));};
 $('.at-index').onclick=e=>{const b=e.target.closest('.at-idx'); if(b) selectVenue(+b.dataset.v);};
 $('.at-cards').onclick=e=>{const b=e.target.closest('.at-card'); if(b) selectVenue(+b.dataset.v,true);};
-ov.addEventListener('click',e=>{const p=e.target.closest('.at-vpin'); if(p&&!dragged){e.stopPropagation();selectVenue(+p.dataset.v);}});
+ov.addEventListener('click',e=>{const p=e.target.closest('.at-vpin,.at-dot'); if(p&&!dragged){e.stopPropagation(); const id=+p.dataset.v; selectVenue(id, (curS===KEY_S&&selected===id)?'turn':false);}});
+$('.at-whole').onclick=()=>{ zoom=null; goTo(KEY_S); };
+sheet.addEventListener('click',e=>{
+  if(dragged||running||curS!==KEY_S) return;
+  const r=book.getBoundingClientRect(), z=book._z; const km=keyKm((e.clientX-r.left)/z,(e.clientY-r.top)/z);
+  const hits=pagesAt(km.Ek,km.Nk); if(hits.length) goToPage(hits[0].p);
+});
 $('.at-prev').onclick=()=>goTo((wanted?wanted.ns:curS)-1);
 $('.at-next').onclick=()=>goTo((wanted?wanted.ns:curS)+1);
 function centreOnTarget(){
@@ -461,6 +484,7 @@ function setZoom(z,anchor){
     box.style.width=(L.w*nz)+'px'; box.style.height=(L.h*nz)+'px';
     vp.scrollLeft=ax*nz-anchor.x; vp.scrollTop=ay*nz-anchor.y;
     ov.querySelectorAll('.at-pin,.at-vpin').forEach(el=>el.style.transform=`translate(-50%,-100%) scale(${1/nz})`);
+    ov.querySelectorAll('.at-dot').forEach(el=>el.style.transform=`translate(-50%,-50%) scale(${1/nz})`);
   } else applyZoom(true);
   drawOverlay();
 }
