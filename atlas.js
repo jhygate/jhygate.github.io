@@ -101,29 +101,21 @@ function layout(s){
   const gb=fb&&FILE2PAGE[fb]!==undefined?PAGES[FILE2PAGE[fb]]:null;
   let L;
   if(ga||gb){
-    const geos=[[fa,ga],[fb,gb]].filter(x=>x[1]);
-    const E0=Math.min(...geos.map(([,g])=>g.E));
-    const N0=Math.max(...geos.map(([,g])=>g.N));
-    const halves=[];
-    for(const [f,g] of geos)
-      halves.push({file:f,page:FILE2PAGE[f],x:(g.E-E0)*PPK,y:(N0-g.N)*PPK,
-                   w:g.w/g.T*PPK, h:g.h/g.T*PPK});
-    let W=Math.max(...halves.map(q=>q.x+q.w)), H=Math.max(...halves.map(q=>q.y+q.h));
-    // a half without georeference (e.g. the super-scale key facing page 156) sits beside it
-    for(const [f,g] of [[fa,ga],[fb,gb]]){
+    // laid out like the paper book: left page at the origin, right page flush against it,
+    // both tops level. Each half keeps its own georeference, so spreads never jolt between turns.
+    const geos=[[fa,ga],[fb,gb]].filter(x=>x[1]).sort((p,q)=>p[1].E-q[1].E);
+    const halves=[]; let x=0;
+    for(const [f,g] of geos){ const w=g.w/g.T*PPK, h=g.h/g.T*PPK; halves.push({file:f,page:FILE2PAGE[f],x,y:0,w,h,E:g.E,N:g.N}); x+=w; }
+    let W=x, H=Math.max(...halves.map(q=>q.h));
+    for(const [f,g] of [[fa,ga],[fb,gb]]){        // a facing page without georeference (the super-scale key by 156)
       if(g||!f) continue;
       const d=DIM[f], sc=H/d[1], w=d[0]*sc;
-      const left = f===fa;
-      if(left){ halves.forEach(q=>q.x+=w+10); halves.unshift({file:f,page:null,x:0,y:0,w,h:H}); W+=w+10; }
-      else { halves.push({file:f,page:null,x:W+10,y:0,w,h:H}); W+=w+10; }
+      if(f===fa){ halves.forEach(q=>q.x+=w); halves.unshift({file:f,page:null,x:0,y:0,w,h:H}); }
+      else halves.push({file:f,page:null,x:W,y:0,w,h:H});
+      W+=w;
     }
-    halves.sort((a,b)=>a.x-b.x);
-    // the two pages touch at the spine: the right page is pulled left over the geographic gap,
-    // and remembers the shift so pins on it stay true
-    let shift=0;
-    if(halves.length>1&&halves[0].page&&halves[1].page){ shift=halves[1].x-(halves[0].x+halves[0].w); halves[1].x-=shift; halves[1].dx=-shift; W-=shift; }
-    const spineX = halves.length>1 ? (halves[0].x+halves[0].w + halves[1].x)/2 : halves[0].w;
-    L={w:W,h:H,spineX,halves,geo:{E0,N0},shift};
+    const spineX = halves.length>1 ? halves[1].x : halves[0].w;
+    L={w:W,h:H,spineX,halves,geo:true};
   } else {
     const items=[fa,fb].filter(Boolean).map(f=>({file:f,d:DIM[f]}));
     const H=Math.max(...items.map(i=>i.d[1]));
@@ -140,16 +132,16 @@ function layout(s){
   layoutCache.set(s,L); return L;
 }
 function halfOfPage(s,p){ return layout(s).halves.find(q=>q.page===p); }
-function spreadPx(s,Ek,Nk){                       // km -> spread px
+function geoHalves(L){ return L.halves.filter(q=>q.page); }
+function spreadPx(s,Ek,Nk){                       // km -> spread px, via whichever page the point falls on
   const L=layout(s); if(!L.geo) return null;
-  let x=(Ek-L.geo.E0)*PPK; const y=(L.geo.N0-Nk)*PPK;
-  if(L.shift&&x>=L.spineX+L.shift/2) x-=L.shift;     // on the right-hand page
-  return {x, y};
+  const hs=geoHalves(L); let h=hs.find(q=>Ek>=q.E&&Ek<=q.E+q.w/PPK) || hs.reduce((b,q)=>Math.abs(Ek-(q.E+q.w/PPK/2))<Math.abs(Ek-(b.E+b.w/PPK/2))?q:b);
+  return {x:h.x+(Ek-h.E)*PPK, y:h.y+(h.N-Nk)*PPK};
 }
 function spreadKm(s,x,y){                         // spread px -> km
   const L=layout(s); if(!L.geo) return null;
-  if(L.shift&&x>=L.spineX) x+=L.shift;
-  return {Ek:L.geo.E0+x/PPK, Nk:L.geo.N0-y/PPK};
+  const hs=geoHalves(L); const h=hs.find(q=>x>=q.x&&x<=q.x+q.w) || (x<L.spineX?hs[0]:hs[hs.length-1]);
+  return {Ek:h.E+(x-h.x)/PPK, Nk:h.N-(y-h.y)/PPK};
 }
 function pagesAt(Ek,Nk){
   const hits=[];
@@ -194,7 +186,8 @@ function keyKm(x,y){const [a,b,c]=KEY_AFF.ax,[d,e,f]=KEY_AFF.ay, det=a*e-b*d, X=
 root.innerHTML=`<div class="at-book-wrap"><div class="at-viewport"><div class="at-box"><div class="at-bookel"><div class="at-sheet"></div><div class="at-overlay"></div><div class="at-turn"></div></div></div></div>
     <div class="at-flip"><button class="at-prev" aria-label="previous page">‹</button><span class="at-label">—</span><button class="at-next" aria-label="next page">›</button></div>
     <button class="at-whole" title="the whole of London">all of london</button></div>
-  <aside class="at-key"><h3>Key <span class="at-count"></span></h3><div class="at-cats"></div><div class="at-index"></div></aside>
+  <aside class="at-key"><h3>Key <span class="at-count"></span></h3><div class="at-cats"></div><div class="at-index"></div>
+    <div class="at-pager"><button class="at-pprev" aria-label="previous page of the key">‹</button><span class="at-pnum"></span><button class="at-pnext" aria-label="next page of the key">›</button></div></aside>
   <div class="at-cards"></div>`;
 const vp=$('.at-viewport'), box=$('.at-box'), book=$('.at-bookel'), sheet=$('.at-sheet'), ov=$('.at-overlay'), turnLayer=$('.at-turn');
 let curS=null, zoom=null, target=null, probe=null;
@@ -385,7 +378,18 @@ async function turnTo(ns,ms){
     sh.animate([{opacity:0},{opacity:.5},{opacity:0}],{duration:ms,easing:'ease-in-out'}));
   await settle(a,ms);
   turnLayer.classList.remove('on'); turnLayer.innerHTML='';
+  const zBefore=book._z;
   curS=ns; renderSpread(ns);
+  // spreads differ slightly in size, so the fitted zoom changes: ease into it instead of snapping
+  const zAfter=book._z;
+  if(zBefore&&Math.abs(zAfter-zBefore)>1e-4){
+    book.style.transition='none'; box.style.transition='none';
+    book.style.transform=`scale(${zBefore})`; box.style.width=(N.w*zBefore)+'px'; box.style.height=(N.h*zBefore)+'px';
+    book.getBoundingClientRect();
+    book.style.transition='transform .45s ease'; box.style.transition='width .45s ease,height .45s ease';
+    book.style.transform=`scale(${zAfter})`; box.style.width=(N.w*zAfter)+'px'; box.style.height=(N.h*zAfter)+'px';
+    setTimeout(()=>{book.style.transition='';box.style.transition='';},500);
+  }
 }
 
 /* one turn at a time; the newest request wins */
@@ -427,7 +431,8 @@ const CAT_COLOURS={restaurant:'#c62828',cafe:'#8d6e63',coffeeshop:'#6d4c41',bar:
   comedy:'#f9a825',gallery:'#00838f',cinema:'#1565c0',club:'#d81b60',shop:'#2e7d32',market:'#558b2f',other:'#546e7a'};
 const catColour=c=>CAT_COLOURS[c]||CAT_COLOURS.other;
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let VENUES=[], selected=null, catFilter=null;
+let VENUES=[], selected=null, catFilter=null, keyPage=0;
+const KEY_PER=(opts.keyPerPage||12);
 const passes=v=>!catFilter||(v.category||'other')===catFilter;
 function placeVenue(v){
   if(v.lat==null||v.lng==null) return v;
@@ -440,13 +445,23 @@ function renderCats(){
   const counts={}; for(const v of VENUES){const c=v.category||'other'; counts[c]=(counts[c]||0)+1;}
   $('.at-cats').innerHTML=Object.keys(counts).sort().map(c=>`<button data-cat="${c}" aria-pressed="${catFilter===c}" style="--c:${catColour(c)}"><span class="dot"></span>${c}</button>`).join('');
 }
+function keyList(){ return [...VENUES].filter(passes).sort((a,b)=>a.name.localeCompare(b.name)); }
 function renderIndex(){
-  const list=[...VENUES].sort((a,b)=>a.name.localeCompare(b.name));
-  $('.at-index').innerHTML=list.map(v=>`<button class="at-idx${passes(v)?'':' off'}" data-v="${v.id}" aria-current="${selected===v.id}" style="--c:${catColour(v.category)}">
+  const list=keyList(), pages=Math.max(1,Math.ceil(list.length/KEY_PER));
+  if(selected!=null){ const k=list.findIndex(v=>v.id===selected); if(k>=0) keyPage=Math.floor(k/KEY_PER); }
+  keyPage=Math.min(keyPage,pages-1);
+  const slice=list.slice(keyPage*KEY_PER,(keyPage+1)*KEY_PER);
+  $('.at-index').innerHTML=slice.map(v=>`<button class="at-idx" data-v="${v.id}" aria-current="${selected===v.id}" style="--c:${catColour(v.category)}">
       <span class="dot"></span><span class="name">${esc(v.name)}</span><span class="dots"></span>
-      <span class="ref${v.geo&&v.page?'':' none'}">${v.geo?(v.page?(v.ref?v.ref+' ':'')+v.page:'off map'):'—'}</span></button>`).join('');
-  $('.at-count').textContent=`${VENUES.filter(passes).length} places`;
+      <span class="ref${v.geo&&v.page?'':' none'}">${v.geo?(v.page?(v.ref?v.ref+' ':'')+v.page:'off map'):'—'}</span></button>`).join('')
+    + '<div class="at-idx-pad" style="--n:'+Math.max(0,KEY_PER-slice.length)+'"></div>';
+  $('.at-count').textContent=`${list.length} places`;
+  $('.at-pager').hidden = pages<=1;
+  $('.at-pnum').textContent=`${keyPage+1} / ${pages}`;
+  $('.at-pprev').disabled = keyPage===0; $('.at-pnext').disabled = keyPage>=pages-1;
 }
+$('.at-pprev').onclick=()=>{ keyPage=Math.max(0,keyPage-1); renderIndex(); };
+$('.at-pnext').onclick=()=>{ keyPage=keyPage+1; renderIndex(); };
 function renderCards(){
   const v=VENUES.find(x=>x.id===selected);
   $('.at-cards').innerHTML=!v?'':`<div class="at-card" style="--c:${catColour(v.category)}">
@@ -464,7 +479,7 @@ function selectVenue(id, fromCard){
   renderCards();
 
 }
-$('.at-cats').onclick=e=>{const b=e.target.closest('[data-cat]'); if(!b) return; catFilter=catFilter===b.dataset.cat?null:b.dataset.cat; if(selected!=null&&!passes(VENUES.find(v=>v.id===selected))){selected=null;target=null;} renderCats(); renderIndex(); drawOverlay(); renderCards();};
+$('.at-cats').onclick=e=>{const b=e.target.closest('[data-cat]'); if(!b) return; catFilter=catFilter===b.dataset.cat?null:b.dataset.cat; if(selected!=null&&!passes(VENUES.find(v=>v.id===selected))){selected=null;target=null;} keyPage=0; renderCats(); renderIndex(); drawOverlay(); renderCards();};
 $('.at-index').onclick=e=>{const b=e.target.closest('.at-idx'); if(b) selectVenue(+b.dataset.v);};
 ov.addEventListener('click',e=>{const p=e.target.closest('.at-vpin,.at-dot'); if(p&&!dragged){e.stopPropagation(); const id=+p.dataset.v; selectVenue(id, (curS===KEY_S&&selected===id)?'turn':false);}});
 $('.at-whole').onclick=()=>{ zoom=null; goTo(KEY_S); };
