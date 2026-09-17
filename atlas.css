@@ -9,7 +9,7 @@
 .at-box { margin: auto; flex: 0 0 auto; position: relative; }
 .at-bookel { position: absolute; left: 0; top: 0; transform-origin: 0 0; transform-style: preserve-3d; opacity: 0; transition: opacity .5s ease; }
 .at-bookel.ready { opacity: 1; }
-.at-half { position: absolute; display: block; background: #f2efe6; box-shadow: 0 1.2em 1.6em -.6em rgba(20,10,0,.6), 0 .15em .3em rgba(20,10,0,.35); user-select: none; -webkit-user-drag: none; }
+.at-half { position: absolute; display: block; background: transparent; box-shadow: 0 1.2em 1.6em -.6em rgba(20,10,0,.6), 0 .15em .3em rgba(20,10,0,.35); user-select: none; -webkit-user-drag: none; }
 .at-gutter { position: absolute; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 42%, rgba(0,0,0,.72) 50%, rgba(0,0,0,.55) 58%, rgba(0,0,0,0) 100%); }
 .at-overlay { position: absolute; left: 0; top: 0; pointer-events: none; }
 .at-pin { position: absolute; pointer-events: none; z-index: 5; }
@@ -18,10 +18,11 @@
 .at-turn { position: absolute; left: 0; top: 0; transform-style: preserve-3d; pointer-events: none; display: none; }
 .at-turn.on { display: block; }
 .at-leaf { position: absolute; transform-style: preserve-3d; will-change: transform; }
-.at-face { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; background: #f2efe6; box-shadow: 0 0 24px rgba(0,0,0,.5); }
+.at-face { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; background: transparent; }
+.at-face img { box-shadow: 0 0 24px rgba(0,0,0,.5); }
 .at-face.back { transform: rotateY(180deg); }
 .at-face img { position: absolute; display: block; }
-.at-shade { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+.at-shade { position: absolute; pointer-events: none; opacity: 0; }
 .at-face.front .at-shade { background: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,0) 60%); }
 .at-face.back .at-shade { background: linear-gradient(270deg, rgba(0,0,0,.55), rgba(0,0,0,0) 60%); }
 .at-vpin { position: absolute; z-index: 4; pointer-events: auto; cursor: pointer; transform: translate(-50%,-100%); }
