@@ -118,7 +118,8 @@
       openIdx = i;
       const b = shelf.read[i], pal = bookPalette(b);
       root.querySelectorAll('.book').forEach(el => el.classList.toggle('out', +el.dataset.i === i));
-      const plank = root.querySelector(`.book[data-i="${i}"]`).closest('.plank');
+      const spine = root.querySelector(`.book[data-i="${i}"]`), plank = spine.closest('.plank');
+      panel.style.setProperty('--ph', `calc(${spine.style.getPropertyValue('--h') || '12em'} * 1.45)`);
       plank.after(panel);
       panel.hidden = false;
       panel.innerHTML = `<div class="cover">${coverHTML(b, pal)}</div>

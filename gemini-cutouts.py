@@ -5,8 +5,7 @@
 
 manifest.json maps each photo to a book and a side:
   { "PXL_....jpg": { "slug": "steppenwolf", "kind": "front" }, ... }
-Fronts land in covers/<slug>.jpg (opaque, on white) and spines in spines/<slug>.png
-(transparent). Point books.json at them with "cover" / "spine" fields."""
+Fronts land in covers/<slug>.png and spines in spines/<slug>.png, both transparent. Point books.json at them with "cover" / "spine" fields."""
 import base64, json, os, sys, time, pathlib, urllib.request, concurrent.futures
 from PIL import Image, ImageOps, ImageFilter
 
@@ -64,11 +63,7 @@ def run(item):
     png = generate(photos / name, kind)
     import io; im = Image.open(io.BytesIO(png))
     cut = key_white(im)
-    if kind == 'front':
-        flat = Image.new('RGB', cut.size, (255, 255, 255)); flat.paste(cut, mask=cut.split()[3])
-        dest = ROOT / 'covers' / f'{slug}.jpg'; flat.save(dest, quality=90)
-    else:
-        dest = ROOT / 'spines' / f'{slug}.png'; cut.save(dest)
+    dest = ROOT / ('covers' if kind == 'front' else 'spines') / f'{slug}.png'; cut.save(dest)
     return f"{slug:<28} {kind:<6} {cut.size[0]}x{cut.size[1]}  → {dest.relative_to(ROOT)}"
 
 with concurrent.futures.ThreadPoolExecutor(4) as ex:

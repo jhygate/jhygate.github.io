@@ -79,9 +79,12 @@
 }
 .opened[hidden] { display: none; }
 @keyframes pullout { from { opacity: 0; transform: translateY(-1.2em); } to { opacity: 1; transform: none; } }
-.opened .cover { position: relative; width: 9.5em; aspect-ratio: 2 / 3; border-radius: .12em .35em .35em .12em; overflow: hidden; background: #6b5a44;
-  box-shadow: 0 1.2em 1.4em -.8em rgba(20,10,0,.75), inset .25em 0 .3em -.2em rgba(255,255,255,.35); }
-.opened .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.opened { grid-template-columns: auto minmax(0, 1fr); }
+.opened .cover { position: relative; height: var(--ph, 14em); width: auto; aspect-ratio: auto; background: none; overflow: visible;
+  filter: drop-shadow(0 1.2em 1.4em rgba(20,10,0,.55)) drop-shadow(0 .15em .3em rgba(20,10,0,.35)); }
+.opened .cover img { position: relative; display: block; height: 100%; width: auto; max-width: none; object-fit: contain; }
+.opened .cover .gen { position: relative; height: 100%; aspect-ratio: 2 / 3; border-radius: .12em .35em .35em .12em; }
+.opened .cover img + .gen, .opened .cover .gen:not(:only-child) { display: none; }
 .card {
   position: relative; padding: 1.1em 1.3em 1em;
   background: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(64,54,36,.28) 1.55em calc(1.55em + 1px)), linear-gradient(180deg, #faf5e6, #efe7d1);
