@@ -88,7 +88,7 @@
         const art = coverUrl(b, 'M');
         const side = b.spine || (b.isbn ? `spines/${b.isbn}.jpg` : '');
         return `<button class="book ${face}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};--bands:${bands};${art ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
-          ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');this.parentElement.style.setProperty('--w','calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + ')');window.dispatchEvent(new Event('resize'))" onerror="this.remove()">` : ''}
+          ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');this.parentElement.style.setProperty('--w','max(calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + '), 1.6em)');window.dispatchEvent(new Event('resize'))" onerror="this.remove()">` : ''}
           <span class="t">${esc(b.title)}</span><span class="a">${esc(b.author)}</span></button>`;
         }).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
       });
