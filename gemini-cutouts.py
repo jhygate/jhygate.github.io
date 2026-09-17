@@ -43,7 +43,7 @@ def generate(path, kind):
             if attempt == 2: raise
             time.sleep(4 * (attempt + 1))
 
-def trim_rect(im, frac=0.5):
+def trim_rect(im, frac=0.85):
     """Crop to the book's rectangle: rows and columns where most pixels are clearly not the
     white backdrop or its soft shadow. A straight crop leaves any shadow outside."""
     rgb = im.convert('RGB'); W, H = rgb.size; px = rgb.load()
@@ -53,7 +53,7 @@ def trim_rect(im, frac=0.5):
     cols = [sum(1 for y in range(0, H, 2) if strong(x, y)) for x in range(W)]
     rows = [sum(1 for x in range(0, W, 2) if strong(x, y)) for y in range(H)]
     cx = [x for x, c in enumerate(cols) if c >= max(cols) * frac]; ry = [y for y, c in enumerate(rows) if c >= max(rows) * frac]
-    return rgb.crop((min(cx) + 2, min(ry) + 2, max(cx) - 1, max(ry) - 1)).convert('RGBA')
+    return rgb.crop((min(cx) + 3, min(ry) + 3, max(cx) - 2, max(ry) - 2)).convert('RGBA')
 
 def run(item):
     name, meta = item; kind, slug = meta['kind'], meta['slug']

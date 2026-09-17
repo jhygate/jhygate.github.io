@@ -63,7 +63,8 @@
 .book .a { font: 400 .5em/1 'Courier Prime', monospace; letter-spacing: .1em; text-transform: uppercase; opacity: .8; white-space: nowrap; overflow: hidden; }
 /* a photographed spine replaces the generated one entirely */
 .book .side { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: none; }
-.book.has-side { background: none; text-shadow: none; }
+.book.has-side { background: none; text-shadow: none; box-shadow: 0 .3em .4em -.2em rgba(0,0,0,.6); }
+.book.has-side::after { content: ""; position: absolute; top: 0; bottom: 0; left: -.45em; right: -.45em; }   /* a wider target for very thin spines */
 .book.has-side .side { display: block; }
 .book.has-side .t, .book.has-side .a { visibility: hidden; }
 .book.serif .t { font-family: 'Playfair Display', serif; }
