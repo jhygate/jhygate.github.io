@@ -59,66 +59,82 @@
     const monthName = ym => { if (!ym) return ''; const [y, m] = ym.split('-'); return ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'][+m - 1] + ' ' + y; };
     let shelf = { reading: [], read: [] }, openIdx = -1;
 
+    const coverBox = b => (b.ratio && b.ratio.cover) ? ` style="aspect-ratio:${b.ratio.cover}"` : '';
+    const measure = b => {                      // a book's size at 1em, from its recorded proportions or a hash
+      const h = hash(b.author + b.title), height = 11 + (h % 7) * .45;
+      const width = (b.ratio && b.ratio.spine) ? height * b.ratio.spine : 1.7 + ((h >> 4) % 6) * .18;
+      return { height, width, h };
+    };
+    function bookHTML(b, i) {
+      const { height, width, h } = measure(b), pal = bookPalette(b), art = coverUrl(b, 'M');
+      const face = ['', 'serif', 'caps'][(h >> 9) % 3];
+      const side = b.spine || (b.isbn ? `spines/${b.isbn}.jpg` : '');
+      const known = !!(b.ratio && b.ratio.spine);
+      return `<button class="book ${face}${known ? ' photo' : ''}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width.toFixed(3)}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};${art && !known ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
+        ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');if(!this.parentElement.classList.contains('photo')){this.parentElement.style.setProperty('--w','calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + ')');window.dispatchEvent(new Event('resize'))}" onerror="this.remove()">` : ''}
+        <span class="t">${esc(b.title)}</span><span class="a">${esc(b.author)}</span></button>`;
+    }
+    function makePlank() {
+      const plank = document.createElement('div'); plank.className = 'plank plank-bottom';
+      plank.innerHTML = `<img class="wood" src="pins/plank.png" alt=""><div class="spines" role="list"></div>`;
+      return plank;
+    }
     function renderShelf(data) {
       shelf = data;
       const now = data.reading && data.reading[0];
       const readingEl = document.getElementById('reading');
       if (readingEl && now) {
         const pal = bookPalette(now);
-        readingEl.innerHTML = `<div class="cover">${coverHTML(now, pal, 'M')}</div>
+        readingEl.innerHTML = `<div class="cover"${coverBox(now)}>${coverHTML(now, pal, 'M')}</div>
           <div class="tape"><div class="tape-note"><b>reading now</b>${esc(now.title)}, ${esc(now.author)}. ${esc(now.note || '')}</div></div>`;
       } else if (readingEl) readingEl.innerHTML = '';
-      const all = data.read || [];
-      const list = opts.limit ? all.slice(0, opts.limit) : all;
-      const seeAll = document.getElementById('see-all');
-      if (seeAll) { seeAll.hidden = !(opts.limit && all.length > opts.limit); seeAll.querySelector('span').textContent = `all ${all.length} books →`; }
-      const per = opts.perPlank || list.length || 1;
+      layout();
+    }
+    // planks fill left to right with as many books as their spines allow; the tallest book on
+    // every plank stands at 90% of the gap to the plank above
+    function layout() {
+      const all = shelf.read || [];
       const planksEl = root.querySelector('.planks');
       planksEl.querySelectorAll('.plank-bottom').forEach(el => el.remove());
-      const chunks = []; for (let i = 0; i < list.length; i += per) chunks.push(list.slice(i, i + per));
-      if (!chunks.length) chunks.push([]);
-      chunks.forEach((chunk, c) => {
-        const plank = document.createElement('div'); plank.className = 'plank plank-bottom';
-        plank.innerHTML = `<img class="wood" src="pins/plank.png" alt=""><div class="spines" role="list" data-plank="${c}"></div>`;
-        planksEl.appendChild(plank);
-        plank.querySelector('.spines').innerHTML = chunk.map((b, k) => { const i = c * per + k;
-        const h = hash(b.author + b.title), pal = bookPalette(b);
-        const height = 11 + (h % 7) * .45, width = 1.7 + ((h >> 4) % 6) * .18;
-        const face = ['', 'serif', 'caps'][(h >> 9) % 3], bands = (h >> 11) % 3 === 0 ? 1 : 0;
-        const art = coverUrl(b, 'M');
-        const side = b.spine || (b.isbn ? `spines/${b.isbn}.jpg` : '');
-        return `<button class="book ${face}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};--bands:${bands};${art ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
-          ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');this.parentElement.style.setProperty('--w','calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + ')');window.dispatchEvent(new Event('resize'))" onerror="this.remove()">` : ''}
-          <span class="t">${esc(b.title)}</span><span class="a">${esc(b.author)}</span></button>`;
-        }).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
+      const probe = makePlank(); planksEl.appendChild(probe);
+      const row = probe.querySelector('.spines'), above = probe.previousElementSibling;
+      const rowW = row.clientWidth, em = parseFloat(getComputedStyle(row).fontSize);
+      const gap = above ? row.getBoundingClientRect().bottom - above.getBoundingClientRect().bottom : 0;
+      probe.remove();
+      const BOOK = .9;                                                        // .book renders at .9em of its row
+      const sized = all.map((b, i) => ({ b, i, ...measure(b) }));
+      const tallest = Math.max(1, ...sized.map(x => x.height));
+      const f = gap > 0 ? Math.min(2.5, (gap * .9) / (tallest * em * BOOK)) : 1;   // shelf scale, in em
+      const between = .22 * em * f;
+      const planks = []; let cur = [], used = 0;
+      for (const x of sized) {
+        const w = x.width * em * f * BOOK;
+        if (cur.length && used + between + w > rowW) { planks.push(cur); cur = []; used = 0; if (opts.limit === 'plank') break; }
+        cur.push(x); used += (cur.length > 1 ? between : 0) + w;
+      }
+      if (cur.length && !(opts.limit === 'plank' && planks.length)) planks.push(cur);
+      const shown = planks.reduce((n, p) => n + p.length, 0);
+      const seeAll = document.getElementById('see-all');
+      if (seeAll) { seeAll.hidden = shown >= all.length; seeAll.querySelector('span').textContent = `all ${all.length} books →`; }
+      if (!planks.length) planks.push([]);
+      planks.forEach(chunk => {
+        const plank = makePlank(); planksEl.appendChild(plank);
+        const el = plank.querySelector('.spines'); el.style.setProperty('--fit', f.toFixed(3) + 'em');
+        el.innerHTML = chunk.map(x => bookHTML(x.b, x.i)).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
       });
-      fitSpines();
       root.querySelectorAll('.book').forEach(el => {
         el.addEventListener('click', () => openBook(+el.dataset.i));
-        const b = list[+el.dataset.i], art = coverUrl(b, 'M');
-        if (art) computePalette(art).then(pal => {
-          if (el.classList.contains('has-side') || pal === FALLBACK || pal.join() === FALLBACK.join()) return;
+        const b = all[+el.dataset.i], art = coverUrl(b, 'M');
+        if (art && !el.classList.contains('photo')) computePalette(art).then(pal => {
+          if (el.classList.contains('has-side') || pal.join() === FALLBACK.join()) return;
           el.style.setProperty('--c1', pal[0]); el.style.setProperty('--c2', pal[1]);
           el.style.setProperty('--ink', lum(pal[0]) < .5 ? '#f4efe4' : '#181410');
         });
       });
+      if (openIdx >= 0 && !root.querySelector(`.book[data-i="${openIdx}"]`)) closeBook();
     }
-    function fitSpines() {
-      root.querySelectorAll('.spines').forEach(el => {
-        el.style.setProperty('--fit', '1em');
-        const books = [...el.children].filter(c => c.classList.contains('book'));
-        if (!books.length) return;
-        // the tallest book stands at 90% of the gap up to the plank above
-        const plank = el.closest('.plank'), above = plank.previousElementSibling;
-        const gap = above ? el.getBoundingClientRect().bottom - above.getBoundingClientRect().bottom : 0;
-        const tallest = Math.max(...books.map(c => c.offsetHeight));
-        let f = gap > 0 && tallest > 0 ? Math.min(2.5, (gap * .9) / tallest) : 1;
-        el.style.setProperty('--fit', f.toFixed(3) + 'em');
-        const total = () => books.reduce((w, c) => w + c.offsetWidth, 0) + parseFloat(getComputedStyle(el).columnGap || 0) * Math.max(0, books.length - 1);
-        while (f > .45 && total() > el.clientWidth + 1) { f -= .03; el.style.setProperty('--fit', f.toFixed(3) + 'em'); }
-      });
-    }
-    addEventListener('resize', fitSpines);
+    let relayout;
+    addEventListener('resize', () => { clearTimeout(relayout); relayout = setTimeout(layout, 120); });
     function openBook(i) {
       const panel = document.getElementById('opened');
       if (i === openIdx) return closeBook();
@@ -129,7 +145,7 @@
       panel.style.setProperty('--ph', `calc(${spine.style.getPropertyValue('--h') || '12em'} * 1.45)`);
       plank.after(panel);
       panel.hidden = false;
-      panel.innerHTML = `<div class="cover">${coverHTML(b, pal)}</div>
+      panel.innerHTML = `<div class="cover"${coverBox(b)}>${coverHTML(b, pal)}</div>
         <div class="card"><button class="close" aria-label="put it back">✕</button>
           <h3>${esc(b.title)}</h3>
           <div class="by"><span>${esc(b.author)}${b.finished ? ' · finished ' + monthName(b.finished) : ''}</span><span class="stars">${stars(b.rating)}</span></div>

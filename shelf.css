@@ -14,10 +14,10 @@
 }
 .plank img.wood { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
   filter: drop-shadow(0 1.6em 1.4em rgba(20,10,0,.5)) drop-shadow(0 .2em .3em rgba(20,10,0,.35)); }
-.plank-top { margin-top: 14em; }
-.plank-bottom { margin-top: 15em; }
-.pot { position: absolute; left: 4%; bottom: 32%; width: 22%; z-index: 2; pointer-events: none; margin: 0; }
-.pot img { display: block; width: 100%; height: auto; filter: drop-shadow(-.3em .6em .8em rgba(20,10,0,.45)); }
+.plank-top { margin-top: 16em; }
+.plank-bottom { margin-top: 22em; }
+.pot { aspect-ratio: 371 / 534; position: absolute; left: 4%; bottom: 32%; width: 22%; z-index: 2; pointer-events: none; margin: 0; }
+.pot img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(-.3em .6em .8em rgba(20,10,0,.45)); }
 /* now reading: face out, leaning on the back board, a taped note */
 .reading { position: absolute; left: 31%; bottom: 33%; z-index: 2; display: flex; align-items: flex-end; }
 .reading .cover {
@@ -63,6 +63,7 @@
 .book .a { font: 400 .5em/1 'Courier Prime', monospace; letter-spacing: .1em; text-transform: uppercase; opacity: .8; white-space: nowrap; overflow: hidden; }
 /* a photographed spine replaces the generated one entirely */
 .book .side { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: none; }
+.book.photo .t, .book.photo .a { visibility: hidden; }          /* sized from books.json; the photo lands on a plain block */
 .book.has-side { background: none; text-shadow: none; box-shadow: 0 .3em .4em -.2em rgba(0,0,0,.6); }
 .book.has-side::after { content: ""; position: absolute; top: 0; bottom: 0; left: -.45em; right: -.45em; }   /* a wider target for very thin spines */
 .book.has-side .side { display: block; }
@@ -84,6 +85,7 @@
 .opened .cover { position: relative; height: var(--ph, 14em); width: auto; aspect-ratio: auto; background: none; overflow: visible;
   filter: drop-shadow(0 1.2em 1.4em rgba(20,10,0,.55)) drop-shadow(0 .15em .3em rgba(20,10,0,.35)); }
 .opened .cover img { position: relative; display: block; height: 100%; width: auto; max-width: none; object-fit: contain; }
+.opened .cover[style*="aspect-ratio"] img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .opened .cover .gen { position: relative; height: 100%; aspect-ratio: 2 / 3; border-radius: .12em .35em .35em .12em; }
 .opened .cover img + .gen, .opened .cover .gen:not(:only-child) { display: none; }
 .card {
@@ -108,8 +110,8 @@
   .opened .cover { width: 7.5em; }
 }
 @media (max-width: 640px) {
-  .plank-top { margin-top: 9em; }
-  .plank-bottom { margin-top: 9em; }
+  .plank-top { margin-top: 10em; }
+  .plank-bottom { margin-top: 13em; }
   .reading .cover { width: 6.4em; }
   .reading .tape { width: 8em; font-size: .85em; left: 106%; }
 }

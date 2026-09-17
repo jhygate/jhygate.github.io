@@ -4,296 +4,442 @@
     {
       "title": "Siddhartha",
       "author": "Hermann Hesse",
-      "spine": "spines/siddhartha.png",
+      "spine": "spines/siddhartha.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/siddhartha.png"
+      "cover": "covers/siddhartha.webp",
+      "ratio": {
+        "cover": 0.6211,
+        "spine": 0.08
+      }
     },
     {
       "title": "High Fidelity",
       "author": "Nick Hornby",
-      "spine": "spines/high-fidelity.png",
+      "spine": "spines/high-fidelity.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/high-fidelity.png"
+      "cover": "covers/high-fidelity.webp",
+      "ratio": {
+        "cover": 0.6651,
+        "spine": 0.0978
+      }
     },
     {
       "title": "The Man Who Was Thursday",
       "author": "G. K. Chesterton",
-      "spine": "spines/the-man-who-was-thursday.png",
+      "spine": "spines/the-man-who-was-thursday.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-man-who-was-thursday.png"
+      "cover": "covers/the-man-who-was-thursday.webp",
+      "ratio": {
+        "cover": 0.6556,
+        "spine": 0.0567
+      }
     },
     {
       "title": "A Short Stay in Hell",
       "author": "Steven L. Peck",
-      "spine": "spines/a-short-stay-in-hell.png",
+      "spine": "spines/a-short-stay-in-hell.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/a-short-stay-in-hell.png"
+      "cover": "covers/a-short-stay-in-hell.webp",
+      "ratio": {
+        "cover": 0.6378,
+        "spine": 0.05
+      }
     },
     {
       "title": "The Old Man and the Sea",
       "author": "Ernest Hemingway",
-      "spine": "spines/the-old-man-and-the-sea.png",
+      "spine": "spines/the-old-man-and-the-sea.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-old-man-and-the-sea.png"
+      "cover": "covers/the-old-man-and-the-sea.webp",
+      "ratio": {
+        "cover": 0.6367,
+        "spine": 0.0456
+      }
     },
     {
       "title": "The Reluctant Fundamentalist",
       "author": "Mohsin Hamid",
-      "spine": "spines/the-reluctant-fundamentalist.png",
+      "spine": "spines/the-reluctant-fundamentalist.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-reluctant-fundamentalist.png"
+      "cover": "covers/the-reluctant-fundamentalist.webp",
+      "ratio": {
+        "cover": 0.6205,
+        "spine": 0.0856
+      }
     },
     {
       "title": "Steppenwolf",
       "author": "Hermann Hesse",
-      "spine": "spines/steppenwolf.png",
+      "spine": "spines/steppenwolf.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/steppenwolf.png"
+      "cover": "covers/steppenwolf.webp",
+      "ratio": {
+        "cover": 0.6378,
+        "spine": 0.1
+      }
     },
     {
       "title": "Chess",
       "author": "Stefan Zweig",
-      "spine": "spines/chess.png",
+      "spine": "spines/chess.webp",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/chess.png"
+      "cover": "covers/chess.webp",
+      "ratio": {
+        "cover": 0.6483,
+        "spine": 0.0378
+      }
     },
     {
       "title": "Brave New World",
       "author": "Aldous Huxley",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/brave-new-world.png",
-      "spine": "spines/brave-new-world.png"
+      "cover": "covers/brave-new-world.webp",
+      "spine": "spines/brave-new-world.webp",
+      "ratio": {
+        "cover": 0.6578,
+        "spine": 0.1111
+      }
     },
     {
       "title": "The Courage to Be Disliked",
       "author": "Ichiro Kishimi & Fumitake Koga",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-courage-to-be-disliked.png",
-      "spine": "spines/the-courage-to-be-disliked.png"
+      "cover": "covers/the-courage-to-be-disliked.webp",
+      "spine": "spines/the-courage-to-be-disliked.webp",
+      "ratio": {
+        "cover": 0.6546,
+        "spine": 0.1167
+      }
     },
     {
       "title": "Switch Bitch",
       "author": "Roald Dahl",
       "finished": "2026-09",
       "note": "",
-      "spine": "spines/switch-bitch.png"
+      "spine": "spines/switch-bitch.webp",
+      "ratio": {
+        "spine": 0.0578
+      }
     },
     {
       "title": "Fear and Loathing in Las Vegas",
       "author": "Hunter S. Thompson",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/fear-and-loathing-in-las-vegas.png",
-      "spine": "spines/fear-and-loathing-in-las-vegas.png"
+      "cover": "covers/fear-and-loathing-in-las-vegas.webp",
+      "spine": "spines/fear-and-loathing-in-las-vegas.webp",
+      "ratio": {
+        "cover": 0.5867,
+        "spine": 0.0967
+      }
     },
     {
       "title": "The Alchemist",
       "author": "Paulo Coelho",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-alchemist.png",
-      "spine": "spines/the-alchemist.png"
+      "cover": "covers/the-alchemist.webp",
+      "spine": "spines/the-alchemist.webp",
+      "ratio": {
+        "cover": 0.6867,
+        "spine": 0.0667
+      }
     },
     {
       "title": "Wise and Otherwise",
       "author": "Sudha Murty",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/wise-and-otherwise.png",
-      "spine": "spines/wise-and-otherwise.png"
+      "cover": "covers/wise-and-otherwise.webp",
+      "spine": "spines/wise-and-otherwise.webp",
+      "ratio": {
+        "cover": 0.6618,
+        "spine": 0.0922
+      }
     },
     {
       "title": "On Connection",
       "author": "Kae Tempest",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/on-connection.png",
-      "spine": "spines/on-connection.png"
+      "cover": "covers/on-connection.webp",
+      "spine": "spines/on-connection.webp",
+      "ratio": {
+        "cover": 0.6594,
+        "spine": 0.072
+      }
     },
     {
       "title": "Post Office",
       "author": "Charles Bukowski",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/post-office.png",
-      "spine": "spines/post-office.png"
+      "cover": "covers/post-office.webp",
+      "spine": "spines/post-office.webp",
+      "ratio": {
+        "cover": 0.67,
+        "spine": 0.0722
+      }
     },
     {
       "title": "The Long Dark Tea-Time of the Soul",
       "author": "Douglas Adams",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-long-dark-tea-time-of-the-soul.png",
-      "spine": "spines/the-long-dark-tea-time-of-the-soul.png"
+      "cover": "covers/the-long-dark-tea-time-of-the-soul.webp",
+      "spine": "spines/the-long-dark-tea-time-of-the-soul.webp",
+      "ratio": {
+        "cover": 0.617,
+        "spine": 0.1033
+      }
     },
     {
       "title": "Slaughterhouse 5",
       "author": "Kurt Vonnegut",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/slaughterhouse-5.png",
-      "spine": "spines/slaughterhouse-5.png"
+      "cover": "covers/slaughterhouse-5.webp",
+      "spine": "spines/slaughterhouse-5.webp",
+      "ratio": {
+        "cover": 0.6743,
+        "spine": 0.0644
+      }
     },
     {
       "title": "The Evolution Man",
       "author": "Roy Lewis",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-evolution-man.png",
-      "spine": "spines/the-evolution-man.png"
+      "cover": "covers/the-evolution-man.webp",
+      "spine": "spines/the-evolution-man.webp",
+      "ratio": {
+        "cover": 0.6311,
+        "spine": 0.0878
+      }
     },
     {
       "title": "Mindfulness",
       "author": "Christophe André",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/mindfulness.png",
-      "spine": "spines/mindfulness.png"
+      "cover": "covers/mindfulness.webp",
+      "spine": "spines/mindfulness.webp",
+      "ratio": {
+        "cover": 0.7022,
+        "spine": 0.1244
+      }
     },
     {
       "title": "The Road to Wigan Pier",
       "author": "George Orwell",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-road-to-wigan-pier.png",
-      "spine": "spines/the-road-to-wigan-pier.png"
+      "cover": "covers/the-road-to-wigan-pier.webp",
+      "spine": "spines/the-road-to-wigan-pier.webp",
+      "ratio": {
+        "cover": 0.6408,
+        "spine": 0.0844
+      }
     },
     {
       "title": "Down and Out in Paris and London",
       "author": "George Orwell",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/down-and-out-in-paris-and-london.png",
-      "spine": "spines/down-and-out-in-paris-and-london.png"
+      "cover": "covers/down-and-out-in-paris-and-london.webp",
+      "spine": "spines/down-and-out-in-paris-and-london.webp",
+      "ratio": {
+        "cover": 0.6144,
+        "spine": 0.0878
+      }
     },
     {
       "title": "The Doors of Perception & Heaven and Hell",
       "author": "Aldous Huxley",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-doors-of-perception.png",
-      "spine": "spines/the-doors-of-perception.png"
+      "cover": "covers/the-doors-of-perception.webp",
+      "spine": "spines/the-doors-of-perception.webp",
+      "ratio": {
+        "cover": 0.6289,
+        "spine": 0.0756
+      }
     },
     {
       "title": "If Cats Disappeared from the World",
       "author": "Genki Kawamura",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/if-cats-disappeared-from-the-world.png",
-      "spine": "spines/if-cats-disappeared-from-the-world.png"
+      "cover": "covers/if-cats-disappeared-from-the-world.webp",
+      "spine": "spines/if-cats-disappeared-from-the-world.webp",
+      "ratio": {
+        "cover": 0.67,
+        "spine": 0.0833
+      }
     },
     {
       "title": "They",
       "author": "Kay Dick",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/they.png",
-      "spine": "spines/they.png"
+      "cover": "covers/they.webp",
+      "spine": "spines/they.webp",
+      "ratio": {
+        "cover": 0.66,
+        "spine": 0.0589
+      }
     },
     {
       "title": "Twenty Something",
       "author": "Iain Hollingshead",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/twenty-something.png",
-      "spine": "spines/twenty-something.png"
+      "cover": "covers/twenty-something.webp",
+      "spine": "spines/twenty-something.webp",
+      "ratio": {
+        "cover": 0.6611,
+        "spine": 0.0978
+      }
     },
     {
       "title": "The Perks of Being a Wallflower",
       "author": "Stephen Chbosky",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-perks-of-being-a-wallflower.png",
-      "spine": "spines/the-perks-of-being-a-wallflower.png"
+      "cover": "covers/the-perks-of-being-a-wallflower.webp",
+      "spine": "spines/the-perks-of-being-a-wallflower.webp",
+      "ratio": {
+        "cover": 0.6433,
+        "spine": 0.0833
+      }
     },
     {
       "title": "The Tao of Pooh",
       "author": "Benjamin Hoff",
       "finished": "2026-09",
       "note": "",
-      "spine": "spines/the-tao-of-pooh.png"
+      "spine": "spines/the-tao-of-pooh.webp",
+      "ratio": {
+        "spine": 0.0778
+      }
     },
     {
       "title": "To Kill a Mockingbird",
       "author": "Harper Lee",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/to-kill-a-mockingbird.png",
-      "spine": "spines/to-kill-a-mockingbird.png"
+      "cover": "covers/to-kill-a-mockingbird.webp",
+      "spine": "spines/to-kill-a-mockingbird.webp",
+      "ratio": {
+        "cover": 0.6356,
+        "spine": 0.1289
+      }
     },
     {
       "title": "White Nights",
       "author": "Fyodor Dostoyevsky",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/white-nights.png",
-      "spine": "spines/white-nights.png"
+      "cover": "covers/white-nights.webp",
+      "spine": "spines/white-nights.webp",
+      "ratio": {
+        "cover": 0.6898,
+        "spine": 0.0809
+      }
     },
     {
       "title": "The Time Mercenaries",
       "author": "Philip E. High",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-time-mercenaries.png",
-      "spine": "spines/the-time-mercenaries.png"
+      "cover": "covers/the-time-mercenaries.webp",
+      "spine": "spines/the-time-mercenaries.webp",
+      "ratio": {
+        "cover": 0.632,
+        "spine": 0.0788
+      }
     },
     {
       "title": "Naive. Super",
       "author": "Erlend Loe",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/naive-super.png",
-      "spine": "spines/naive-super.png"
+      "cover": "covers/naive-super.webp",
+      "spine": "spines/naive-super.webp",
+      "ratio": {
+        "cover": 0.6281,
+        "spine": 0.0824
+      }
     },
     {
       "title": "Posh",
       "author": "Laura Wade",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/posh.png",
-      "spine": "spines/posh.png"
+      "cover": "covers/posh.webp",
+      "spine": "spines/posh.webp",
+      "ratio": {
+        "cover": 0.63,
+        "spine": 0.0644
+      }
     },
     {
       "title": "Of Mice and Men",
       "author": "John Steinbeck",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/of-mice-and-men.png",
-      "spine": "spines/of-mice-and-men.png"
+      "cover": "covers/of-mice-and-men.webp",
+      "spine": "spines/of-mice-and-men.webp",
+      "ratio": {
+        "cover": 0.6156,
+        "spine": 0.0578
+      }
     },
     {
       "title": "The Martian Way",
       "author": "Isaac Asimov",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-martian-way.png",
-      "spine": "spines/the-martian-way.png"
+      "cover": "covers/the-martian-way.webp",
+      "spine": "spines/the-martian-way.webp",
+      "ratio": {
+        "cover": 0.6478,
+        "spine": 0.0767
+      }
     },
     {
       "title": "The Unbearable Lightness of Being",
       "author": "Milan Kundera",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/the-unbearable-lightness-of-being.png",
-      "spine": "spines/the-unbearable-lightness-of-being.png"
+      "cover": "covers/the-unbearable-lightness-of-being.webp",
+      "spine": "spines/the-unbearable-lightness-of-being.webp",
+      "ratio": {
+        "cover": 0.6489,
+        "spine": 0.0989
+      }
     },
     {
       "title": "All Quiet on the Western Front",
       "author": "Erich Maria Remarque",
       "finished": "2026-09",
       "note": "",
-      "cover": "covers/all-quiet-on-the-western-front.png",
-      "spine": "spines/all-quiet-on-the-western-front.png"
+      "cover": "covers/all-quiet-on-the-western-front.webp",
+      "spine": "spines/all-quiet-on-the-western-front.webp",
+      "ratio": {
+        "cover": 0.6756,
+        "spine": 0.0933
+      }
     }
   ]
 }

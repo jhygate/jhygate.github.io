@@ -5,7 +5,7 @@
 
 manifest.json maps each photo to a book and a side:
   { "PXL_....jpg": { "slug": "steppenwolf", "kind": "front" }, ... }
-Fronts land in covers/<slug>.png and spines in spines/<slug>.png, both transparent. Point books.json at them with "cover" / "spine" fields."""
+Fronts land in covers/<slug>.webp and spines in spines/<slug>.webp, both transparent, no taller than 900px. Point books.json at them with "cover" / "spine" fields."""
 import base64, json, os, sys, time, pathlib, urllib.request, concurrent.futures, threading
 from PIL import Image, ImageOps, ImageFilter
 
@@ -71,7 +71,8 @@ def run(item):
     png = generate(photos / name, kind)
     import io; im = Image.open(io.BytesIO(png))
     with SEGMENT_LOCK: cut = cut_out(im)      # rembg's matting is not thread-safe; the API calls still overlap
-    dest = ROOT / ('covers' if kind == 'front' else 'spines') / f'{slug}.png'; cut.save(dest)
+    if cut.height > 900: cut = cut.resize((round(cut.width * 900 / cut.height), 900), Image.LANCZOS)
+    dest = ROOT / ('covers' if kind == 'front' else 'spines') / f'{slug}.webp'; cut.save(dest, 'WEBP', quality=84, method=6)
     return f"{slug:<28} {kind:<6} {cut.size[0]}x{cut.size[1]}  → {dest.relative_to(ROOT)}"
 
 def safe(item):
