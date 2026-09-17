@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn hand-held photos of books into clean cut-outs with Gemini, then key the white away.
+"""Turn hand-held photos of books into clean cut-outs with Gemini, then crop to the book's edges.
 
   GEMINI_API_KEY=... python3 gemini-cutouts.py photos/ manifest.json
 
@@ -18,10 +18,10 @@ photos = pathlib.Path(sys.argv[1]); manifest = json.loads(pathlib.Path(sys.argv[
 PROMPTS = {
   'front': ("Edit this photo: remove the background and the hand completely and keep only the paperback book. "
             "Show the whole front cover flat-on and straightened, filling the frame, reconstructing any part hidden by the fingers. "
-            "Keep the cover's real artwork, text and wear exactly as they are; do not redesign anything. Plain pure white background."),
+            "Keep the cover's real artwork, text and wear exactly as they are; do not redesign anything. Flat, even lighting with no shadow anywhere on or around the book. Plain pure white background."),
   'spine': ("Edit this photo: remove the background and the hand completely and keep only the paperback book's spine. "
             "Show the whole spine flat-on and perfectly vertical, filling the frame top to bottom, reconstructing any part hidden by the fingers. "
-            "Keep the spine's real text, colours and wear exactly as they are; do not redesign anything. Plain pure white background."),
+            "Keep the spine's real text, colours and wear exactly as they are; do not redesign anything. Flat, even lighting with no shadow anywhere. Plain pure white background."),
 }
 
 def prep(path):                      # phone photos are huge; 1600px is plenty for the model
@@ -43,26 +43,23 @@ def generate(path, kind):
             if attempt == 2: raise
             time.sleep(4 * (attempt + 1))
 
-def key_white(im):                  # the plain backdrop → transparent: flood from the corners, whatever shade it came back
-    from PIL import ImageDraw
-    im = im.convert('RGB'); W, H = im.size
-    work = im.copy(); KEYC = (255, 0, 255)
-    for seed in [(2, 2), (W-3, 2), (2, H-3), (W-3, H-3), (W//2, 2), (W//2, H-3), (2, H//2), (W-3, H//2)]:
-        r, g, b = work.getpixel(seed)
-        if max(r, g, b) - min(r, g, b) < 30 and (r + g + b) > 360 and work.getpixel(seed) != KEYC: ImageDraw.floodfill(work, seed, KEYC, thresh=34)
-    wp = work.load(); a = Image.new('L', (W, H), 255); ap = a.load()
-    for y in range(H):
-        for x in range(W):
-            if wp[x, y] == KEYC: ap[x, y] = 0
-    a = a.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.7))
-    out = im.convert('RGBA'); out.putalpha(a)
-    return out.crop(a.point(lambda v: 255 if v > 10 else 0).getbbox())
+def trim_rect(im, frac=0.5):
+    """Crop to the book's rectangle: rows and columns where most pixels are clearly not the
+    white backdrop or its soft shadow. A straight crop leaves any shadow outside."""
+    rgb = im.convert('RGB'); W, H = rgb.size; px = rgb.load()
+    def strong(x, y):
+        r, g, b = px[x, y]; mx, mn = max(r, g, b), min(r, g, b)
+        return (mx < 205) or (mx - mn > 12)          # darker than a soft shadow, or has any colour (shadows are neutral)
+    cols = [sum(1 for y in range(0, H, 2) if strong(x, y)) for x in range(W)]
+    rows = [sum(1 for x in range(0, W, 2) if strong(x, y)) for y in range(H)]
+    cx = [x for x, c in enumerate(cols) if c >= max(cols) * frac]; ry = [y for y, c in enumerate(rows) if c >= max(rows) * frac]
+    return rgb.crop((min(cx) + 2, min(ry) + 2, max(cx) - 1, max(ry) - 1)).convert('RGBA')
 
 def run(item):
     name, meta = item; kind, slug = meta['kind'], meta['slug']
     png = generate(photos / name, kind)
     import io; im = Image.open(io.BytesIO(png))
-    cut = key_white(im)
+    cut = trim_rect(im)
     dest = ROOT / ('covers' if kind == 'front' else 'spines') / f'{slug}.png'; cut.save(dest)
     return f"{slug:<28} {kind:<6} {cut.size[0]}x{cut.size[1]}  → {dest.relative_to(ROOT)}"
 
