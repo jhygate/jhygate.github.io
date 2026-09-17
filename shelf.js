@@ -106,9 +106,16 @@
     function fitSpines() {
       root.querySelectorAll('.spines').forEach(el => {
         el.style.setProperty('--fit', '1em');
-        let f = 1;
-        const total = () => [...el.children].reduce((w, c) => w + c.offsetWidth, 0) + parseFloat(getComputedStyle(el).columnGap || 0) * Math.max(0, el.children.length - 1);
-        while (f > .45 && total() > el.clientWidth + 1) { f -= .03; el.style.setProperty('--fit', f.toFixed(2) + 'em'); }
+        const books = [...el.children].filter(c => c.classList.contains('book'));
+        if (!books.length) return;
+        // the tallest book stands at 90% of the gap up to the plank above
+        const plank = el.closest('.plank'), above = plank.previousElementSibling;
+        const gap = above ? el.getBoundingClientRect().bottom - above.getBoundingClientRect().bottom : 0;
+        const tallest = Math.max(...books.map(c => c.offsetHeight));
+        let f = gap > 0 && tallest > 0 ? Math.min(2.5, (gap * .9) / tallest) : 1;
+        el.style.setProperty('--fit', f.toFixed(3) + 'em');
+        const total = () => books.reduce((w, c) => w + c.offsetWidth, 0) + parseFloat(getComputedStyle(el).columnGap || 0) * Math.max(0, books.length - 1);
+        while (f > .45 && total() > el.clientWidth + 1) { f -= .03; el.style.setProperty('--fit', f.toFixed(3) + 'em'); }
       });
     }
     addEventListener('resize', fitSpines);
