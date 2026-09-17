@@ -34,7 +34,7 @@
 .at-flip .at-label { min-width: 7em; text-align: center; }
 /* the key: a strip of index paper */
 .at-key { background: #fbf8ef; color: #1f1c17; border-radius: 3px; padding: .9em 1em .8em; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, sans-serif;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2), 0 1.2em 1.6em -1em rgba(20,10,0,.6); background-image: linear-gradient(90deg, rgba(60,40,10,.07), rgba(0,0,0,0) 18px); max-height: min(70vh, 44em); overflow: auto; }
+  box-shadow: 0 1px 2px rgba(0,0,0,.2), 0 1.2em 1.6em -1em rgba(20,10,0,.6); background-image: linear-gradient(90deg, rgba(60,40,10,.07), rgba(0,0,0,0) 18px); }
 .at-key h3 { margin: 0 0 .4em; font: 700 .8em/1 'Archivo Narrow', Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; border-bottom: 2px solid #1f1c17; padding-bottom: .5em; display: flex; justify-content: space-between; gap: .5em; }
 .at-key h3 span { font-weight: 500; letter-spacing: .04em; color: #8a8373; text-transform: none; font-size: .9em; }
 .at-cats { display: flex; flex-wrap: wrap; gap: .3em; margin: .5em 0 .5em; }
@@ -48,7 +48,11 @@
 .at-idx .ref.none { font-weight: 500; color: #a39c8b; }
 .at-idx:hover .name { text-decoration: underline; }
 .at-idx[aria-current="true"] { background: rgba(243,210,103,.55); }
-.at-idx.off { display: none; }
+.at-idx-pad { height: calc(var(--n) * 1.65em); }
+.at-pager { display: flex; justify-content: space-between; align-items: center; margin-top: .6em; padding-top: .5em; border-top: 1px solid #ddd5c4; font: 700 .75em 'Archivo Narrow', Arial, sans-serif; letter-spacing: .08em; color: #8a8373; }
+.at-pager[hidden] { display: none; }
+.at-pager button { border: 0; background: none; cursor: pointer; font: 700 1.4em/1 'Archivo Narrow', Arial, sans-serif; color: #1f1c17; padding: 0 .5em; }
+.at-pager button:disabled { opacity: .3; cursor: default; }
 /* the cards beneath: what's on this spread first */
 .at-cards { grid-column: 1 / -1; margin-top: .4em; }
 .at-cards:empty { display: none; }
@@ -66,7 +70,7 @@
 .at-card b { display: block; font: 700 1.5em/1.05 'Archivo Narrow', Arial, sans-serif; margin: .25em 0 .3em; }
 .at-card .blurb { display: block; font: 500 1.15em/1.15 var(--pen); color: #2b3a5a; }
 .at-card .addr { display: block; margin-top: .4em; font-size: .78em; color: #8a8373; }
-@media (max-width: 900px) { .at-root { grid-template-columns: minmax(0, 1fr); } .at-key { max-height: 18em; } .at-viewport { height: 60vh; } }
+@media (max-width: 900px) { .at-root { grid-template-columns: minmax(0, 1fr); } .at-viewport { height: 60vh; } }
 /* the key spread: one dot per venue, a page box turns to that page */
 .at-dot { position: absolute; z-index: 4; pointer-events: auto; cursor: pointer; width: 13px; height: 13px; border-radius: 50%; background: var(--c); border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.6); }
 .at-dot.cur { width: 19px; height: 19px; outline: 3px solid #ff3b30; outline-offset: 1px; z-index: 5; }
