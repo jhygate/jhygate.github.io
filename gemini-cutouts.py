@@ -6,7 +6,7 @@
 manifest.json maps each photo to a book and a side:
   { "PXL_....jpg": { "slug": "steppenwolf", "kind": "front" }, ... }
 Fronts land in covers/<slug>.png and spines in spines/<slug>.png, both transparent. Point books.json at them with "cover" / "spine" fields."""
-import base64, json, os, sys, time, pathlib, urllib.request, concurrent.futures
+import base64, json, os, sys, time, pathlib, urllib.request, concurrent.futures, threading
 from PIL import Image, ImageOps, ImageFilter
 
 KEY = os.environ.get('GEMINI_API_KEY') or sys.exit('set GEMINI_API_KEY')
@@ -64,11 +64,13 @@ def cut_out(im):
     bbox = out.split()[3].point(lambda v: 255 if v > 8 else 0).getbbox()
     return out.crop(bbox)
 
+SEGMENT_LOCK = threading.Lock()
+
 def run(item):
     name, meta = item; kind, slug = meta['kind'], meta['slug']
     png = generate(photos / name, kind)
     import io; im = Image.open(io.BytesIO(png))
-    cut = cut_out(im)
+    with SEGMENT_LOCK: cut = cut_out(im)      # rembg's matting is not thread-safe; the API calls still overlap
     dest = ROOT / ('covers' if kind == 'front' else 'spines') / f'{slug}.png'; cut.save(dest)
     return f"{slug:<28} {kind:<6} {cut.size[0]}x{cut.size[1]}  → {dest.relative_to(ROOT)}"
 
