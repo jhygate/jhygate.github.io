@@ -124,10 +124,9 @@ function layout(s){
       const sc=H/i.d[1], w=i.d[0]*sc;
       halves.push({file:i.file,page:FILE2PAGE[i.file]??null,x,y:0,w,h:H}); x+=w;
     }
-    // single sheets (the cover) sit on the right, like a recto
-    let spineX = halves.length>1 ? halves[1].x : 0;
-    if(halves.length===1 && s===0){ spineX=0; }
-    L={w:x,h:H,spineX,halves,geo:null};
+    let spineX = halves.length>1 ? halves[1].x : 0, coverRight=false;
+    if(halves.length===1 && s===0){ halves[0].x=halves[0].w; spineX=halves[0].w; x=halves[0].w*2; coverRight=true; }   // the closed book: cover as a recto
+    L={w:x,h:H,spineX,halves,geo:null,coverRight};
   }
   layoutCache.set(s,L); return L;
 }
@@ -200,17 +199,16 @@ function halfImg(q,cls){
   im.draggable=false;
   return im;
 }
+function gutterEl(spineX,h){
+  const g=document.createElement('div'); g.className='at-gutter';
+  g.style.left=(spineX-11)+'px'; g.style.top='0'; g.style.width='22px'; g.style.height=h+'px';
+  return g;
+}
 function renderSpread(s){
   const L=layout(s);
   sheet.innerHTML='';
   for(const q of L.halves) sheet.appendChild(halfImg(q));
-  if(L.halves.length>1){
-    const g=document.createElement('div'); g.className='at-gutter';
-    const gw=Math.max(22,(L.halves[1].x-(L.halves[0].x+L.halves[0].w))+22);
-    g.style.left=(L.spineX-gw/2)+'px'; g.style.top='0'; g.style.width=gw+'px';
-    g.style.height=L.h+'px';
-    sheet.appendChild(g);
-  }
+  if(L.halves.length>1) sheet.appendChild(gutterEl(L.spineX,L.h));
   book.style.width=L.w+'px'; book.style.height=L.h+'px';
   ov.style.width=L.w+'px'; ov.style.height=L.h+'px';
   turnLayer.style.width=L.w+'px'; turnLayer.style.height=L.h+'px';
@@ -339,10 +337,10 @@ function settle(anim,ms){          // resolves on finish, cancel or timeout — 
 async function turnTo(ns,ms){
   const L=layout(curS), N=layout(ns), fwd=ns>curS;
   const cur=L.halves, nxt=N.halves;
-  const curLeft = cur.length>1?cur[0]:(L.spineX>0?cur[0]:null);
-  const curRight= cur.length>1?cur[1]:(L.spineX>0?null:cur[0]);
-  const nLeft = nxt.length>1?nxt[0]:(N.spineX>0?nxt[0]:null);
-  const nRight= nxt.length>1?nxt[1]:(N.spineX>0?null:nxt[0]);
+  const curLeft = cur.length>1?cur[0]:(L.coverRight?null:cur[0]);
+  const curRight= cur.length>1?cur[1]:(L.coverRight?cur[0]:null);
+  const nLeft = nxt.length>1?nxt[0]:(N.coverRight?null:nxt[0]);
+  const nRight= nxt.length>1?nxt[1]:(N.coverRight?nxt[0]:null);
   const leafSrc = fwd?curRight:curLeft;        // the face that turns over
   const leafBack= fwd?nLeft:nRight;            // its reverse side
   const staticSide = fwd?curLeft:curRight;     // stays put
@@ -360,6 +358,7 @@ async function turnTo(ns,ms){
     const rx = fwd ? spine+Math.max(0,gapIn) : spine-Math.max(0,gapIn)-revealed.w;
     sheet.appendChild(halfImg({...revealed,x:rx}));
   }
+  if(staticSide||revealed) sheet.appendChild(gutterEl(spine,H));
   turnLayer.innerHTML='';
   const leaf=document.createElement('div'); leaf.className='at-leaf';
   leaf.style.left=leafBox.x+'px'; leaf.style.top=leafBox.y+'px';
@@ -526,7 +525,8 @@ addEventListener('keydown',e=>{
 });
 
 /* ---------- boot ---------- */
-curS=spreadOfPage(opts.startPage||67); renderSpread(curS);
+curS=opts.startPage?spreadOfPage(opts.startPage):0; renderSpread(curS);
+Promise.all(layout(curS).halves.map(loadHalf)).then(()=>book.classList.add('ready'));
 fetch(opts.venues,{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(r.status)).then(d=>{
   VENUES=(d.venues||[]).map(placeVenue); renderCats(); renderIndex(); drawOverlay(); describe();
 }).catch(e=>{ $('.at-count').textContent='could not load'; });
