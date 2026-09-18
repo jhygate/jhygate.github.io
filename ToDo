@@ -7,3 +7,5 @@
 - [ ] Show the loop pad
 - [x] A bookshelf with recently read books
 - [ ] The moleskine and sketchbook, somewhere on the board
+- [ ] Replace every drawn resource with a real photo (whiteboard, markers, noticeboard frame, folder, planks are candidates)
+- [ ] Work out how to cut load time: fewer and smaller images, lazy-load below the fold, serve scans and covers smaller
