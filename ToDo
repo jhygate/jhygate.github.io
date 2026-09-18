@@ -1,7 +1,7 @@
 - [ ] Actually show real projects
 - [ ] CI/CD to get my projects updated on my site automatically
 - [ ] Ticket stubs: a scrollable row of stubs for recent gigs and events
-- [ ] A map of London (A–Z style) with pins on the venues
+- [x] A map of London (A–Z style) with pins on the venues
 - [x] Articles as a folder of newspaper clippings (blog posts and links still to come)
 - [ ] A whiteboard anyone can draw on
 - [ ] Show the loop pad
