@@ -11,6 +11,7 @@ and the workflow publishes the repo root to the `deploy` branch, which GitHub Pa
 | `books.html` | The whole bookshelf, every plank. Shares `shelf.css` / `shelf.js` with the front page. |
 | `shelf.js`, `shelf.css` | The bookshelf: `renderBookshelf(root, data, { limit })`. |
 | `atlas.js`, `atlas.css` | The A-Z atlas: `createAtlas(root, { images, venues })`. |
+| `wall.js`, `wall.css` | The whiteboard and the visitors' noticeboard: `createWall({ api, notes, board })`. |
 | `books.json` | The books. One entry per book: title, author, finished (YYYY-MM), note, cover, spine, ratio. |
 | `articles.json` | The clippings folder: title, author, source, url, date, minutes, blurb. |
 | `recent.json` | Fallback playlist for the cassette player when the rack is unreachable. |
@@ -23,6 +24,7 @@ and the workflow publishes the repo root to the `deploy` branch, which GitHub Pa
 - Recently played tracks: `jacks-cassettes.jackhygate.co.uk/api/public/recent` (the cassette rack).
 - Venues and the atlas page scans: `venues.jackhygate.co.uk/api/public/venues` and `/atlas/`
   (the venues service, repo `jhygate/venues`). Both are read-only and need no login.
+- Whiteboard strokes and post-its: `wall.jackhygate.co.uk` (repo `jhygate/wall`), live over server-sent events.
 
 ## Working on it
 
