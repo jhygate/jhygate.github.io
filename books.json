@@ -2,6 +2,242 @@
   "reading": [],
   "read": [
     {
+      "title": "Love in the Time of Cholera",
+      "author": "Gabriel García Márquez",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/love-in-the-time-of-cholera.webp",
+      "spine": "spines/love-in-the-time-of-cholera.webp",
+      "ratio": {
+        "cover": 0.6511,
+        "spine": 0.1267
+      }
+    },
+    {
+      "title": "The Shallows",
+      "author": "Nicholas Carr",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-shallows.webp",
+      "spine": "spines/the-shallows.webp",
+      "ratio": {
+        "cover": 0.6556,
+        "spine": 0.1289
+      }
+    },
+    {
+      "title": "Zen and the Art of Motorcycle Maintenance",
+      "author": "Robert M. Pirsig",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/zen-and-the-art-of-motorcycle-maintenance.webp",
+      "spine": "spines/zen-and-the-art-of-motorcycle-maintenance.webp",
+      "ratio": {
+        "cover": 0.6633,
+        "spine": 0.1522
+      }
+    },
+    {
+      "title": "The People vs Tech",
+      "author": "Jamie Bartlett",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-people-vs-tech.webp",
+      "spine": "spines/the-people-vs-tech.webp",
+      "ratio": {
+        "cover": 0.6278,
+        "spine": 0.11
+      }
+    },
+    {
+      "title": "The Ragged Weave of Yesterday",
+      "author": "Andy Christopher Miller",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-ragged-weave-of-yesterday.webp",
+      "spine": "spines/the-ragged-weave-of-yesterday.webp",
+      "ratio": {
+        "cover": 0.6667,
+        "spine": 0.0739
+      }
+    },
+    {
+      "title": "An Anthropologist on Mars",
+      "author": "Oliver Sacks",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/an-anthropologist-on-mars.webp",
+      "spine": "spines/an-anthropologist-on-mars.webp",
+      "ratio": {
+        "cover": 0.6578,
+        "spine": 0.114
+      }
+    },
+    {
+      "title": "Surely You're Joking, Mr. Feynman!",
+      "author": "Richard P. Feynman",
+      "finished": "2026-09",
+      "note": "",
+      "spine": "spines/surely-youre-joking-mr-feynman.webp",
+      "ratio": {
+        "spine": 0.1044
+      }
+    },
+    {
+      "title": "The Descent of Man",
+      "author": "Grayson Perry",
+      "finished": "2026-09",
+      "note": "",
+      "spine": "spines/the-descent-of-man.webp",
+      "ratio": {
+        "spine": 0.0556
+      }
+    },
+    {
+      "title": "Lila",
+      "author": "Robert M. Pirsig",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/lila.webp",
+      "spine": "spines/lila.webp",
+      "ratio": {
+        "cover": 0.6333,
+        "spine": 0.1444
+      }
+    },
+    {
+      "title": "It's Kind of a Funny Story",
+      "author": "Ned Vizzini",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/its-kind-of-a-funny-story.webp",
+      "spine": "spines/its-kind-of-a-funny-story.webp",
+      "ratio": {
+        "cover": 0.6622,
+        "spine": 0.1278
+      }
+    },
+    {
+      "title": "Eat That Frog!",
+      "author": "Brian Tracy",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/eat-that-frog.webp",
+      "spine": "spines/eat-that-frog.webp",
+      "ratio": {
+        "cover": 0.6456,
+        "spine": 0.0598
+      }
+    },
+    {
+      "title": "Someone Like You",
+      "author": "Roald Dahl",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/someone-like-you.webp",
+      "spine": "spines/someone-like-you.webp",
+      "ratio": {
+        "cover": 0.6612,
+        "spine": 0.1011
+      }
+    },
+    {
+      "title": "The Catcher in the Rye",
+      "author": "J. D. Salinger",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/the-catcher-in-the-rye.webp",
+      "spine": "spines/the-catcher-in-the-rye.webp",
+      "ratio": {
+        "cover": 0.6633,
+        "spine": 0.0833
+      }
+    },
+    {
+      "title": "Pyongyang",
+      "author": "Guy Delisle",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/pyongyang.webp",
+      "spine": "spines/pyongyang.webp",
+      "ratio": {
+        "cover": 0.7111,
+        "spine": 0.0756
+      }
+    },
+    {
+      "title": "Ah, Sweet Mystery of Life",
+      "author": "Roald Dahl",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/ah-sweet-mystery-of-life.webp",
+      "spine": "spines/ah-sweet-mystery-of-life.webp",
+      "ratio": {
+        "cover": 0.6467,
+        "spine": 0.07
+      }
+    },
+    {
+      "title": "Twas the Nightshift Before Christmas",
+      "author": "Adam Kay",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/twas-the-nightshift-before-christmas.webp",
+      "spine": "spines/twas-the-nightshift-before-christmas.webp",
+      "ratio": {
+        "cover": 0.6456,
+        "spine": 0.1
+      }
+    },
+    {
+      "title": "Man's Search for Meaning",
+      "author": "Viktor E. Frankl",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/mans-search-for-meaning.webp",
+      "spine": "spines/mans-search-for-meaning.webp",
+      "ratio": {
+        "cover": 0.6122,
+        "spine": 0.0889
+      }
+    },
+    {
+      "title": "Animal Farm",
+      "author": "George Orwell",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/animal-farm.webp",
+      "spine": "spines/animal-farm.webp",
+      "ratio": {
+        "cover": 0.6322,
+        "spine": 0.05
+      }
+    },
+    {
+      "title": "Nineteen Eighty-Four",
+      "author": "George Orwell",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/nineteen-eighty-four.webp",
+      "spine": "spines/nineteen-eighty-four.webp",
+      "ratio": {
+        "cover": 0.6333,
+        "spine": 0.127
+      }
+    },
+    {
+      "title": "Fahrenheit 451",
+      "author": "Ray Bradbury",
+      "finished": "2026-09",
+      "note": "",
+      "cover": "covers/fahrenheit-451.webp",
+      "spine": "spines/fahrenheit-451.webp",
+      "ratio": {
+        "cover": 0.6733,
+        "spine": 0.0711
+      }
+    },
+    {
       "title": "Siddhartha",
       "author": "Hermann Hesse",
       "spine": "spines/siddhartha.webp",
@@ -128,8 +364,10 @@
       "note": "",
       "spine": "spines/switch-bitch.webp",
       "ratio": {
-        "spine": 0.0578
-      }
+        "spine": 0.0578,
+        "cover": 0.6492
+      },
+      "cover": "covers/switch-bitch.webp"
     },
     {
       "title": "Fear and Loathing in Las Vegas",
