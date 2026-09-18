@@ -12,8 +12,6 @@ for b in d.get('reading', []) + d.get('read', []):
         p = b.get(key)
         if p and not p.startswith('http') and (ROOT / p).exists():
             w, h = Image.open(ROOT / p).size; dims[key] = round(w / h, 4)
-    if not b.get('cover') and b.get('isbn') and (ROOT / 'covers' / f"{b['isbn']}.jpg").exists():
-        w, h = Image.open(ROOT / 'covers' / f"{b['isbn']}.jpg").size; dims['cover'] = round(w / h, 4)
     if dims: b['ratio'] = dims; n += 1
     elif 'ratio' in b: del b['ratio']
 (ROOT / 'books.json').write_text(json.dumps(d, indent=2, ensure_ascii=False) + '\n')

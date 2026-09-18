@@ -37,9 +37,7 @@
   }
 
   window.renderBookshelf = function (root, data, opts = {}) {
-    // covers are served from covers/<isbn>.jpg (see fetch-covers.py); Open Library is the fallback
-    const apiCover = (b, size) => b.isbn ? `https://covers.openlibrary.org/b/isbn/${b.isbn}-${size}.jpg?default=false` : '';
-    const coverUrl = (b, size = 'L') => b.cover || (b.isbn ? `covers/${b.isbn}.jpg` : '');
+    const coverUrl = b => b.cover || '';
     const BOOK_INK = ['#f4efe4', '#181410'];
     function bookPalette(b) {
       const h = hash(b.title + b.author);
@@ -49,11 +47,10 @@
     function genCover(b, pal) {
       return `<div class="gen" style="--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]}"><span>${esc(b.author)}</span><div><i></i><b>${esc(b.title)}</b></div></div>`;
     }
-    function coverHTML(b, pal, size = 'L') {
-      const u = coverUrl(b, size);
+    function coverHTML(b, pal) {
+      const u = coverUrl(b);
       if (!u) return genCover(b, pal);
-      const alts = b.cover ? '' : `data-alt="${apiCover(b, size)}|${apiCover(b, 'M')}"`;
-      return `${genCover(b, pal)}<img src="${u}" alt="" loading="lazy" ${alts} onerror="const a=(this.dataset.alt||'').split('|').filter(Boolean);if(a.length){this.src=a.shift();this.dataset.alt=a.join('|')}else{this.remove()}">`;
+            return `${genCover(b, pal)}<img src="${u}" alt="" loading="lazy" onerror="this.remove()">`;
     }
     const stars = n => n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '';
     const monthName = ym => { if (!ym) return ''; const [y, m] = ym.split('-'); return ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'][+m - 1] + ' ' + y; };
@@ -66,9 +63,9 @@
       return { height, width, h };
     };
     function bookHTML(b, i) {
-      const { height, width, h } = measure(b), pal = bookPalette(b), art = coverUrl(b, 'M');
+      const { height, width, h } = measure(b), pal = bookPalette(b), art = coverUrl(b);
       const face = ['', 'serif', 'caps'][(h >> 9) % 3];
-      const side = b.spine || (b.isbn ? `spines/${b.isbn}.jpg` : '');
+      const side = b.spine || '';
       const known = !!(b.ratio && b.ratio.spine);
       return `<button class="book ${face}${known ? ' photo' : ''}" role="listitem" data-i="${i}" style="--h:${height}em;--w:${width.toFixed(3)}em;--c1:${pal[0]};--c2:${pal[1]};--ink:${pal[2]};${art && !known ? `--art:url('${art}')` : ''}" title="${esc(b.title)}">
         ${side ? `<img class="side" src="${side}" alt="" onload="this.parentElement.classList.add('has-side');if(!this.parentElement.classList.contains('photo')){this.parentElement.style.setProperty('--w','calc(var(--h) * ' + (this.naturalWidth / this.naturalHeight).toFixed(4) + ')');window.dispatchEvent(new Event('resize'))}" onerror="this.remove()">` : ''}
@@ -85,7 +82,7 @@
       const readingEl = document.getElementById('reading');
       if (readingEl && now) {
         const pal = bookPalette(now);
-        readingEl.innerHTML = `<div class="cover"${coverBox(now)}>${coverHTML(now, pal, 'M')}</div>
+        readingEl.innerHTML = `<div class="cover"${coverBox(now)}>${coverHTML(now, pal)}</div>
           <div class="tape"><div class="tape-note"><b>reading now</b>${esc(now.title)}, ${esc(now.author)}. ${esc(now.note || '')}</div></div>`;
       } else if (readingEl) readingEl.innerHTML = '';
       layout();
@@ -124,7 +121,7 @@
       });
       root.querySelectorAll('.book').forEach(el => {
         el.addEventListener('click', () => openBook(+el.dataset.i));
-        const b = all[+el.dataset.i], art = coverUrl(b, 'M');
+        const b = all[+el.dataset.i], art = coverUrl(b);
         if (art && !el.classList.contains('photo')) computePalette(art).then(pal => {
           if (el.classList.contains('has-side') || pal.join() === FALLBACK.join()) return;
           el.style.setProperty('--c1', pal[0]); el.style.setProperty('--c2', pal[1]);

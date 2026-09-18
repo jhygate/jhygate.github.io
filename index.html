@@ -27,7 +27,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&family=Archivo+Narrow:wght@700&family=Archivo:wght@600;700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Caveat:wght@700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shelf.css?v=6">
+<link rel="preload" as="image" href="telly-cut.png">
+<link rel="preload" as="image" href="cork.jpg">
+<link rel="preload" as="image" href="pins/plank.png">
+<link rel="stylesheet" href="shelf.css?v=8">
 <link rel="stylesheet" href="atlas.css?v=6">
 <style>
 :root {
@@ -289,7 +292,8 @@ body {
 
 /* the player: a photo, with a strip of masking tape under it saying what was on */
 .player { position: relative; margin: 0; min-width: 0; }
-.player .shell { position: relative; transform: rotate(-1.2deg); }
+.player .shell { position: relative; transform: rotate(-1.2deg); aspect-ratio: 457 / 308; }
+.player .shell > img { height: 100%; object-fit: contain; }
 .player img { display: block; width: 100%; height: auto; filter: drop-shadow(0 1.2em 1.2em rgba(20,10,0,.45)) drop-shadow(0 .15em .3em rgba(20,10,0,.35)); }
 /* the yellow key is its own layer; pressing slides it down into the body, the body hides the rest */
 .player .key { position: absolute; left: 66.96%; top: 0; width: 7.44%; height: 7.47%; overflow: hidden; pointer-events: none; }
@@ -555,6 +559,17 @@ body {
 .sticker.next { --r: 1.5deg; }
 @media (max-width: 640px) { .ring { flex-direction: column; align-items: stretch; gap: 1.2em; } .sticker.next { align-self: flex-end; } }
 
+/* boot: the set stays dark until the pictures are in */
+.boot { position: fixed; inset: 0; z-index: 200; background: #050a0c; display: grid; place-items: center; }
+.boot i { display: block; width: .5em; height: .5em; border-radius: 50%; background: #9df3e3; box-shadow: 0 0 .6em #78f1dd, 0 0 2em rgba(120,241,221,.6);
+  animation: bootdot 1.1s ease-in-out infinite alternate; }
+@keyframes bootdot { from { transform: scale(.8); opacity: .55; } to { transform: scale(1.15); opacity: 1; } }
+.boot.off i { animation: bootline .45s cubic-bezier(.2,.8,.3,1) forwards; }
+@keyframes bootline { 40% { width: 70vw; height: 2px; border-radius: 1px; opacity: 1; } 100% { width: 70vw; height: 2px; opacity: 0; } }
+.boot.off { animation: bootfade .35s .3s ease-out forwards; }
+@keyframes bootfade { to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .boot i, .boot.off i { animation: none; } .boot.off { animation: bootfade .25s forwards; } }
+
 /* things pinned around the set: paper gets a push pin, magnets sit flat and thick */
 .pin {
   position: absolute; z-index: 4; margin: 0;
@@ -562,7 +577,9 @@ body {
   filter: drop-shadow(0 8px 10px rgba(30,15,0,.45)) drop-shadow(0 1px 2px rgba(30,15,0,.35));
   user-select: none;
 }
-.pin img { display: block; width: 100%; height: auto; pointer-events: none; }
+.pin img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.pin-desk { aspect-ratio: 507 / 409; } .pin-polaroid { aspect-ratio: 497 / 767; } .pin-me { aspect-ratio: 332 / 336; }
+.pin-bsod { aspect-ratio: 533 / 478; } .pin-pylons { aspect-ratio: 388 / 348; }
 .pin.paper::after {
   content: "";
   position: absolute; left: 50%; top: -6px;
@@ -608,10 +625,11 @@ body {
 </head>
 <body>
 
+<div class="boot" id="boot" aria-hidden="true"><i></i></div>
 <div class="board" aria-hidden="true"></div>
 
 <section class="top">
-<div class="telly warm" id="telly">
+<div class="telly" id="telly">
   <img src="telly-cut.png" width="698" height="762" alt="a 14 inch Philips television, hand-painted blue">
 
   <div class="screen" id="screen">
@@ -977,7 +995,7 @@ body {
 </script>
 
 <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; addEventListener('load', () => { if (!location.hash || /^#(about|work)$/.test(location.hash)) scrollTo(0, 0); });</script>
-<script src="shelf.js?v=6"></script>
+<script src="shelf.js?v=9"></script>
 <script src="atlas.js?v=9"></script>
 <script>
 (() => {
@@ -1115,21 +1133,18 @@ body {
 
   const start = channels.findIndex(c => c.id === 'ch-' + location.hash.slice(1));
   tune(start >= 0 ? start : 0, { quiet: true });
-  setTimeout(() => telly.classList.remove('warm'), 1000);
+  // hold the boot screen until the set, the cork and the type are in, three seconds at most
+  const boot = document.getElementById('boot');
+  const loaded = src => new Promise(res => { const im = new Image(); im.onload = im.onerror = () => res(); im.src = src; });
+  const tellyImg = telly.querySelector('img');
+  const ready = Promise.all([tellyImg.complete ? Promise.resolve() : loaded(tellyImg.src), loaded('cork.jpg'), document.fonts ? document.fonts.ready : Promise.resolve()]);
+  Promise.race([ready, new Promise(r => setTimeout(r, 3000))]).then(() => {
+    boot.classList.add('off');
+    if (!reduced) flash('warm', 900);
+    setTimeout(() => boot.remove(), 900);
+  });
 
   /* ---------- the tape: recent.json → inlay rows + the player caption ---------- */
-  const SAMPLE = [
-    { title: 'Flume', artist: 'Bon Iver', album: 'For Emma, Forever Ago', secs: 219 },
-    { title: '1234', artist: 'Feist', album: 'The Reminder', secs: 183 },
-    { title: 'Sky Blue Sky', artist: 'Wilco', album: 'Sky Blue Sky', secs: 233 },
-    { title: 'No Woman', artist: 'Whitney', album: 'Light Upon the Lake', secs: 224 },
-    { title: 'Hello', artist: 'The Cat Empire', album: 'The Cat Empire', secs: 261 },
-    { title: 'Avant Gardener', artist: 'Courtney Barnett', album: 'The Double EP', secs: 285 },
-    { title: 'True Love Will Find You in the End', artist: 'Daniel Johnston', album: '1990', secs: 108 },
-    { title: 'Love Keeps Kicking', artist: 'Martha', album: 'Love Keeps Kicking', secs: 202 },
-    { title: 'Red Flags', artist: 'Tom Cardy', album: 'The Dancefloor at the End of the Universe', secs: 208 },
-    { title: 'Jesus, Etc.', artist: 'Wilco', album: 'Yankee Hotel Foxtrot', secs: 230 },
-  ];
   const fmt = n => `${Math.floor(n / 60)}:${String(Math.round(n % 60)).padStart(2, '0')}`;
   const ago = iso => {
     if (!iso) return '';
@@ -1139,7 +1154,7 @@ body {
     return `${Math.round(m / 60 / 24)} days ago`;
   };
   const inlay = document.getElementById('inlay');
-  const RACK = new URLSearchParams(location.search).get('rack') || 'https://jacks-cassettes.jackhygate.co.uk';
+  const RACK = 'https://jacks-cassettes.jackhygate.co.uk';
   const player = document.querySelector('.player');
   const yellow = document.getElementById('yellow');
   const state = document.getElementById('np-state');
@@ -1262,12 +1277,12 @@ body {
     .then(d => (d.tracks || []).map(t => ({ ...t, stream: t.stream ? RACK + t.stream : null, cover: t.cover ? RACK + t.cover + '?size=120' : null })))
     .then(list => list.length ? list : Promise.reject());
   const fromFile = () => fetch('recent.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => Array.isArray(d) ? d : d.tracks || []);
-  fromRack.catch(fromFile).then(render).catch(() => render(SAMPLE));
+  fromRack.catch(fromFile).then(render).catch(() => render([]));
 
 
   createAtlas(document.getElementById('atlas'), { images: 'https://venues.jackhygate.co.uk/atlas/', venues: 'https://venues.jackhygate.co.uk/api/public/venues' });
   fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
-    .then(d => renderBookshelf(document.querySelector('.books'), d, { limit: 10 }))
+    .then(d => renderBookshelf(document.querySelector('.books'), d, { limit: 'plank' }))
     .catch(() => renderBookshelf(document.querySelector('.books'), { reading: [], read: [] }, {}));
   fetch('articles.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
     .then(list => createScrapbook(document.getElementById('reading-scrapbook'), list, { newTab: true }))
