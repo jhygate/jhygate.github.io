@@ -32,6 +32,7 @@
 <link rel="preload" as="image" href="pins/plank.png">
 <link rel="stylesheet" href="shelf.css?v=8">
 <link rel="stylesheet" href="atlas.css?v=6">
+<link rel="stylesheet" href="wall.css?v=1">
 <style>
 :root {
   --bg: #c9955c;
@@ -54,7 +55,7 @@ body {
   margin: 0;
   position: relative;
   min-height: 100vh;
-  background: var(--bg) url(cork.jpg) center / 800px 600px repeat;
+  background: var(--bg) url(cork.jpg) 0 0 / 800px 600px repeat;      /* anchored top-left: the page grows without the cork sliding */
   font-family: var(--mono);
   overflow-x: hidden;
 }
@@ -63,7 +64,7 @@ body {
 .board { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .board::before {
   content: ""; position: absolute; inset: 0;
-  background: url(cork.jpg) 37% 63% / 1130px 848px repeat;
+  background: url(cork.jpg) -418px -534px / 1130px 848px repeat;
   opacity: .5;
 }
 .board::after {
@@ -754,6 +755,16 @@ body {
   <div class="at-root" id="atlas"></div>
 </section>
 
+<section class="wb-sec" aria-labelledby="wb-title">
+  <h2 class="tapes-title" id="wb-title">the whiteboard</h2>
+  <div class="wb-root" id="whiteboard"></div>
+</section>
+
+<section class="wall-sec" aria-labelledby="wall-title">
+  <h2 class="tapes-title" id="wall-title">leave a note</h2>
+  <div class="wall-root" id="wall"></div>
+</section>
+
 <nav class="ring" aria-label="webring">
   <a class="sticker prev" href="https://akira.computer" rel="noopener" title="previous site: akira.computer">← akira.computer</a>
   <a class="sticker next" href="https://carly.zone" rel="noopener" title="next site: carly.zone">carly.zone →</a>
@@ -995,8 +1006,9 @@ body {
 </script>
 
 <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; addEventListener('load', () => { if (!location.hash || /^#(about|work)$/.test(location.hash)) scrollTo(0, 0); });</script>
-<script src="shelf.js?v=9"></script>
+<script src="shelf.js?v=10"></script>
 <script src="atlas.js?v=9"></script>
+<script src="wall.js?v=1"></script>
 <script>
 (() => {
   const telly = document.getElementById('telly');
@@ -1280,6 +1292,7 @@ body {
   fromRack.catch(fromFile).then(render).catch(() => render([]));
 
 
+  createWall({ api: 'https://wall.jackhygate.co.uk', notes: document.getElementById('wall'), board: document.getElementById('whiteboard') });
   createAtlas(document.getElementById('atlas'), { images: 'https://venues.jackhygate.co.uk/atlas/', venues: 'https://venues.jackhygate.co.uk/api/public/venues' });
   fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
     .then(d => renderBookshelf(document.querySelector('.books'), d, { limit: 'plank' }))

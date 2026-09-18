@@ -99,7 +99,7 @@ body {
     <div class="opened" id="opened" hidden></div>
   </section>
 </main>
-<script src="shelf.js?v=9"></script>
+<script src="shelf.js?v=10"></script>
 <script>
 fetch('books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(d => {
   renderBookshelf(document.querySelector('.books'), d, {});

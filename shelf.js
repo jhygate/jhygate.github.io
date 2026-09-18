@@ -140,7 +140,7 @@
       root.querySelectorAll('.book').forEach(el => el.classList.toggle('out', +el.dataset.i === i));
       const spine = root.querySelector(`.book[data-i="${i}"]`), plank = spine.closest('.plank');
       panel.style.setProperty('--ph', `calc(${spine.style.getPropertyValue('--h') || '12em'} * 1.45)`);
-      plank.after(panel);
+      root.querySelector('.planks').after(panel);      // always beneath the shelves, never between planks
       panel.hidden = false;
       panel.innerHTML = `<div class="cover"${coverBox(b)}>${coverHTML(b, pal)}</div>
         <div class="card"><button class="close" aria-label="put it back">✕</button>
