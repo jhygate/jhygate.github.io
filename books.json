@@ -13,18 +13,7 @@
         "spine": 0.1267
       }
     },
-    {
-      "title": "The Shallows",
-      "author": "Nicholas Carr",
-      "finished": "2026-09",
-      "note": "",
-      "cover": "covers/the-shallows.webp",
-      "spine": "spines/the-shallows.webp",
-      "ratio": {
-        "cover": 0.6556,
-        "spine": 0.1289
-      }
-    },
+
     {
       "title": "Zen and the Art of Motorcycle Maintenance",
       "author": "Robert M. Pirsig",
