@@ -5,30 +5,47 @@ and the workflow publishes the repo root to the `deploy` branch, which GitHub Pa
 
 ## Layout
 
-| Path | What it is |
+```
+index.html            the board                   books.html   the whole bookshelf
+site/                 base.css (type, cork, tape titles, boot), init.js (wires the sections up)
+components/           one folder per thing on the board, a .css and a .js each
+  telly/              the set: channels, front-panel buttons, sounds, boot screen, clock
+  pinned/             the paintings, polaroid and magnets around the set
+  player/             the cassette player and the recently played tape
+  shelf/              the bookshelf
+  scrapbook/          the folder of clippings
+  atlas/              the A-Z atlas of venues
+  wall/               the whiteboard and the visitors' noticeboard
+  webring/            the two stickers at the foot
+assets/               every image, by what it is: icons/ textures/ telly/ pinned/ player/ shelf/ books/{covers,spines}
+data/                 books.json, articles.json, recent.json
+tools/                gemini-cutouts.py, book-dims.py and README.md: how books get onto the shelf
+```
+
+Each component script is plain JS that leaves one function on `window` (`createAtlas`,
+`renderBookshelf`, …); `site/init.js` calls them. Paths are root-relative (`/assets/…`), so the
+site must be served from the repo root, which is what Pages and `python3 -m http.server` both do.
+
+## Data
+
+| File | Shape |
 |---|---|
-| `index.html` | The board: telly, pinned photos, cassette player, bookshelf, clippings folder, A-Z atlas, webring. Styles and the page's own script are inline. |
-| `books.html` | The whole bookshelf, every plank. Shares `shelf.css` / `shelf.js` with the front page. |
-| `shelf.js`, `shelf.css` | The bookshelf: `renderBookshelf(root, data, { limit })`. |
-| `atlas.js`, `atlas.css` | The A-Z atlas: `createAtlas(root, { images, venues })`. |
-| `wall.js`, `wall.css` | The whiteboard and the visitors' noticeboard: `createWall({ api, notes, board })`. |
-| `books.json` | The books. One entry per book: title, author, finished (YYYY-MM), note, cover, spine, ratio. |
-| `articles.json` | The clippings folder: title, author, source, url, date, minutes, blurb. |
-| `recent.json` | Fallback playlist for the cassette player when the rack is unreachable. |
-| `covers/`, `spines/` | Book images, transparent WebP. See `spines/README.md`. |
-| `pins/`, `logos/`, `images/` | Photos pinned to the board, employer logos, the folder texture. |
-| `gemini-cutouts.py`, `book-dims.py` | Helpers for adding books. |
+| `data/books.json` | `reading` (the current book) and `read` (newest first). Every book needs `cover`, `spine` and `ratio`; see `tools/README.md`. |
+| `data/articles.json` | Clippings: title, author, source, url, date, minutes, blurb. |
+| `data/recent.json` | Fallback playlist when the cassette rack is unreachable. |
 
 ## Live data
 
-- Recently played tracks: `jacks-cassettes.jackhygate.co.uk/api/public/recent` (the cassette rack).
-- Venues and the atlas page scans: `venues.jackhygate.co.uk/api/public/venues` and `/atlas/`
-  (the venues service, repo `jhygate/venues`). Both are read-only and need no login.
-- Whiteboard strokes and post-its: `wall.jackhygate.co.uk` (repo `jhygate/wall`), live over server-sent events.
+- Recently played: `jacks-cassettes.jackhygate.co.uk/api/public/recent` (repo `jhygate/cassette-rack`).
+- Venues and atlas scans: `venues.jackhygate.co.uk/api/public/venues` and `/atlas/` (repo `jhygate/venues`).
+- Whiteboard and notes: `wall.jackhygate.co.uk` (repo `jhygate/wall`), live over server-sent events.
 
 ## Working on it
 
-Serve the folder locally, e.g. `python3 -m http.server 8731`, and open `http://localhost:8731/`.
-The shared files carry a `?v=N` query in the HTML; bump it when you change `shelf.*` or `atlas.*`
-so browsers and the Pages cache pick the change up. The old prototypes (CSS-only telly, desk
-scene) live in `~/CodeFun/crt-site-archive`.
+```
+python3 -m http.server 8731      # then http://localhost:8731/
+```
+
+Stylesheets and scripts are linked with a `?v=<date>` query; change it in both HTML files when you
+change any of them so browsers and the Pages cache pick the change up. Work in this repo directly;
+the old prototypes (CSS-only telly, desk scene) are archived in `~/CodeFun/crt-site-archive`.

@@ -1,6 +1,6 @@
 /* ---------- the A-Z atlas section: book + key, cards beneath ---------- */
 .atlas-sec { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 12vh; font-size: clamp(15px, 1.45vh, 24px); }
-.atlas-sec .tapes-title { margin-bottom: 1.6em; display: inline-block; }
+.atlas-sec .tape-title { margin-bottom: 1.6em; display: inline-block; }
 .at-root { display: grid; grid-template-columns: minmax(0, 1fr) 17em; gap: 1.6em; align-items: start; }
 .at-book-wrap { position: relative; }
 .at-viewport { position: relative; height: min(70vh, 44em); overflow: auto; display: flex; overflow-anchor: none; cursor: grab; padding: 1em 1em 3.2em; scrollbar-width: none; }

@@ -1,14 +1,14 @@
 /* ---------- the wall: post-its from visitors, and a shared whiteboard ---------- */
 :root { --postit-yellow: #f4df57; --postit-pink: #f5a2bc; --postit-blue: #9ed9f2; --postit-green: #b8e08a; --postit-orange: #f7b76b; }
 .wall-sec, .wb-sec { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 12vh; font-size: clamp(15px, 1.45vh, 24px); }
-.wall-sec .tapes-title, .wb-sec .tapes-title { margin-bottom: 1.6em; display: inline-block; }
+.wall-sec .tape-title, .wb-sec .tape-title { margin-bottom: 1.6em; display: inline-block; }
 
 /* post-its */
 .wall-root { display: grid; grid-template-columns: minmax(0, 1fr) 17em; gap: 1.6em; align-items: start; }
 /* a separate noticeboard hung on the cork: pine frame, denser darker cork inside */
 .wall-cork { position: relative; min-height: 34em; touch-action: none;
   border: .9em solid; border-image: linear-gradient(180deg, #8a5f38 0%, #6b4526 45%, #52341c 100%) 1;
-  background: linear-gradient(rgba(70,35,5,.22), rgba(70,35,5,.22)), url(cork.jpg) 0 0 / 560px 420px repeat;
+  background: linear-gradient(rgba(70,35,5,.22), rgba(70,35,5,.22)), url(/assets/textures/cork.jpg) 0 0 / 560px 420px repeat;
   box-shadow: inset 0 .4em 1.4em rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.35), 0 1.4em 2em -1em rgba(20,10,0,.7), 0 .2em .4em rgba(20,10,0,.35); }
 .wall-cork::before { content: ""; position: absolute; inset: 0; pointer-events: none;
   box-shadow: inset .5em .5em 0 rgba(255,255,255,.08), inset -.5em -.5em 0 rgba(0,0,0,.18); }
