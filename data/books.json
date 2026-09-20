@@ -5,6 +5,7 @@
       "author": "Nicholas Carr",
       "started": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-shallows.webp",
       "spine": "/assets/books/spines/the-shallows.webp",
       "ratio": {
@@ -19,6 +20,7 @@
       "author": "Gabriel García Márquez",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/love-in-the-time-of-cholera.webp",
       "spine": "/assets/books/spines/love-in-the-time-of-cholera.webp",
       "ratio": {
@@ -31,6 +33,7 @@
       "author": "Robert M. Pirsig",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/zen-and-the-art-of-motorcycle-maintenance.webp",
       "spine": "/assets/books/spines/zen-and-the-art-of-motorcycle-maintenance.webp",
       "ratio": {
@@ -43,6 +46,7 @@
       "author": "Jamie Bartlett",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-people-vs-tech.webp",
       "spine": "/assets/books/spines/the-people-vs-tech.webp",
       "ratio": {
@@ -55,6 +59,7 @@
       "author": "Andy Christopher Miller",
       "finished": "2026-09",
       "note": "",
+      "height": 203,
       "cover": "/assets/books/covers/the-ragged-weave-of-yesterday.webp",
       "spine": "/assets/books/spines/the-ragged-weave-of-yesterday.webp",
       "ratio": {
@@ -67,6 +72,7 @@
       "author": "Oliver Sacks",
       "finished": "2026-09",
       "note": "",
+      "height": 197,
       "cover": "/assets/books/covers/an-anthropologist-on-mars.webp",
       "spine": "/assets/books/spines/an-anthropologist-on-mars.webp",
       "ratio": {
@@ -79,6 +85,7 @@
       "author": "Richard P. Feynman",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "spine": "/assets/books/spines/surely-youre-joking-mr-feynman.webp",
       "ratio": {
         "spine": 0.1044
@@ -89,6 +96,7 @@
       "author": "Grayson Perry",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "spine": "/assets/books/spines/the-descent-of-man.webp",
       "ratio": {
         "spine": 0.0556
@@ -99,6 +107,7 @@
       "author": "Robert M. Pirsig",
       "finished": "2026-09",
       "note": "",
+      "height": 203,
       "cover": "/assets/books/covers/lila.webp",
       "spine": "/assets/books/spines/lila.webp",
       "ratio": {
@@ -111,6 +120,7 @@
       "author": "Ned Vizzini",
       "finished": "2026-09",
       "note": "",
+      "height": 210,
       "cover": "/assets/books/covers/its-kind-of-a-funny-story.webp",
       "spine": "/assets/books/spines/its-kind-of-a-funny-story.webp",
       "ratio": {
@@ -123,6 +133,7 @@
       "author": "Brian Tracy",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/eat-that-frog.webp",
       "spine": "/assets/books/spines/eat-that-frog.webp",
       "ratio": {
@@ -135,6 +146,7 @@
       "author": "Roald Dahl",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/someone-like-you.webp",
       "spine": "/assets/books/spines/someone-like-you.webp",
       "ratio": {
@@ -147,6 +159,7 @@
       "author": "J. D. Salinger",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-catcher-in-the-rye.webp",
       "spine": "/assets/books/spines/the-catcher-in-the-rye.webp",
       "ratio": {
@@ -159,6 +172,7 @@
       "author": "Guy Delisle",
       "finished": "2026-09",
       "note": "",
+      "height": 216,
       "cover": "/assets/books/covers/pyongyang.webp",
       "spine": "/assets/books/spines/pyongyang.webp",
       "ratio": {
@@ -171,6 +185,7 @@
       "author": "Roald Dahl",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/ah-sweet-mystery-of-life.webp",
       "spine": "/assets/books/spines/ah-sweet-mystery-of-life.webp",
       "ratio": {
@@ -183,6 +198,7 @@
       "author": "Adam Kay",
       "finished": "2026-09",
       "note": "",
+      "height": 181,
       "cover": "/assets/books/covers/twas-the-nightshift-before-christmas.webp",
       "spine": "/assets/books/spines/twas-the-nightshift-before-christmas.webp",
       "ratio": {
@@ -195,6 +211,7 @@
       "author": "Viktor E. Frankl",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/mans-search-for-meaning.webp",
       "spine": "/assets/books/spines/mans-search-for-meaning.webp",
       "ratio": {
@@ -207,6 +224,7 @@
       "author": "George Orwell",
       "finished": "2026-09",
       "note": "",
+      "height": 181,
       "cover": "/assets/books/covers/animal-farm.webp",
       "spine": "/assets/books/spines/animal-farm.webp",
       "ratio": {
@@ -219,6 +237,7 @@
       "author": "George Orwell",
       "finished": "2026-09",
       "note": "",
+      "height": 181,
       "cover": "/assets/books/covers/nineteen-eighty-four.webp",
       "spine": "/assets/books/spines/nineteen-eighty-four.webp",
       "ratio": {
@@ -231,6 +250,7 @@
       "author": "Ray Bradbury",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/fahrenheit-451.webp",
       "spine": "/assets/books/spines/fahrenheit-451.webp",
       "ratio": {
@@ -244,6 +264,7 @@
       "spine": "/assets/books/spines/siddhartha.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/siddhartha.webp",
       "ratio": {
         "cover": 0.6211,
@@ -256,6 +277,7 @@
       "spine": "/assets/books/spines/high-fidelity.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/high-fidelity.webp",
       "ratio": {
         "cover": 0.6651,
@@ -268,6 +290,7 @@
       "spine": "/assets/books/spines/the-man-who-was-thursday.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-man-who-was-thursday.webp",
       "ratio": {
         "cover": 0.6556,
@@ -280,6 +303,7 @@
       "spine": "/assets/books/spines/a-short-stay-in-hell.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 203,
       "cover": "/assets/books/covers/a-short-stay-in-hell.webp",
       "ratio": {
         "cover": 0.6378,
@@ -292,6 +316,7 @@
       "spine": "/assets/books/spines/the-old-man-and-the-sea.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-old-man-and-the-sea.webp",
       "ratio": {
         "cover": 0.6367,
@@ -304,6 +329,7 @@
       "spine": "/assets/books/spines/the-reluctant-fundamentalist.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/the-reluctant-fundamentalist.webp",
       "ratio": {
         "cover": 0.6205,
@@ -316,6 +342,7 @@
       "spine": "/assets/books/spines/steppenwolf.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/steppenwolf.webp",
       "ratio": {
         "cover": 0.6378,
@@ -328,6 +355,7 @@
       "spine": "/assets/books/spines/chess.webp",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/chess.webp",
       "ratio": {
         "cover": 0.6483,
@@ -339,6 +367,7 @@
       "author": "Aldous Huxley",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/brave-new-world.webp",
       "spine": "/assets/books/spines/brave-new-world.webp",
       "ratio": {
@@ -351,6 +380,7 @@
       "author": "Ichiro Kishimi & Fumitake Koga",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-courage-to-be-disliked.webp",
       "spine": "/assets/books/spines/the-courage-to-be-disliked.webp",
       "ratio": {
@@ -363,6 +393,7 @@
       "author": "Roald Dahl",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "spine": "/assets/books/spines/switch-bitch.webp",
       "ratio": {
         "cover": 0.6492,
@@ -375,6 +406,7 @@
       "author": "Hunter S. Thompson",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/fear-and-loathing-in-las-vegas.webp",
       "spine": "/assets/books/spines/fear-and-loathing-in-las-vegas.webp",
       "ratio": {
@@ -387,6 +419,7 @@
       "author": "Paulo Coelho",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-alchemist.webp",
       "spine": "/assets/books/spines/the-alchemist.webp",
       "ratio": {
@@ -399,6 +432,7 @@
       "author": "Sudha Murty",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/wise-and-otherwise.webp",
       "spine": "/assets/books/spines/wise-and-otherwise.webp",
       "ratio": {
@@ -411,6 +445,7 @@
       "author": "Kae Tempest",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/on-connection.webp",
       "spine": "/assets/books/spines/on-connection.webp",
       "ratio": {
@@ -423,6 +458,7 @@
       "author": "Charles Bukowski",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/post-office.webp",
       "spine": "/assets/books/spines/post-office.webp",
       "ratio": {
@@ -435,6 +471,7 @@
       "author": "Douglas Adams",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/the-long-dark-tea-time-of-the-soul.webp",
       "spine": "/assets/books/spines/the-long-dark-tea-time-of-the-soul.webp",
       "ratio": {
@@ -447,6 +484,7 @@
       "author": "Kurt Vonnegut",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/slaughterhouse-5.webp",
       "spine": "/assets/books/spines/slaughterhouse-5.webp",
       "ratio": {
@@ -459,6 +497,7 @@
       "author": "Roy Lewis",
       "finished": "2026-09",
       "note": "",
+      "height": 181,
       "cover": "/assets/books/covers/the-evolution-man.webp",
       "spine": "/assets/books/spines/the-evolution-man.webp",
       "ratio": {
@@ -471,6 +510,7 @@
       "author": "Christophe André",
       "finished": "2026-09",
       "note": "",
+      "height": 216,
       "cover": "/assets/books/covers/mindfulness.webp",
       "spine": "/assets/books/spines/mindfulness.webp",
       "ratio": {
@@ -483,6 +523,7 @@
       "author": "George Orwell",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-road-to-wigan-pier.webp",
       "spine": "/assets/books/spines/the-road-to-wigan-pier.webp",
       "ratio": {
@@ -495,6 +536,7 @@
       "author": "George Orwell",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/down-and-out-in-paris-and-london.webp",
       "spine": "/assets/books/spines/down-and-out-in-paris-and-london.webp",
       "ratio": {
@@ -507,6 +549,7 @@
       "author": "Aldous Huxley",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-doors-of-perception.webp",
       "spine": "/assets/books/spines/the-doors-of-perception.webp",
       "ratio": {
@@ -519,6 +562,7 @@
       "author": "Genki Kawamura",
       "finished": "2026-09",
       "note": "",
+      "height": 197,
       "cover": "/assets/books/covers/if-cats-disappeared-from-the-world.webp",
       "spine": "/assets/books/spines/if-cats-disappeared-from-the-world.webp",
       "ratio": {
@@ -531,6 +575,7 @@
       "author": "Kay Dick",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/they.webp",
       "spine": "/assets/books/spines/they.webp",
       "ratio": {
@@ -543,6 +588,7 @@
       "author": "Iain Hollingshead",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/twenty-something.webp",
       "spine": "/assets/books/spines/twenty-something.webp",
       "ratio": {
@@ -555,6 +601,7 @@
       "author": "Stephen Chbosky",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-perks-of-being-a-wallflower.webp",
       "spine": "/assets/books/spines/the-perks-of-being-a-wallflower.webp",
       "ratio": {
@@ -567,6 +614,7 @@
       "author": "Benjamin Hoff",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "spine": "/assets/books/spines/the-tao-of-pooh.webp",
       "ratio": {
         "spine": 0.0778
@@ -577,6 +625,7 @@
       "author": "Harper Lee",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/to-kill-a-mockingbird.webp",
       "spine": "/assets/books/spines/to-kill-a-mockingbird.webp",
       "ratio": {
@@ -589,6 +638,7 @@
       "author": "Fyodor Dostoyevsky",
       "finished": "2026-09",
       "note": "",
+      "height": 162,
       "cover": "/assets/books/covers/white-nights.webp",
       "spine": "/assets/books/spines/white-nights.webp",
       "ratio": {
@@ -601,6 +651,7 @@
       "author": "Philip E. High",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/the-time-mercenaries.webp",
       "spine": "/assets/books/spines/the-time-mercenaries.webp",
       "ratio": {
@@ -613,6 +664,7 @@
       "author": "Erlend Loe",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/naive-super.webp",
       "spine": "/assets/books/spines/naive-super.webp",
       "ratio": {
@@ -625,6 +677,7 @@
       "author": "Laura Wade",
       "finished": "2026-09",
       "note": "",
+      "height": 210,
       "cover": "/assets/books/covers/posh.webp",
       "spine": "/assets/books/spines/posh.webp",
       "ratio": {
@@ -637,6 +690,7 @@
       "author": "John Steinbeck",
       "finished": "2026-09",
       "note": "",
+      "height": 181,
       "cover": "/assets/books/covers/of-mice-and-men.webp",
       "spine": "/assets/books/spines/of-mice-and-men.webp",
       "ratio": {
@@ -649,6 +703,7 @@
       "author": "Isaac Asimov",
       "finished": "2026-09",
       "note": "",
+      "height": 178,
       "cover": "/assets/books/covers/the-martian-way.webp",
       "spine": "/assets/books/spines/the-martian-way.webp",
       "ratio": {
@@ -661,6 +716,7 @@
       "author": "Milan Kundera",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/the-unbearable-lightness-of-being.webp",
       "spine": "/assets/books/spines/the-unbearable-lightness-of-being.webp",
       "ratio": {
@@ -673,6 +729,7 @@
       "author": "Erich Maria Remarque",
       "finished": "2026-09",
       "note": "",
+      "height": 198,
       "cover": "/assets/books/covers/all-quiet-on-the-western-front.webp",
       "spine": "/assets/books/spines/all-quiet-on-the-western-front.webp",
       "ratio": {

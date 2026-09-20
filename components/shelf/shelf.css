@@ -12,7 +12,7 @@
 .plank { position: relative; width: min(60em, 100%); aspect-ratio: 889 / 103; margin: 0; }
 .plank img.wood { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
   filter: drop-shadow(0 1.6em 1.4em rgba(20,10,0,.5)) drop-shadow(0 .2em .3em rgba(20,10,0,.35)); }
-.plank-top { margin-top: 16em; }
+.plank-top { margin-top: 22em; }
 .plank-bottom { margin-top: 22em; }
 .pot { aspect-ratio: 371 / 534; position: absolute; left: 4%; bottom: 32%; width: 22%; z-index: 2; pointer-events: none; margin: 0; }
 .pot img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(-.3em .6em .8em rgba(20,10,0,.45)); }
@@ -90,7 +90,7 @@
 
 @media (max-width: 900px) { .opened { grid-template-columns: minmax(0, 1fr); } .opened .cover { height: 11em; } }
 @media (max-width: 640px) {
-  .plank-top { margin-top: 10em; }
+  .plank-top { margin-top: 13em; }
   .plank-bottom { margin-top: 13em; }
   .reading .cover { width: 6.4em; }
   .reading .tape { width: 8em; font-size: .85em; left: 106%; }
