@@ -1,14 +1,16 @@
 /* the bookshelf: data/books.json → the current read face-out on the top plank, finished books as
    photographed spines on the planks below. Shared by index.html (one plank) and books.html (all).
    Every book needs a cover, a spine and their proportions (tools/gemini-cutouts.py, tools/book-dims.py);
-   a book missing any of them is left off the shelf and named in the console. */
+   a book missing any of them is left off the shelf and named in the console. An optional height in
+   millimetres sets how tall it stands next to the others. */
 (() => {
   'use strict';
   const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const stars = n => n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '';
   const monthName = ym => { if (!ym) return ''; const [y, m] = ym.split('-'); return ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'][+m - 1] + ' ' + y; };
   const complete = b => !!(b.cover && b.spine && b.ratio && b.ratio.cover && b.ratio.spine);
-  const HEIGHT = 12;                                    // every spine is drawn this tall at 1em; width follows its photo
+  const DEFAULT_MM = 198;                               // a B-format paperback, for books without a measured height
+  const mm = b => b.height || DEFAULT_MM;
 
   window.renderBookshelf = function (root, data, opts = {}) {
     const planksEl = root.querySelector('.planks');
@@ -20,8 +22,8 @@
     function coverHTML(b) {
       return `<div class="cover" style="aspect-ratio:${b.ratio.cover}"><img src="${b.cover}" alt=""></div>`;
     }
-    function bookHTML(b, i) {
-      return `<button class="book" role="listitem" data-i="${i}" style="--h:${HEIGHT}em;--w:${(HEIGHT * b.ratio.spine).toFixed(3)}em" title="${esc(b.title)}">
+    function bookHTML(b, i, k) {
+      return `<button class="book" role="listitem" data-i="${i}" style="--h:${(mm(b) * k).toFixed(1)}px;--w:${(mm(b) * b.ratio.spine * k).toFixed(1)}px" title="${esc(b.title)}">
         <img class="side" src="${b.spine}" alt="${esc(b.title)}, ${esc(b.author)}"></button>`;
     }
     function makePlank() {
@@ -40,8 +42,9 @@
       layout();
     }
 
-    // planks fill left to right with as many books as their spines allow; every plank's books
-    // stand at 90% of the gap to the plank above
+    // planks fill left to right with as many books as their spines allow; the tallest book stands
+    // at 90% of the gap to the plank above and the rest keep their proportions to it; full planks
+    // spread their books to use the whole width
     function layout() {
       planksEl.querySelectorAll('.plank-bottom').forEach(el => el.remove());
       const probe = makePlank(); planksEl.appendChild(probe);
@@ -49,23 +52,34 @@
       const rowW = row.clientWidth, em = parseFloat(getComputedStyle(row).fontSize);
       const gap = above ? row.getBoundingClientRect().bottom - above.getBoundingClientRect().bottom : 0;
       probe.remove();
-      const f = gap > 0 ? Math.min(2.5, (gap * .9) / (HEIGHT * em)) : 1;   // shelf scale, in em
+      const tallestPx = gap > 0 ? Math.min(30 * em, gap * .9) : 12 * em;
+      const k = tallestPx / Math.max(DEFAULT_MM, ...books.map(mm));   // px per mm
+      const f = tallestPx / (12 * em);                                 // shelf scale for gaps and hover lifts
       const between = .22 * em * f;
-      const planks = []; let cur = [], used = 0;
+      const width = b => mm(b) * b.ratio.spine * k;
+      const planks = []; let cur = [], used = 0, overflow = false;
       books.forEach((b, i) => {
-        const w = HEIGHT * b.ratio.spine * em * f;
-        if (cur.length && used + between + w > rowW) { planks.push(cur); cur = []; used = 0; if (opts.limit === 'plank') return; }
-        if (opts.limit === 'plank' && planks.length) return;
+        const w = width(b);
+        if (cur.length && used + between + w > rowW) {
+          if (opts.limit === 'plank') { overflow = true; return; }
+          planks.push(cur); cur = []; used = 0;
+        }
+        if (overflow) return;
         cur.push(i); used += (cur.length > 1 ? between : 0) + w;
       });
-      if (cur.length && !(opts.limit === 'plank' && planks.length)) planks.push(cur);
+      if (cur.length) planks.push(cur);
       const shown = planks.reduce((n, p) => n + p.length, 0);
       if (seeAll) { seeAll.hidden = shown >= books.length; seeAll.querySelector('span').textContent = `all ${books.length} books →`; }
       if (!planks.length) planks.push([]);
-      planks.forEach(chunk => {
+      planks.forEach((chunk, p) => {
         const plank = makePlank(); planksEl.appendChild(plank);
         const el = plank.querySelector('.spines'); el.style.setProperty('--fit', f.toFixed(3) + 'em');
-        el.innerHTML = chunk.map(i => bookHTML(books[i], i)).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
+        const full = p < planks.length - 1 || overflow;
+        if (full && chunk.length > 1) {
+          const slack = rowW - chunk.reduce((n, i) => n + width(books[i]), 0);
+          el.style.gap = (slack / (chunk.length - 1)).toFixed(2) + 'px';
+        }
+        el.innerHTML = chunk.map(i => bookHTML(books[i], i, k)).join('') || '<div class="shelf-empty">nothing on the shelf yet</div>';
       });
       root.querySelectorAll('.book').forEach(el => el.addEventListener('click', () => openBook(+el.dataset.i)));
       if (openIdx >= 0 && !root.querySelector(`.book[data-i="${openIdx}"]`)) closeBook();

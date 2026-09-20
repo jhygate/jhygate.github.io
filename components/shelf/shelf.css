@@ -39,7 +39,7 @@
 /* the spines: each one a photo at its own proportions, sized by the plank's scale */
 .spines { position: absolute; left: 3%; right: 3%; bottom: 33%; z-index: 2; font-size: var(--fit, 1em); display: flex; justify-content: center; align-items: flex-end; gap: .22em; }
 .book {
-  position: relative; flex: none; border: 0; padding: 0; cursor: pointer; background: none;
+  position: relative; flex: none; border: 0; padding: 0; cursor: pointer; background: none; font: inherit;
   height: var(--h, 12em); width: var(--w, 1em);
   box-shadow: 0 .3em .4em -.2em rgba(0,0,0,.6);
   transition: transform .28s cubic-bezier(.2,.9,.25,1), box-shadow .28s;
