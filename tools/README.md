@@ -88,6 +88,9 @@ so the shelf can size every book before the pictures arrive.
 }
 ```
 
+Add `"height": 198` (millimetres, measured with a ruler) if you want it to stand taller or shorter than
+its neighbours; without it a book is drawn as a 198mm B-format paperback.
+
 `read` is newest first; the first entry is the most recent finish. `reading` holds the current
 book (use `started` instead of `finished`). Run `tools/book-dims.py` after adding entries and the
 `ratio` field fills itself in.

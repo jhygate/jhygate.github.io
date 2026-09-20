@@ -30,7 +30,7 @@ site must be served from the repo root, which is what Pages and `python3 -m http
 
 | File | Shape |
 |---|---|
-| `data/books.json` | `reading` (the current book) and `read` (newest first). Every book needs `cover`, `spine` and `ratio`; see `tools/README.md`. |
+| `data/books.json` | `reading` (the current book) and `read` (newest first). Every book needs `cover`, `spine` and `ratio`; see `tools/README.md`. Optional `height` in mm sets how tall it stands beside the others. |
 | `data/articles.json` | Clippings: title, author, source, url, date, minutes, blurb. |
 | `data/recent.json` | Fallback playlist when the cassette rack is unreachable. |
 
