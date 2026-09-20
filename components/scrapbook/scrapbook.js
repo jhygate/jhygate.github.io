@@ -2,6 +2,7 @@
    READING SCRAPBOOK — createScrapbook(rootElement, articles, options)
 
    articles: [{ title, author, source, url, date: "YYYY-MM-DD", minutes, blurb }]
+     a YouTube url gets its thumbnail printed on the clipping and "min watch" in the byline
    options (all optional):
      perPage        clippings per page on wide screens      (default 5)
      perPageNarrow  clippings per page on phones            (default 3)
@@ -19,6 +20,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const parts = iso => { const [y, m, d] = iso.split('-').map(Number); return { y, m, d }; };
   const shortDate = iso => { const { m, d } = parts(iso); return `${d} ${MONTHS[m - 1]}`; };
+  const youtubeId = url => (String(url ?? '').match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
 
   // "11–15 Sep 2026", "14 Aug – 3 Sep 2026", "30 Dec 2025 – 4 Jan 2026"
   function rangeLabel(newestIso, oldestIso) {
@@ -93,7 +95,12 @@
     function clipHTML(a, isFeature) {
       const r = rng(hash(`${a.title}|${a.date}`));
       const tilt = (r() * 3 - 1.5).toFixed(2), tapeTilt = (r() * 10 - 5).toFixed(1), aged = r() > 0.55;
-      const byline = [a.author && `By ${esc(a.author)}`, a.minutes && `${esc(a.minutes)} min read`].filter(Boolean).join(' · ');
+      const video = youtubeId(a.url);
+    const byline = [a.author && `By ${esc(a.author)}`, a.minutes && `${esc(a.minutes)} min ${video ? 'watch' : 'read'}`].filter(Boolean).join(' · ');
+    const photo = video ? `<figure class="sb-photo">
+            <img src="https://i.ytimg.com/vi/${video}/sddefault.jpg" alt="" width="640" height="480" loading="lazy" decoding="async">
+            <span class="sb-play" aria-hidden="true"></span>
+          </figure>` : '';
       const target = o.newTab ? ' target="_blank" rel="noopener"' : '';
       return `<a class="sb-clip${isFeature ? ' sb-clip--feature' : ''}" href="${esc(a.url || '#')}"${target} style="--sb-r:${tilt}deg">
         <span class="sb-tape" style="--sb-tr:${tapeTilt}deg" aria-hidden="true"></span>
@@ -101,6 +108,7 @@
           <div class="sb-kicker"><span>${esc(a.source)}</span><span>${shortDate(a.date)}</span></div>
           <h3 class="sb-title">${esc(a.title)}</h3>
           ${byline ? `<div class="sb-by">${byline}</div>` : ''}
+          ${photo}
           ${a.blurb ? `<p class="sb-blurb">${esc(a.blurb)}</p>` : ''}
         </div>
       </a>`;

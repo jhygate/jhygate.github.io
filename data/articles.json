@@ -1,5 +1,23 @@
 [
   {
+    "title": "I'm so bad at billiards that I ended up in the hyperbolic plane",
+    "author": "2swap",
+    "source": "youtube.com",
+    "url": "https://youtu.be/kL9BTbIGxLg",
+    "date": "2026-09-20",
+    "minutes": 11,
+    "blurb": "Outer billiards: instead of bouncing a ball inside a table, you hop a point around the outside of a shape. Do it on a Penrose kite and the pattern of where it lands turns out to be a tiling of the hyperbolic plane."
+  },
+  {
+    "title": "London Digital Art Map",
+    "author": "Peckham Digital",
+    "source": "peckhamdigitalcic.codeberg.page",
+    "url": "https://peckhamdigitalcic.codeberg.page/london-digital-art-map/",
+    "date": "2026-09-20",
+    "minutes": 8,
+    "blurb": "A map, a network diagram and a calendar of London's creative computing scene in one page: the venues and communities, what's on, and a form to add your own."
+  },
+  {
     "title": "What Color Is Your Function?",
     "author": "Bob Nystrom",
     "source": "journal.stuffwithstuff.com",
