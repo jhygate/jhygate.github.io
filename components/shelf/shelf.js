@@ -17,7 +17,7 @@
     const readingEl = root.querySelector('#reading');
     const panel = root.querySelector('#opened');
     const seeAll = root.querySelector('#see-all');
-    let books = [], openIdx = -1;
+    let books = [], reading = null, openIdx = -1;
 
     function coverHTML(b) {
       return `<div class="cover" style="aspect-ratio:${b.ratio.cover}"><img src="${b.cover}" alt=""></div>`;
@@ -36,13 +36,13 @@
       const skipped = [...(data.reading || []), ...(data.read || [])].filter(b => !complete(b));
       if (skipped.length) console.warn('bookshelf: left off for want of a cover, spine or ratio:', skipped.map(b => b.title));
       books = (data.read || []).filter(complete);
-      const now = (data.reading || []).find(complete);
+      const now = reading = (data.reading || []).find(complete);
       if (readingEl) readingEl.innerHTML = now ? `${coverHTML(now)}
         <div class="tape"><div class="tape-note"><b>reading now</b>${esc(now.title)}, ${esc(now.author)}. ${esc(now.note || '')}</div></div>` : '';
       layout();
     }
 
-    // planks fill left to right with as many books as their spines allow; the tallest book stands
+    // the current read stands face out at the same scale as the spines below; planks fill left to right with as many books as their spines allow; the tallest book stands
     // at 90% of the gap to the plank above and the rest keep their proportions to it; full planks
     // spread their books to use the whole width
     function layout() {
@@ -53,7 +53,9 @@
       const gap = above ? row.getBoundingClientRect().bottom - above.getBoundingClientRect().bottom : 0;
       probe.remove();
       const tallestPx = gap > 0 ? Math.min(30 * em, gap * .9) : 12 * em;
-      const k = tallestPx / Math.max(DEFAULT_MM, ...books.map(mm));   // px per mm
+      const k = tallestPx / Math.max(DEFAULT_MM, ...books.map(mm), reading ? mm(reading) : 0);   // px per mm
+      const cover = readingEl && readingEl.querySelector('.cover');
+      if (cover) cover.style.width = (mm(reading) * reading.ratio.cover * k).toFixed(1) + 'px';
       const f = tallestPx / (12 * em);                                 // shelf scale for gaps and hover lifts
       const between = .22 * em * f;
       const width = b => mm(b) * b.ratio.spine * k;
