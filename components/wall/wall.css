@@ -1,0 +1,79 @@
+/* ---------- the wall: post-its from visitors, and a shared whiteboard ---------- */
+:root { --postit-yellow: #f4df57; --postit-pink: #f5a2bc; --postit-blue: #9ed9f2; --postit-green: #b8e08a; --postit-orange: #f7b76b; }
+.wall-sec, .wb-sec { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 12vh; font-size: clamp(15px, 1.45vh, 24px); }
+.wall-sec .tape-title, .wb-sec .tape-title { margin-bottom: 1.6em; display: inline-block; }
+
+/* post-its */
+.wall-root { display: grid; grid-template-columns: minmax(0, 1fr) 17em; gap: 1.6em; align-items: start; }
+/* a separate noticeboard hung on the cork: pine frame, denser darker cork inside */
+.wall-cork { position: relative; min-height: 34em; touch-action: none;
+  border: .9em solid; border-image: linear-gradient(180deg, #8a5f38 0%, #6b4526 45%, #52341c 100%) 1;
+  background: linear-gradient(rgba(70,35,5,.22), rgba(70,35,5,.22)), url(/assets/textures/cork.jpg) 0 0 / 560px 420px repeat;
+  box-shadow: inset 0 .4em 1.4em rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.35), 0 1.4em 2em -1em rgba(20,10,0,.7), 0 .2em .4em rgba(20,10,0,.35); }
+.wall-cork::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset .5em .5em 0 rgba(255,255,255,.08), inset -.5em -.5em 0 rgba(0,0,0,.18); }
+.wall-note {
+  position: absolute; left: var(--x); top: var(--y); width: 9.5em; padding: 1.1em .9em .9em;
+  transform: translate(-50%, -50%) rotate(var(--r)); color: #262218;
+  background: linear-gradient(175deg, rgba(255,255,255,.45), rgba(255,255,255,0) 40%), var(--paper, var(--postit-yellow));
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 .6em .8em -.5em rgba(30,30,40,.6), 0 1px 2px rgba(0,0,0,.25);
+  font: 400 1.05em/1.05 var(--pen); user-select: none; transition: transform .15s, box-shadow .15s;
+}
+.wall-note[data-colour="yellow"] { --paper: var(--postit-yellow); } .wall-note[data-colour="pink"] { --paper: var(--postit-pink); }
+.wall-note[data-colour="blue"] { --paper: var(--postit-blue); } .wall-note[data-colour="green"] { --paper: var(--postit-green); }
+.wall-note[data-colour="orange"] { --paper: var(--postit-orange); }
+.wall-note:hover { transform: translate(-50%, -50%) rotate(0deg) scale(1.04); z-index: 5; box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 1.2em 1.4em -.7em rgba(30,30,40,.65); }
+.wall-note b { display: block; font: 400 .82em/1.1 var(--marker); margin-bottom: .3em; word-break: break-word; }
+.wall-note p { margin: 0; word-break: break-word; white-space: pre-wrap; }
+.wall-note time { display: block; margin-top: .5em; font: 400 .7em/1 'IBM Plex Mono', monospace; color: rgba(38,34,24,.55); }
+.wall-note .pin { position: absolute; left: 50%; top: -6px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff8 0, transparent 45%), #d8322a; box-shadow: 0 5px 5px -2px rgba(20,10,0,.55), inset 0 -2px 3px rgba(0,0,0,.35); }
+.wall-note[data-colour="pink"] .pin { background-color: #2b62c9; } .wall-note[data-colour="blue"] .pin { background-color: #e9b520; }
+.wall-note[data-colour="green"] .pin { background-color: #d8322a; } .wall-note[data-colour="orange"] .pin { background-color: #2f9e44; }
+.wall-note.draft { cursor: grab; z-index: 6; outline: 2px dashed rgba(38,34,24,.45); outline-offset: 3px; box-shadow: 0 1.6em 1.8em -.8em rgba(30,30,40,.7); }
+.wall-note.draft:active { cursor: grabbing; }
+.wall-note.draft .pin { animation: wall-pin 1s ease-in-out infinite alternate; }
+@keyframes wall-pin { to { transform: translateY(-.35em) scale(1.15); } }
+.wall-note.draft .tag { display: block; margin-top: .5em; font: 600 .62em/1.2 'IBM Plex Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: rgba(38,34,24,.6); }
+.wall-note.pinning { opacity: .5; }
+/* the form: a sheet of index paper */
+.wall-form { background: #fbf8ef; color: #1f1c17; border-radius: 3px; padding: 1em 1.1em 1em; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, sans-serif;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2), 0 1.2em 1.6em -1em rgba(20,10,0,.6); background-image: linear-gradient(90deg, rgba(60,40,10,.07), rgba(0,0,0,0) 18px); display: grid; gap: .7em; }
+.wall-form label { display: grid; gap: .3em; font: 700 .72em/1 'Archivo Narrow', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #8a7f68; }
+.wall-form label > span { display: flex; justify-content: space-between; align-items: baseline; }
+.wall-count { font: 500 .95em/1 'IBM Plex Mono', monospace; letter-spacing: 0; text-transform: none; color: #a39c8b; }
+.wall-count.full { color: #b3261e; }
+.wall-form input, .wall-form textarea { font: 400 1.35em/1.15 var(--pen); color: #1f1c17; background: #fff; border: 1px solid #d6cfbf; border-radius: 2px; padding: .3em .5em; letter-spacing: 0; text-transform: none; }
+.wall-form textarea { resize: vertical; }
+.wall-form input:focus, .wall-form textarea:focus { outline: 2px solid #c8a97a; outline-offset: 1px; }
+.wall-colours { display: flex; gap: .5em; }
+.wall-sw { width: 1.8em; height: 1.8em; border: 0; cursor: pointer; background: var(--paper); box-shadow: 0 1px 2px rgba(0,0,0,.3); transform: rotate(-3deg); }
+.wall-sw:nth-child(even) { transform: rotate(3deg); }
+.wall-sw[aria-checked="true"] { outline: 2px solid #1f1c17; outline-offset: 2px; }
+.wall-stick { justify-self: start; border: 2px solid #b3261e; color: #b3261e; background: none; border-radius: 3px; padding: .45em .9em; cursor: pointer;
+  font: 700 .8em 'Archivo Narrow', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; transform: rotate(-1deg); }
+.wall-stick:hover { background: #b3261e; color: #fbf8ef; }
+.wall-hint { margin: 0; font: 400 .95em/1.2 var(--pen); color: #5d5648; }
+.wall-err { margin: 0; min-height: 1.2em; font: 600 .8em/1.2 'Archivo Narrow', Arial, sans-serif; color: #b3261e; }
+.wall-root.offline .wall-form input, .wall-root.offline .wall-form textarea, .wall-root.offline .wall-stick { opacity: .5; pointer-events: none; }
+
+/* whiteboard */
+.wb-frame { position: relative; aspect-ratio: 16 / 9; border-radius: .25em; padding: .55em;
+  background: linear-gradient(180deg, #e9ebee, #c9ccd1 50%, #b7bbc1); box-shadow: 0 1.4em 2em -1.2em rgba(20,10,0,.75), 0 .2em .4em rgba(20,10,0,.35), inset 0 1px 0 rgba(255,255,255,.7); }
+.wb-canvas { display: block; width: 100%; height: 100%; background: #ffffff; border-radius: .1em; touch-action: none; cursor: crosshair;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.08), inset 0 .3em 1.2em rgba(0,0,0,.06); }
+.wb-glare { position: absolute; inset: .55em; pointer-events: none; border-radius: .1em;
+  background: linear-gradient(115deg, rgba(255,255,255,.35) 0, rgba(255,255,255,0) 30%), radial-gradient(60% 40% at 80% 90%, rgba(255,255,255,.18), transparent 70%); }
+.wb-tray { display: flex; gap: .7em; align-items: flex-end; margin: -.2em auto 0; width: max-content; padding: .5em 1.2em .45em;
+  background: linear-gradient(180deg, #d6d9de, #aeb3ba); border-radius: 0 0 .4em .4em; box-shadow: 0 .6em .8em -.5em rgba(20,10,0,.6), inset 0 .15em .2em rgba(0,0,0,.15); }
+.wb-marker { width: 5.2em; height: 1.05em; border: 0; cursor: pointer; border-radius: .2em .5em .5em .2em;
+  background: linear-gradient(90deg, var(--ink) 0 22%, #f2f2ee 22% 26%, #2a2a2c 26% 100%); box-shadow: 0 .15em .25em rgba(0,0,0,.4); transform: translateY(0) rotate(0deg); transition: transform .15s; }
+.wb-marker:hover { transform: translateY(-.15em); }
+.wb-marker.on { transform: translateY(-.45em) rotate(-3deg); box-shadow: 0 .5em .5em -.2em rgba(0,0,0,.45); }
+.wb-rubber { width: 2.6em; height: 1.5em; border: 0; cursor: pointer; border-radius: .15em; background: linear-gradient(180deg, #f6f3ea, #d8d2c2); box-shadow: 0 .15em .25em rgba(0,0,0,.4), inset 0 -.35em 0 #3b4a63; transition: transform .15s; }
+.wb-rubber.on { transform: translateY(-.35em) rotate(4deg); }
+.wb-hint { margin: .9em 0 0; text-align: center; font: 400 1em/1.2 var(--pen); color: #5a4a30; }
+.wb-root.offline .wb-canvas { cursor: not-allowed; }
+
+@media (max-width: 900px) { .wall-root { grid-template-columns: minmax(0, 1fr); } .wall-cork { min-height: 26em; } .wall-note { width: 8em; font-size: .95em; } }
+@media (prefers-reduced-motion: reduce) { .wall-note.draft .pin { animation: none; } }
