@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>random thoughts · jack hygate</title>
+<meta name="description" content="Everything Jack Hygate has written in his notebook: short essays and fragments, by title.">
+<link rel="canonical" href="https://jackhygate.co.uk/thoughts.html">
+<meta name="theme-color" content="#c9955c">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&family=Caveat:wght@700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/textures/cork.jpg">
+<link rel="stylesheet" href="/site/base.css?v=2026-09-26d">
+<link rel="stylesheet" href="/components/notebook/notebook.css?v=2026-09-26d">
+<style>
+.wrap { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 6vh 5vw 14vh; font-size: clamp(14px, 1.3vh, 16px); }
+.back { display: inline-block; margin-bottom: 1.2em; text-decoration: none; color: #2a2218; font: 400 1.1em/1.1 var(--pen); padding: .35em .8em .3em; background: rgba(238,228,200,.94); box-shadow: 0 1px 2px rgba(0,0,0,.3); transform: rotate(1.5deg); position: relative; }
+.back::before, .back::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8px; background: rgba(238,228,200,.6); }
+.back::before { left: -8px; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.back::after { right: -8px; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+.tape-title { display: inline-block; margin: 0 0 1.6em; }
+</style>
+</head>
+<body>
+<div class="board" aria-hidden="true"></div>
+<main class="wrap">
+  <a class="back" href="/#nb-title">← back to the board</a>
+  <h1 class="tape-title">random thoughts, all of them</h1>
+  <div id="thoughts"></div>
+</main>
+<script src="/components/notebook/notebook.js?v=2026-09-26d"></script>
+<script>
+fetch('/data/thoughts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+  .then(list => createThoughtsIndex(document.getElementById('thoughts'), list))
+  .catch(() => createThoughtsIndex(document.getElementById('thoughts'), []));
+</script>
+</body>
+</html>
