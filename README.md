@@ -7,6 +7,7 @@ and the workflow publishes the repo root to the `deploy` branch, which GitHub Pa
 
 ```
 index.html            the board                   books.html   the whole bookshelf
+                                                  thoughts.html  every random thought, by title
 site/                 base.css (type, cork, tape titles, boot), init.js (wires the sections up)
 components/           one folder per thing on the board, a .css and a .js each
   telly/              the set: channels, front-panel buttons, sounds, boot screen, clock
@@ -15,6 +16,7 @@ components/           one folder per thing on the board, a .css and a .js each
   player/             the cassette player and the recently played tape
   shelf/              the bookshelf
   scrapbook/          the folder of clippings
+  notebook/           the pocket notebook of random thoughts, and thoughts.html
   atlas/              the A-Z atlas of venues
   wall/               the whiteboard and the visitors' noticeboard
   webring/            the two stickers at the foot
@@ -34,6 +36,7 @@ site must be served from the repo root, which is what Pages and `python3 -m http
 | `data/projects.json` | Things I've built, in pinned order: title, blurb, url, photo (a square screenshot in `assets/projects/`). A project with no url isn't out yet and shows as an undeveloped polaroid. |
 | `data/books.json` | `reading` (the current book) and `read` (newest first). Every book needs `cover`, `spine` and `ratio`; see `tools/README.md`. Optional `height` in mm sets how tall it stands beside the others. |
 | `data/articles.json` | Clippings: title, author, source, url, date, minutes, blurb. |
+| `data/thoughts.json` | Random thoughts, newest first: slug, title, date, body. Paragraphs are split by a blank line; `— ` starts a fragment, `![caption](src)` on its own line is a photo and `!sketch[caption](src)` a drawing. Pictures live in `assets/thoughts/`. |
 | `data/recent.json` | Fallback playlist when the cassette rack is unreachable. |
 
 ## Live data
