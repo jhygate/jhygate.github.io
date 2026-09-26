@@ -18,6 +18,15 @@
     "blurb": "Outer billiards: instead of bouncing a ball inside a table, you hop a point around the outside of a shape. Do it on a Penrose kite and the pattern of where it lands turns out to be a tiling of the hyperbolic plane."
   },
   {
+    "title": "Taste for Makers",
+    "author": "Paul Graham",
+    "source": "paulgraham.com",
+    "url": "https://paulgraham.com/taste.html",
+    "date": "2026-07-11",
+    "minutes": 15,
+    "blurb": "Good design is simple, timeless, suggestive and often slightly funny, and taste is something you can get better at."
+  },
+  {
     "title": "London Digital Art Map",
     "author": "Peckham Digital",
     "source": "peckhamdigitalcic.codeberg.page",
@@ -187,15 +196,6 @@
     "date": "2026-07-19",
     "minutes": 25,
     "blurb": "The real product of programming is the team's shared mental model, not the code itself, which is why handovers are so painful."
-  },
-  {
-    "title": "Taste for Makers",
-    "author": "Paul Graham",
-    "source": "paulgraham.com",
-    "url": "https://paulgraham.com/taste.html",
-    "date": "2026-07-11",
-    "minutes": 15,
-    "blurb": "Good design is simple, timeless, suggestive and often slightly funny, and taste is something you can get better at."
   },
   {
     "title": "Learnable Programming",
