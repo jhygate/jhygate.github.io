@@ -484,11 +484,26 @@ $('.at-cats').onclick=e=>{const b=e.target.closest('[data-cat]'); if(!b) return;
 $('.at-index').onclick=e=>{const b=e.target.closest('.at-idx'); if(b) selectVenue(+b.dataset.v);};
 ov.addEventListener('click',e=>{const p=e.target.closest('.at-vpin,.at-dot'); if(p&&!dragged){e.stopPropagation(); const id=+p.dataset.v; selectVenue(id, (curS===KEY_S&&selected===id)?'turn':false);}});
 $('.at-whole').onclick=()=>{ zoom=null; goTo(KEY_S); };
+/* the yellow margins around each map page lead on to the page beyond that edge */
+function edgePage(x,y){
+  const L=layout(curS); if(!L.geo) return null;
+  const q=geoHalves(L).find(q=>x>=q.x&&x<=q.x+q.w&&y>=q.y&&y<=q.y+q.h); if(!q) return null;
+  const g=PAGES[q.page], xk=(x-q.x)/PPK, yk=(y-q.y)/PPK, anchor=g.half?0.170:0.487;
+  const dir = yk<0.309?'n' : yk>3.809?'s' : g.half&&xk>anchor+2.25?'e' : !g.half&&xk<anchor-0.25?'w' : null;
+  return dir&&neighbourPage(q.page,dir);
+}
+function bookPoint(e){ const r=book.getBoundingClientRect(), z=book._z; return {x:(e.clientX-r.left)/z, y:(e.clientY-r.top)/z}; }
 sheet.addEventListener('click',e=>{
-  if(dragged||running||curS!==KEY_S) return;
-  const r=book.getBoundingClientRect(), z=book._z; const km=keyKm((e.clientX-r.left)/z,(e.clientY-r.top)/z);
-  const hits=pagesAt(km.Ek,km.Nk); if(hits.length) goToPage(hits[0].p);
+  if(dragged||running) return;
+  const pt=bookPoint(e);
+  if(curS===KEY_S){ const km=keyKm(pt.x,pt.y), hits=pagesAt(km.Ek,km.Nk); if(hits.length) goToPage(hits[0].p); return; }
+  const p=edgePage(pt.x,pt.y); if(p) goToPage(p);
 });
+sheet.addEventListener('pointermove',e=>{
+  const pt=bookPoint(e), p=down||running?null:edgePage(pt.x,pt.y);
+  vp.classList.toggle('edge',!!p); sheet.title=p?'to page '+p:'';
+});
+sheet.addEventListener('pointerleave',()=>{ vp.classList.remove('edge'); sheet.title=''; });
 $('.at-prev').onclick=()=>goTo((wanted?wanted.ns:curS)-1);
 $('.at-next').onclick=()=>goTo((wanted?wanted.ns:curS)+1);
 function centreOnTarget(){
