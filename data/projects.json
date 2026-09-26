@@ -1,0 +1,26 @@
+[
+  {
+    "title": "cassette rack",
+    "blurb": "My music library as a wall of cassettes, with spines generated from the cover art.",
+    "url": "https://cassettes.jackhygate.co.uk/",
+    "photo": "/assets/projects/cassette-rack.webp"
+  },
+  {
+    "title": "loop pad",
+    "blurb": "A loopy sampler in the browser: record into the pads and layer them up.",
+    "url": "https://jackhygate.co.uk/looppad/",
+    "photo": "/assets/projects/loop-pad.webp"
+  },
+  {
+    "title": "concept atlas",
+    "blurb": "Learn the vocabulary of a subject by breaking it into a map of concepts.",
+    "url": "https://concepts.jackhygate.co.uk/",
+    "photo": "/assets/projects/concept-atlas.webp"
+  },
+  {
+    "title": "claude canvas",
+    "blurb": "Fork and merge Claude Code sessions on a canvas.",
+    "url": "",
+    "photo": ""
+  }
+]
