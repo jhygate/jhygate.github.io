@@ -13,3 +13,6 @@ fetch('/data/books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Pro
 fetch('/data/articles.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
   .then(list => createScrapbook(document.getElementById('reading-scrapbook'), list, { newTab: true }))
   .catch(() => createScrapbook(document.getElementById('reading-scrapbook'), [], { newTab: true }));
+fetch('/data/thoughts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+  .then(list => createNotebook(document.getElementById('notebook'), list))
+  .catch(() => createNotebook(document.getElementById('notebook'), []));
