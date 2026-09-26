@@ -1,0 +1,38 @@
+/* ---------- things i've built: a row of pinned polaroids ---------- */
+.built { position: relative; z-index: 1; max-width: var(--board-width); margin: 0 auto; padding: 4vh var(--gutter) var(--section-gap); font-size: var(--board-type); }
+.built .tape-title { display: inline-block; margin-bottom: 2.6em; }
+
+.pj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5em), 1fr)); gap: 2.8em 2.2em; }
+
+.pj {
+  position: relative; display: block; padding: .65em .65em 0; background: #fbf8f1; color: #1d2a55; text-decoration: none;
+  transform: rotate(var(--r, 0deg));
+  box-shadow: 0 .5em 1em rgba(30,15,0,.4), 0 1px 2px rgba(30,15,0,.35);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.pj::before {
+  content: ""; position: absolute; left: 50%; top: -6px; z-index: 1;
+  width: 14px; height: 14px; margin-left: -7px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff8 0, transparent 45%), var(--pin, #d8322a);
+  box-shadow: 0 5px 5px -2px rgba(20,10,0,.55), inset 0 -2px 3px rgba(0,0,0,.35);
+}
+a.pj:hover, a.pj:focus-visible { transform: rotate(0deg) translateY(-.3em) scale(1.03); box-shadow: 0 1em 1.6em rgba(30,15,0,.4), 0 1px 2px rgba(30,15,0,.35); z-index: 2; }
+a.pj:focus-visible { outline: 2px dashed #1d2a55; outline-offset: 4px; }
+
+.pj-photo { display: block; aspect-ratio: 1; overflow: hidden; background: #1c1714; }
+.pj-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.pj b { display: block; font: 400 1.75em/1 var(--pen); padding: .35em .1em 0; }
+.pj-blurb { display: block; font-size: .72em; line-height: 1.45; color: #6d6150; padding: .2em .15em 1.1em; }
+
+/* not out yet: a polaroid that hasn't developed */
+.pj.developing .pj-photo { position: relative; background: linear-gradient(160deg, #2f2820, #5f503d 55%, #8a7658); }
+.pj.developing .pj-photo::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 45% 45%, rgba(255,240,210,.14), transparent 70%); animation: pj-develop 6s ease-in-out infinite alternate; }
+.pj.developing .pj-blurb { font-style: italic; }
+@keyframes pj-develop { to { opacity: .35; transform: scale(1.1); } }
+@media (prefers-reduced-motion: reduce) { .pj, .pj.developing .pj-photo::after { transition: none; animation: none; } }
+
+@media (max-width: 640px) {
+  .pj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.2em 1.2em; }
+  .pj { padding: .45em .45em 0; }
+  .pj b { font-size: 1.5em; }
+}
