@@ -2,7 +2,7 @@
 /* ---------- the photo is the chrome ---------- */
 .telly {
   position: relative;
-  height: 92vh;
+  height: min(82vh, 62rem);
   aspect-ratio: 698 / 762;
   max-width: 96vw;
   user-select: none;

@@ -1,9 +1,9 @@
 /* ---------- the bookshelf: two floating planks, photographed books ---------- */
 .books {
   position: relative; z-index: 1;
-  max-width: 73.75em; margin: 0 auto;
-  padding: 0 5vw 14vh;
-  font-size: clamp(15px, 1.45vh, 24px);
+  max-width: var(--board-width); margin: 0 auto;
+  padding: 0 var(--gutter) var(--section-gap);
+  font-size: var(--board-type);
 }
 .books .tape-title { margin-bottom: 2.2em; display: inline-block; }
 
