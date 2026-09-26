@@ -6,6 +6,7 @@
 .at-viewport { position: relative; height: min(70vh, 44em); overflow: auto; display: flex; overflow-anchor: none; cursor: grab; padding: 1em 1em 3.2em; scrollbar-width: none; }
 .at-viewport::-webkit-scrollbar { display: none; }
 .at-viewport.drag { cursor: grabbing; }
+.at-viewport.edge:not(.drag) { cursor: pointer; }
 .at-box { margin: auto; flex: 0 0 auto; position: relative; }
 .at-bookel { position: absolute; left: 0; top: 0; transform-origin: 0 0; transform-style: preserve-3d; opacity: 0; transition: opacity .5s ease; }
 .at-bookel.ready { opacity: 1; }
