@@ -1,5 +1,14 @@
 [
   {
+    "title": "The Bitter Lesson",
+    "author": "Rich Sutton",
+    "source": "incompleteideas.net",
+    "url": "http://www.incompleteideas.net/IncIdeas/BitterLesson.html",
+    "date": "2026-07-04",
+    "minutes": 5,
+    "blurb": "General methods that ride on more compute keep beating clever, hand-built human knowledge, even when it hurts to admit it."
+  },
+  {
     "title": "I'm so bad at billiards that I ended up in the hyperbolic plane",
     "author": "2swap",
     "source": "youtube.com",
@@ -187,15 +196,6 @@
     "date": "2026-07-11",
     "minutes": 15,
     "blurb": "Good design is simple, timeless, suggestive and often slightly funny, and taste is something you can get better at."
-  },
-  {
-    "title": "The Bitter Lesson",
-    "author": "Rich Sutton",
-    "source": "incompleteideas.net",
-    "url": "http://www.incompleteideas.net/IncIdeas/BitterLesson.html",
-    "date": "2026-07-04",
-    "minutes": 5,
-    "blurb": "General methods that ride on more compute keep beating clever, hand-built human knowledge, even when it hurts to admit it."
   },
   {
     "title": "Learnable Programming",
