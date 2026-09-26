@@ -1,9 +1,24 @@
 {
   "reading": [
     {
+      "title": "Good Services",
+      "author": "Lou Downe",
+      "started": "2026-09",
+      "note": "It's so nice to read about services that aren't inherently micro (or tech centric)\n\nPlus it's by the woman who designed the gov.uk services which are incredible to use!",
+      "height": 198,
+      "cover": "/assets/books/covers/good-services.webp",
+      "spine": "/assets/books/spines/good-services.webp",
+      "ratio": {
+        "cover": 0.6827,
+        "spine": 0.1112
+      }
+    }
+  ],
+  "read": [
+    {
       "title": "The Shallows",
       "author": "Nicholas Carr",
-      "started": "2026-09",
+      "finished": "2026-09",
       "note": "",
       "height": 198,
       "cover": "/assets/books/covers/the-shallows.webp",
@@ -12,9 +27,7 @@
         "cover": 0.6556,
         "spine": 0.1289
       }
-    }
-  ],
-  "read": [
+    },
     {
       "title": "Love in the Time of Cholera",
       "author": "Gabriel García Márquez",
@@ -261,11 +274,11 @@
     {
       "title": "Siddhartha",
       "author": "Hermann Hesse",
-      "spine": "/assets/books/spines/siddhartha.webp",
       "finished": "2026-09",
       "note": "",
       "height": 178,
       "cover": "/assets/books/covers/siddhartha.webp",
+      "spine": "/assets/books/spines/siddhartha.webp",
       "ratio": {
         "cover": 0.6211,
         "spine": 0.08
@@ -274,11 +287,11 @@
     {
       "title": "High Fidelity",
       "author": "Nick Hornby",
-      "spine": "/assets/books/spines/high-fidelity.webp",
       "finished": "2026-09",
       "note": "",
       "height": 198,
       "cover": "/assets/books/covers/high-fidelity.webp",
+      "spine": "/assets/books/spines/high-fidelity.webp",
       "ratio": {
         "cover": 0.6651,
         "spine": 0.0978
@@ -287,11 +300,11 @@
     {
       "title": "The Man Who Was Thursday",
       "author": "G. K. Chesterton",
-      "spine": "/assets/books/spines/the-man-who-was-thursday.webp",
       "finished": "2026-09",
       "note": "",
       "height": 198,
       "cover": "/assets/books/covers/the-man-who-was-thursday.webp",
+      "spine": "/assets/books/spines/the-man-who-was-thursday.webp",
       "ratio": {
         "cover": 0.6556,
         "spine": 0.0567
@@ -300,11 +313,11 @@
     {
       "title": "A Short Stay in Hell",
       "author": "Steven L. Peck",
-      "spine": "/assets/books/spines/a-short-stay-in-hell.webp",
       "finished": "2026-09",
       "note": "",
       "height": 203,
       "cover": "/assets/books/covers/a-short-stay-in-hell.webp",
+      "spine": "/assets/books/spines/a-short-stay-in-hell.webp",
       "ratio": {
         "cover": 0.6378,
         "spine": 0.05
@@ -313,11 +326,11 @@
     {
       "title": "The Old Man and the Sea",
       "author": "Ernest Hemingway",
-      "spine": "/assets/books/spines/the-old-man-and-the-sea.webp",
       "finished": "2026-09",
       "note": "",
       "height": 198,
       "cover": "/assets/books/covers/the-old-man-and-the-sea.webp",
+      "spine": "/assets/books/spines/the-old-man-and-the-sea.webp",
       "ratio": {
         "cover": 0.6367,
         "spine": 0.0456
@@ -326,11 +339,11 @@
     {
       "title": "The Reluctant Fundamentalist",
       "author": "Mohsin Hamid",
-      "spine": "/assets/books/spines/the-reluctant-fundamentalist.webp",
       "finished": "2026-09",
       "note": "",
       "height": 178,
       "cover": "/assets/books/covers/the-reluctant-fundamentalist.webp",
+      "spine": "/assets/books/spines/the-reluctant-fundamentalist.webp",
       "ratio": {
         "cover": 0.6205,
         "spine": 0.0856
@@ -339,11 +352,11 @@
     {
       "title": "Steppenwolf",
       "author": "Hermann Hesse",
-      "spine": "/assets/books/spines/steppenwolf.webp",
       "finished": "2026-09",
       "note": "",
       "height": 198,
       "cover": "/assets/books/covers/steppenwolf.webp",
+      "spine": "/assets/books/spines/steppenwolf.webp",
       "ratio": {
         "cover": 0.6378,
         "spine": 0.1
@@ -352,11 +365,11 @@
     {
       "title": "Chess",
       "author": "Stefan Zweig",
-      "spine": "/assets/books/spines/chess.webp",
       "finished": "2026-09",
       "note": "",
       "height": 198,
       "cover": "/assets/books/covers/chess.webp",
+      "spine": "/assets/books/spines/chess.webp",
       "ratio": {
         "cover": 0.6483,
         "spine": 0.0378
@@ -394,12 +407,12 @@
       "finished": "2026-09",
       "note": "",
       "height": 198,
+      "cover": "/assets/books/covers/switch-bitch.webp",
       "spine": "/assets/books/spines/switch-bitch.webp",
       "ratio": {
         "cover": 0.6492,
         "spine": 0.0578
-      },
-      "cover": "/assets/books/covers/switch-bitch.webp"
+      }
     },
     {
       "title": "Fear and Loathing in Las Vegas",
