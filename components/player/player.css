@@ -1,9 +1,9 @@
 /* ---------- the cassette player and the recently played tape ---------- */
 .tapes {
   position: relative; z-index: 1;
-  font-size: clamp(15px, 1.45vh, 24px);
-  max-width: 73.75em; margin: 0 auto;
-  padding: 4vh 5vw 14vh;
+  font-size: var(--board-type);
+  max-width: var(--board-width); margin: 0 auto;
+  padding: 4vh var(--gutter) var(--section-gap);
   display: grid; grid-template-columns: 22.5em minmax(0, 1fr); gap: 2.75em; align-items: start;
   --brass: #c8a97a; --walnut: linear-gradient(180deg,#2a1f14,#140e08);
 }

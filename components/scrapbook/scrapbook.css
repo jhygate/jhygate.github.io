@@ -1,5 +1,5 @@
 /* ---------- the reading list: a folder of clippings ---------- */
-.scrap { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 14vh; font-size: clamp(15px, 1.45vh, 24px); }
+.scrap { position: relative; z-index: 1; max-width: var(--board-width); margin: 0 auto; padding: 0 var(--gutter) var(--section-gap); font-size: var(--board-type); }
 .scrap .tape-title { margin-bottom: 1.6em; display: inline-block; }
 .scrap .sb { max-width: 62em; }
 
@@ -58,7 +58,7 @@
 .sb-count{font:500 11px var(--sb-mono);letter-spacing:.1em;text-transform:uppercase;color:#5e4d31}
 
 /* Clippings */
-.sb-clips{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;align-items:start;grid-auto-flow:dense}
+.sb-clips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;align-items:start;grid-auto-flow:dense}
 .sb-clip{display:block;position:relative;text-decoration:none;color:inherit;padding-top:10px;
   filter:drop-shadow(0 3px 3px rgba(40,25,5,.28));transform:rotate(var(--sb-r));transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .sb-clip:hover,.sb-clip:focus-visible{transform:rotate(0deg) translateY(-5px)}
@@ -70,11 +70,12 @@
 .sb-paper--aged{background:#eee4c9}
 .sb-kicker{display:flex;justify-content:space-between;gap:10px;padding-bottom:6px;border-bottom:1px solid #1d1b18;
   font:600 9.5px var(--sb-ui);letter-spacing:.16em;text-transform:uppercase}
-.sb-kicker span:last-child{white-space:nowrap}
+.sb-kicker span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.sb-kicker span:last-child{white-space:nowrap;flex:none}
 .sb-title{font:700 21px/1.15 var(--sb-serif);margin:10px 0 6px}
 .sb-clip--feature .sb-title{font-size:30px;line-height:1.08}
 .sb-by{font:italic 12.5px var(--sb-serif);color:#5b564d;margin-bottom:9px}
-.sb-blurb{font:14px/1.55 var(--sb-serif);margin:0;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.sb-blurb{font:14px/1.55 var(--sb-serif);margin:0;text-align:left;hyphens:auto;-webkit-hyphens:auto}
 .sb-clip--feature .sb-blurb{font-size:15px;max-width:560px}
 .sb-clip--feature .sb-blurb::first-letter{float:left;font-size:46px;line-height:.82;padding:5px 6px 0 0;font-weight:700}
 
@@ -99,7 +100,7 @@
 .sb-curl:hover{width:84px;height:84px}
 .sb-empty{font:700 26px var(--sb-hand);color:#5e4d31;text-align:center;padding:80px 0}
 
-@media (max-width:860px){.sb-clips{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:860px){.sb-clips{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){
   .sb-clips{grid-template-columns:1fr}
   .sb-clip--feature{grid-column:auto}

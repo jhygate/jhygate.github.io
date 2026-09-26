@@ -1,6 +1,6 @@
 /* ---------- the wall: post-its from visitors, and a shared whiteboard ---------- */
 :root { --postit-yellow: #f4df57; --postit-pink: #f5a2bc; --postit-blue: #9ed9f2; --postit-green: #b8e08a; --postit-orange: #f7b76b; }
-.wall-sec, .wb-sec { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 0 5vw 12vh; font-size: clamp(15px, 1.45vh, 24px); }
+.wall-sec, .wb-sec { position: relative; z-index: 1; max-width: var(--board-width); margin: 0 auto; padding: 0 var(--gutter) var(--section-gap); font-size: var(--board-type); }
 .wall-sec .tape-title, .wb-sec .tape-title { margin-bottom: 1.6em; display: inline-block; }
 
 /* post-its */
