@@ -1,4 +1,4 @@
-/* ---------- webring: two vinyl stickers at the foot of the board ---------- */
+/* ---------- webring: three vinyl stickers at the foot of the board ---------- */
 .ring { position: relative; z-index: 1; max-width: var(--board-width); margin: 0 auto; padding: 0 var(--gutter) var(--section-gap); font-size: var(--board-type); display: flex; justify-content: space-between; align-items: center; gap: 2em; }
 .sticker {
   position: relative; display: inline-block; text-decoration: none;
@@ -14,5 +14,6 @@
 .sticker::after { right: -8px; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
 .sticker:hover { transform: rotate(0deg) translateY(-.1em); }
 .sticker:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.sticker.random { --r: .5deg; }
 .sticker.next { --r: 1.5deg; }
-@media (max-width: 640px) { .ring { flex-direction: column; align-items: stretch; gap: 1.2em; } .sticker.next { align-self: flex-end; } }
+@media (max-width: 640px) { .ring { flex-direction: column; align-items: stretch; gap: 1.2em; } .sticker.random { align-self: center; } .sticker.next { align-self: flex-end; } }
