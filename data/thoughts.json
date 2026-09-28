@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "slug": "i-m-bitter-about-the-bitter-lesson",
+    "title": "I'm bitter about the bitter lesson",
+    "date": "2026-09-28",
+    "body": "http://www.incompleteideas.net/IncIdeas/BitterLesson.html\n\nI loved knowledge based, hand crafted Computer Vision methods :((\n\nThis kinda makes me think that there are two types of research:\n- Building systems and process to clarify how you think, and to provide a explainable model of approaching a task (philisophical, analytical, satisfying, beautiful, elegant, process driven, creative?, minimilist, sustainable)\n- Building a super efficient, statistic backed model that performs super well and is a black box (wow such strong benchmarks! Completely abstracted, vibes based)\n\nThe article seems to be arguing for all research to be done in the efficient, results orientated way.\n\nMaybe my argument against it is on the explainability front - if you don't try and do research that documents how you and others think on a topic, then you don't develop the vocabulary to talk and reason about black box systems. If you don't have the vocab, you cant accurately specify the direction you want black-box systems to move in, and you run into alignment issues and the world ends (either culturally or explosively) \n\n\nI fully accept that my discomfort comes from not understanding enough about ML and stats and I'm sure I'd be less negative if I could see the elegant design that goes into designing domain specific ML models."
+  }
+]
