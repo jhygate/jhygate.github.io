@@ -42,17 +42,19 @@
 .nb-page.blank::before { opacity: .8; }
 
 /* what's written on it: every line of type sits on a rule */
-.nb-text { position: relative; z-index: 1; height: calc(var(--lh) * var(--lines) / .9); overflow: hidden; font: 400 .9em/calc(var(--lh) / .9) var(--serif); }
-.nb-text p { margin: 0; text-indent: 1.3em; hyphens: auto; -webkit-hyphens: auto; }
-.nb-text p.first, .nb-text p.cont, .nb-text p.frag { text-indent: 0; }
-.nb-text p.frag, .nb-text p.gap { margin-top: calc(var(--lh) / .9); }
-.nb-text p.frag.cont { margin-top: 0; }
+.nb-text { position: relative; z-index: 1; height: calc(var(--lh) * var(--lines) / .8); overflow: hidden; font: 400 .8em/calc(var(--lh) / .8) var(--serif); }
+.nb-text p { margin: calc(var(--lh) / .8) 0 0; }
+.nb-text p.first, .nb-text p.cont, .nb-text p.tight { margin-top: 0; }
+.nb-text p.li { position: relative; padding-left: 1.1em; }
+.nb-text p.li::before { content: "–"; position: absolute; left: .1em; color: #6f6656; }
+.nb-text p.li.cont::before { content: none; }
 .nb-text p.note { font-style: italic; color: #7a6d58; }
+.nb-text p a { color: #1e3f9a; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; overflow-wrap: anywhere; }
 .nb-head { position: relative; }
-.nb-head h3 { margin: 0; font: 700 1.95em/calc(var(--lh) * 2 / 1.95 / .9) var(--hand); color: #1e2f55; letter-spacing: .01em; }
+.nb-head h3 { margin: 0; font: 700 1.75em/calc(var(--lh) * 2 / 1.75 / .8) var(--hand); color: #1e2f55; letter-spacing: .01em; }
 .nb-head h3 a { color: inherit; text-decoration: none; }
 .nb-head h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
-.nb-head time { display: block; font: 500 .72em/calc(var(--lh) / .72 / .9) var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #8a7a60; }
+.nb-head time { display: block; font: 500 .8em/calc(var(--lh) / .8 / .8) var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #8a7a60; }
 .nb-folio { position: absolute; bottom: .9em; font: 500 .62em/1 var(--mono); letter-spacing: .1em; color: #9b8d73; z-index: 1; }
 .nb-page .nb-folio { right: 1.8em; } .nb-page.verso .nb-folio { left: 1.8em; right: auto; }
 .nb.single .nb-page.verso .nb-folio { right: 1.8em; left: auto; }
@@ -81,7 +83,7 @@
 .nb-fig:not(.sketch)::before { content: ""; position: absolute; z-index: 2; top: -.35em; left: 50%; width: 3.6em; height: 1em; background: rgba(236,226,196,.82); box-shadow: 0 1px 1px rgba(0,0,0,.12); transform: translateX(-50%) rotate(2deg); }
 .nb-fig.sketch img { object-fit: contain; }
 .nb-fig figcaption { font: 700 1.2em var(--hand); color: #1e2f55; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.nb-end { text-align: center; padding-top: calc(var(--lh) * 5 / .9); font: 700 1.3em/calc(var(--lh) / 1.3 / .9) var(--hand); color: #8a7a60; }
+.nb-end { text-align: center; padding-top: calc(var(--lh) * 5 / .8); font: 700 1.3em/calc(var(--lh) / 1.3 / .8) var(--hand); color: #8a7a60; }
 
 /* the front cover */
 .nb-cover { position: absolute; inset: -.35em; border-radius: .2em 1em 1em .2em; background: var(--navy) url(/assets/notebook/cover.webp) center / 100% 100%;
