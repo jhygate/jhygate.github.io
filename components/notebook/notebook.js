@@ -1,7 +1,7 @@
 /* random thoughts: data/thoughts.json → a pocket notebook you leaf through (createNotebook), and
    every piece by title on thoughts.html (createThoughtsIndex).
    thoughts: [{ slug, title, date: "YYYY-MM-DD", body }], newest first; body is plain text, a blank
-   line between paragraphs. A paragraph starting "—" is a fragment and gets a line to itself;
+   line between paragraphs, and lines starting "- " are a list. A paragraph starting "—" is a fragment;
    ![caption](src) on its own is a photo taped in, !sketch[caption](src) a drawing on the page.
    Opening the cover shows the real inside cover and flyleaf, with the contents written under the
    "in case of loss" block. Every piece starts on a fresh page and runs onto as many as it needs,
@@ -13,11 +13,25 @@
   const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
   const dateLabel = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${MONTHS[m - 1]} ${y}`; };
   const IMG = /^!(sketch)?\[(.*?)\]\((\S+?)\)$/;
-  const paras = body => String(body || '').split(/\n\s*\n/).map(s => s.trim()).filter(Boolean).map(text => {
-    const m = text.match(IMG);
-    if (m) return { img: m[3], caption: m[2], sketch: !!m[1] };
-    return { text, cls: /^placeholder/i.test(text) ? 'note' : /^[—–-]\s/.test(text) ? 'frag' : '' };
+  const LI = /^[-*•]\s+/;
+  // blank lines part paragraphs; inside one, "- " lines are list items and the lines between them run together
+  const paras = body => String(body || '').split(/\n\s*\n/).map(s => s.trim()).filter(Boolean).flatMap(block => {
+    const m = block.match(IMG);
+    if (m) return [{ img: m[3], caption: m[2], sketch: !!m[1] }];
+    const out = [];
+    for (const line of block.split('\n').map(l => l.trim()).filter(Boolean)) {
+      const last = out[out.length - 1];
+      if (LI.test(line)) out.push({ text: line.replace(LI, ''), cls: 'li' });
+      else if (last && last.cls !== 'li') last.text += ' ' + line;
+      else out.push({ text: line, cls: /^[—–]\s/.test(line) ? 'frag' : '' });
+    }
+    return out.map((b, i) => ({ ...b, tight: i > 0 }));
   });
+  const URL_RE = /^(https?:\/\/\S+?)([.,;:!?)]*)$/;
+  const inline = words => words.map(w => {
+    const m = w.match(URL_RE);
+    return m ? `<a href="${esc(m[1])}" target="_blank" rel="noopener">${esc(m[1].replace(/^https?:\/\/(www\.)?/, ''))}</a>${esc(m[2])}` : esc(w);
+  }).join(' ');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const LH = 1.55;                       // one ruled line, in page ems; matches --lh in notebook.css
 
@@ -59,19 +73,19 @@
             if (!fits()) { box.lastElementChild.remove(); flush(); box.insertAdjacentHTML('beforeend', fig(false)); }
             lead = true; continue;
           }
-          const cls = [p.cls, lead && !p.cls ? 'first' : ''].filter(Boolean).join(' ');
-          const para = document.createElement('p'); para.className = cls; para.textContent = p.text; box.appendChild(para); lead = false;
+          const cls = [p.cls, lead ? 'first' : '', p.tight ? 'tight' : ''].filter(Boolean).join(' ');
+          const para = document.createElement('p'); para.className = cls; para.innerHTML = inline(p.text.split(/\s+/)); box.appendChild(para); lead = false;
           if (fits()) continue;
           if (p.cls === 'frag' && box.childElementCount > 1) { para.remove(); flush(); para.classList.add('cont'); box.appendChild(para); if (fits()) continue; }
           // split the paragraph at the last word that still fits, and carry the rest over
           let words = p.text.split(/\s+/), cont = false;
           while (true) {
             let lo = 0, hi = words.length;
-            while (lo < hi) { const mid = (lo + hi + 1) >> 1; para.textContent = words.slice(0, mid).join(' '); if (fits()) lo = mid; else hi = mid - 1; }
-            if (lo === 0) para.remove(); else para.textContent = words.slice(0, lo).join(' ');
+            while (lo < hi) { const mid = (lo + hi + 1) >> 1; para.innerHTML = inline(words.slice(0, mid)); if (fits()) lo = mid; else hi = mid - 1; }
+            if (lo === 0) para.remove(); else para.innerHTML = inline(words.slice(0, lo));
             flush(); words = words.slice(lo);
             const next = document.createElement('p'); next.className = lo || cont ? [p.cls, 'cont'].filter(Boolean).join(' ') : cls;
-            next.textContent = words.join(' '); box.appendChild(next); cont = true;
+            next.innerHTML = inline(words); box.appendChild(next); cont = true;
             if (fits()) break;
             box.removeChild(next); box.appendChild(para); para.className = next.className;
           }
