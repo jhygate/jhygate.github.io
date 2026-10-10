@@ -35,7 +35,7 @@ site must be served from the repo root, which is what Pages and `python3 -m http
 |---|---|
 | `data/projects.json` | Things I've built, in pinned order: title, blurb, url, photo (a square screenshot in `assets/projects/`). A project with no url isn't out yet and shows as an undeveloped polaroid. |
 | `data/books.json` | `reading` (the current book) and `read` (newest first). Every book needs `cover`, `spine` and `ratio`; see `tools/README.md`. Optional `height` in mm sets how tall it stands beside the others. |
-| `data/articles.json` | Clippings: title, author, source, url, date, minutes, blurb. |
+| `data/articles.json` | Clippings: title, author, source, url, date, minutes, blurb. A fallback: the live list comes from the wire (below). |
 | `data/thoughts.json` | Random thoughts, newest first: slug, title, date, body. Paragraphs are split by a blank line and lines starting `- ` are a list; `— ` starts a fragment, `![caption](src)` on its own line is a photo and `!sketch[caption](src)` a drawing. Pictures live in `assets/thoughts/`. |
 | `data/recent.json` | Fallback playlist when the cassette rack is unreachable. |
 
@@ -44,6 +44,8 @@ site must be served from the repo root, which is what Pages and `python3 -m http
 - Recently played: `jacks-cassettes.jackhygate.co.uk/api/public/recent` (repo `jhygate/cassette-rack`).
 - Venues and atlas scans: `venues.jackhygate.co.uk/api/public/venues` and `/atlas/` (repo `jhygate/venues`).
 - Whiteboard and notes: `wall.jackhygate.co.uk` (repo `jhygate/wall`), live over server-sent events.
+- Things i've read online: `rss.jackhygate.co.uk/api/public/articles`, from the wire, the feed reader that also
+  keeps the read list (`~/CodeFun/the-wire`). Falls back to `data/articles.json` when it's unreachable.
 
 ## Working on it
 
