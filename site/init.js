@@ -10,6 +10,9 @@ fetch('/data/projects.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : 
 fetch('/data/books.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
   .then(d => renderBookshelf(document.querySelector('.books'), d, { limit: 'plank' }))
   .catch(() => renderBookshelf(document.querySelector('.books'), { reading: [], read: [] }, {}));
+fetch('/data/games.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+  .then(list => createGames(document.getElementById('games'), list))
+  .catch(() => createGames(document.getElementById('games'), []));
 fetch('https://rss.jackhygate.co.uk/api/public/articles', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
   .catch(() => fetch('/data/articles.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()))
   .then(list => createScrapbook(document.getElementById('reading-scrapbook'), list, { newTab: true }))

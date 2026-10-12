@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jack's games</title>
+<meta name="description" content="Every game Jack Hygate has played, a cartridge each, with a note on each.">
+<link rel="canonical" href="https://jackhygate.co.uk/games.html">
+<meta name="theme-color" content="#c9955c">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Permanent+Marker&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/textures/cork.jpg">
+<link rel="preload" as="image" href="/assets/shelf/plank.png">
+<link rel="stylesheet" href="/site/base.css?v=2026-10-10a">
+<link rel="stylesheet" href="/components/games/games.css?v=2026-10-12b">
+<style>
+.wrap { position: relative; z-index: 1; max-width: 73.75em; margin: 0 auto; padding: 6vh 5vw 14vh; font-size: clamp(15px, 1.45vh, 24px); }
+.back { display: inline-block; margin-bottom: 1.2em; text-decoration: none; color: #2a2218; font: 400 1.1em/1.1 var(--pen); padding: .35em .8em .3em; background: rgba(238,228,200,.94); box-shadow: 0 1px 2px rgba(0,0,0,.3); transform: rotate(1.5deg); position: relative; }
+.back::before, .back::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8px; background: rgba(238,228,200,.6); }
+.back::before { left: -8px; clip-path: polygon(100% 0, 0 20%, 100% 45%, 0 70%, 100% 100%); }
+.back::after { right: -8px; clip-path: polygon(0 0, 100% 25%, 0 50%, 100% 75%, 0 100%); }
+.games { padding: 0; }
+.games .tape-title { margin-bottom: 0; }
+.count { display: block; margin: 1.2em 0 0 .4em; font: 400 1.1em/1.2 var(--pen); color: #4a3a22; }
+</style>
+</head>
+<body>
+<div class="board" aria-hidden="true"></div>
+<main class="wrap">
+  <a class="back" href="/">← back to the board</a>
+  <section class="games" aria-labelledby="games-title">
+    <h1 class="tape-title" id="games-title">the whole backlog</h1>
+    <span class="count" id="count"></span>
+    <div id="games"></div>
+  </section>
+</main>
+<script src="/components/games/games.js?v=2026-10-12b"></script>
+<script>
+fetch('/data/games.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(list => {
+  const games = createGames(document.getElementById('games'), list, { all: true });
+  document.getElementById('count').textContent = games.count ? `${games.count} games, newest first. click a cartridge.` : '';
+}).catch(() => createGames(document.getElementById('games'), [], { all: true }));
+</script>
+</body>
+</html>
