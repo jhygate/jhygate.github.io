@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "title": "Frogfall",
+    "by": "Kultisti",
+    "url": "https://kultisti.itch.io/frogfall",
+    "store": "itch.io",
+    "image": "/assets/games/frogfall-3db1e9.webp",
+    "tagline": "falls and flies!",
+    "wide": false,
+    "tags": [
+      "2d",
+      "cute",
+      "fantasy",
+      "frog",
+      "pixel art",
+      "platformer"
+    ],
+    "platforms": "Browser, Windows",
+    "browser": true,
+    "status": "playing",
+    "played": "2026-10",
+    "hours": null,
+    "stars": null,
+    "note": "What a beautiful, simple game, short sweet, pretty, well designed levels that progress well, interweaving concepts neatly.\n\nPerfect"
+  }
+]
