@@ -1,8 +1,7 @@
 /* the games: data/games.json → what I'm playing now in a handheld, standing on one plank with the cartridges
    played most recently (createGames), or every game a plank at a time on games.html ({ all: true }).
-   games: [{ title, by, url, store, image, wide, tagline, tags, platforms, browser, status, played: "YYYY-MM",
-   hours, stars, note }], in the order set in the back room. status is playing, finished or dropped; the handheld holds
-   the first game still being played, or the first game when nothing is, and the plank shows the rest in order. Each cartridge's plastic takes the main colour of its cover. */
+   games: [{ title, by, url, store, image, wide, tagline, tags, platforms, browser, played: "YYYY-MM", hours, stars, note }],
+   in the order set in the back room: the first goes in the handheld and the plank shows the rest in order. Each cartridge's plastic takes the main colour of its cover. */
 (() => {
   'use strict';
   const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -18,7 +17,7 @@
       : `<span class="gm-label blank"><span>${esc(g.title)}</span></span>`;
   }
   function cartHTML(g, i, extra = '') {
-    return `<button class="gm-cart ${esc(g.status)}${extra}" data-i="${i}"${g.image ? ` data-src="${esc(g.image)}"` : ''} title="${esc(g.title)}" aria-label="${esc(g.title)}, ${esc(g.status)}">
+    return `<button class="gm-cart${extra}" data-i="${i}"${g.image ? ` data-src="${esc(g.image)}"` : ''} title="${esc(g.title)}" aria-label="${esc(g.title)}">
       <span class="gm-body"></span><span class="gm-grip"></span>${labelHTML(g)}
       <span class="gm-ttl">${esc(g.title)}</span><span class="gm-arrow"></span></button>`;
   }
@@ -28,7 +27,7 @@
   }
   function cardHTML(g, withImage) {
     const go = g.browser ? 'play it in your browser →' : `on ${STORE[g.store] || 'its page'} →`;
-    const facts = [`<b>${esc(g.status)}</b>`, monthName(g.played), hoursLabel(g.hours), g.stars ? '★'.repeat(g.stars) + '☆'.repeat(5 - g.stars) : ''].filter(Boolean).join(' · ');
+    const facts = [monthName(g.played), hoursLabel(g.hours), g.stars ? '★'.repeat(g.stars) + '☆'.repeat(5 - g.stars) : ''].filter(Boolean).join(' · ');
     return `${withImage && g.image ? `<div class="gm-shot${g.wide ? ' wide' : ''}"><img src="${esc(g.image)}" alt=""></div>` : ''}
       <div class="gm-words"><h3>${esc(g.title)}</h3>
         <p class="gm-by">${g.by ? `by ${esc(g.by)}` : ''}${g.by && g.tagline ? ' · ' : ''}${g.tagline ? `<i>${esc(g.tagline)}</i>` : ''}</p>
@@ -100,8 +99,7 @@
 
   function frontPlank(root, games, opts) {
     const href = opts.href || '/games.html';
-    let cur = games.findIndex(g => g.status === 'playing');
-    if (cur < 0) cur = games.length ? 0 : -1;
+    let cur = games.length ? 0 : -1;
     let shown = [], fits = 0, busy = false;
     root.innerHTML = `<div class="gm-stage">${plankHTML(handheldHTML + '<div class="gm-carts" role="list"></div>')}
         <a class="gm-all" href="${href}" ${games.length ? '' : 'hidden'}><b>the backlog</b><span>every game →</span></a></div>
@@ -171,20 +169,15 @@
   }
 
   function backlog(root, games) {
-    const counts = { all: games.length };
-    games.forEach(g => (counts[g.status] = (counts[g.status] || 0) + 1));
-    let filter = 'all', open = -1, fits = 0;
-    root.innerHTML = `<div class="gm-filters" role="group" aria-label="show">${['all', 'playing', 'finished', 'dropped'].map(f =>
-        `<button class="${f}" data-f="${f}" aria-pressed="${f === filter}">${f === 'all' ? 'everything' : f}<span>${counts[f] || 0}</span></button>`).join('')}</div>
-      <div class="gm-years"></div>`;
+    let open = -1, fits = 0;
+    root.innerHTML = '<div class="gm-years"></div>';
     const years = root.querySelector('.gm-years');
 
     function render() {
       const em = parseFloat(getComputedStyle(years).fontSize);
       fits = Math.max(1, Math.floor((years.clientWidth * .94 / em + GAP) / (CART_W + GAP)));
-      const list = games.map((g, i) => [g, i]).filter(([g]) => filter === 'all' || g.status === filter);
       const byYear = new Map();
-      list.forEach(([g, i]) => { const y = (g.played || '').slice(0, 4) || 'undated'; byYear.set(y, [...(byYear.get(y) || []), i]); });
+      games.forEach((g, i) => { const y = (g.played || '').slice(0, 4) || 'undated'; byYear.set(y, [...(byYear.get(y) || []), i]); });
       years.innerHTML = [...byYear].sort((a, b) => b[0].localeCompare(a[0])).map(([y, idx]) => {
         const hours = Math.round(idx.reduce((a, i) => a + (+games[i].hours || 0), 0));
         const planks = [];
@@ -196,8 +189,6 @@
       tint(years);
     }
     root.addEventListener('click', e => {
-      const f = e.target.closest('[data-f]');
-      if (f) { filter = f.dataset.f; root.querySelectorAll('[data-f]').forEach(b => b.setAttribute('aria-pressed', b === f)); open = -1; return render(); }
       const c = e.target.closest('.gm-cart');
       if (!c) return;
       open = +c.dataset.i === open ? -1 : +c.dataset.i;

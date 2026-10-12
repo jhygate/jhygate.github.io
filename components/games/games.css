@@ -10,7 +10,7 @@
 .gm-row { position: absolute; left: 3%; right: 3%; bottom: 33%; z-index: 2; display: flex; align-items: flex-end; gap: .7em; }
 .gm-carts { display: flex; align-items: flex-end; gap: .7em; min-width: 0; }
 
-/* a cartridge: its plastic is the cover's colour (set from games.js; grey until then), with a sheen while playing and dust once dropped */
+/* a cartridge: its plastic is the cover's colour (set from games.js; grey until then) */
 .gm-cart { --shell: #b5b2a9; --shell-d: #96938b; --edge: #ece7d8;
   position: relative; flex: none; width: 6.6em; height: 7.5em; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer;
   transition: transform .22s ease; filter: drop-shadow(0 .25em .25em rgba(20,10,0,.35)); }
@@ -28,10 +28,7 @@
 .gm-ttl { position: absolute; left: 9%; right: 9%; top: 76%; font: 600 .38em/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; text-align: left;
   color: rgba(40,38,34,.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gm-arrow { position: absolute; left: 50%; bottom: 4%; transform: translateX(-50%); border: .3em solid transparent; border-top-color: rgba(0,0,0,.2); border-bottom: 0; }
-.gm-cart.playing .gm-body { background: linear-gradient(100deg, rgba(255,255,255,.3), transparent 35%), repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 .15em, transparent 0 .45em), linear-gradient(var(--shell), var(--shell-d)); }
 .gm-cart.on-dark .gm-ttl { color: rgba(255,255,255,.8); }
-.gm-cart.dropped { filter: saturate(.5) drop-shadow(0 .25em .25em rgba(20,10,0,.35)); }
-.gm-cart.dropped .gm-body::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 70%, rgba(120,100,70,.25), transparent 50%), radial-gradient(circle at 80% 20%, rgba(120,100,70,.18), transparent 40%); }
 .gm-cart.flying { position: fixed; z-index: 50; margin: 0; pointer-events: none; transition: none; }
 .gm-cart.in { pointer-events: none; transition: none; }
 
@@ -99,16 +96,7 @@
 .gm-go:hover { background: #e04848; }
 
 /* games.html: every game, a plank per year */
-.gm-filters { display: flex; flex-wrap: wrap; gap: .5em; margin: 1.6em 0 0; }
-.gm-filters button { border: 0; padding: .35em .65em; cursor: pointer; font: 400 1em/1 var(--marker); color: #1f1c17; background: var(--paper);
-  box-shadow: 0 2px 2px rgba(0,0,0,.35); transform: rotate(-1deg); }
-.gm-filters button:nth-child(even) { transform: rotate(1.2deg); }
-.gm-filters button[aria-pressed="true"].all { background: #f4df57; }
-.gm-filters button[aria-pressed="true"].playing { background: #f4df57; }
-.gm-filters button[aria-pressed="true"].finished { background: var(--osd); }
-.gm-filters button[aria-pressed="true"].dropped { background: #f5a2bc; }
-.gm-filters span { margin-left: .35em; font: 500 .65em var(--mono); opacity: .6; }
-.gm-years { font-size: 1.45em; }
+.gm-years { font-size: 1.45em; margin-top: 1.2em; }
 .gm-year { margin-top: 1.6em; }
 .gm-year .gm-plank { margin-top: 6.8em; width: 100%; max-width: 41.4em; }
 .gm-yr { display: inline-block; font: 400 .9em/1.1 var(--pen); color: #2a2218; background: rgba(238,228,200,.94); padding: .25em .7em; box-shadow: 0 1px 2px rgba(0,0,0,.3); transform: rotate(-1.5deg); }
