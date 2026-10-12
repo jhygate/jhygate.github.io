@@ -1,8 +1,8 @@
 /* the games: data/games.json → what I'm playing now in a handheld, standing on one plank with the cartridges
    played most recently (createGames), or every game a plank at a time on games.html ({ all: true }).
    games: [{ title, by, url, store, image, wide, tagline, tags, platforms, browser, status, played: "YYYY-MM",
-   hours, stars, note }], newest first. status is playing, finished or dropped; the handheld holds the newest
-   game still being played, or the newest game when nothing is. Each cartridge's plastic takes the main colour of its cover. */
+   hours, stars, note }], in the order set in the back room. status is playing, finished or dropped; the handheld holds
+   the first game still being played, or the first game when nothing is, and the plank shows the rest in order. Each cartridge's plastic takes the main colour of its cover. */
 (() => {
   'use strict';
   const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -185,7 +185,7 @@
       const list = games.map((g, i) => [g, i]).filter(([g]) => filter === 'all' || g.status === filter);
       const byYear = new Map();
       list.forEach(([g, i]) => { const y = (g.played || '').slice(0, 4) || 'undated'; byYear.set(y, [...(byYear.get(y) || []), i]); });
-      years.innerHTML = [...byYear].map(([y, idx]) => {
+      years.innerHTML = [...byYear].sort((a, b) => b[0].localeCompare(a[0])).map(([y, idx]) => {
         const hours = Math.round(idx.reduce((a, i) => a + (+games[i].hours || 0), 0));
         const planks = [];
         for (let k = 0; k < idx.length; k += fits) planks.push(idx.slice(k, k + fits));

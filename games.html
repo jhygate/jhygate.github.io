@@ -39,7 +39,7 @@
     <div id="games"></div>
   </section>
 </main>
-<script src="/components/games/games.js?v=2026-10-12c"></script>
+<script src="/components/games/games.js?v=2026-10-12d"></script>
 <script>
 fetch('/data/games.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(list => {
   const games = createGames(document.getElementById('games'), list, { all: true });
