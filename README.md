@@ -37,7 +37,7 @@ site must be served from the repo root, which is what Pages and `python3 -m http
 |---|---|
 | `data/projects.json` | Things I've built, in pinned order: title, blurb, url, photo (a square screenshot in `assets/projects/`). A project with no url isn't out yet and shows as an undeveloped polaroid. |
 | `data/books.json` | `reading` (the current book) and `read` (newest first). Every book needs `cover`, `spine` and `ratio`; see `tools/README.md`. Optional `height` in mm sets how tall it stands beside the others. |
-| `data/games.json` | Games, in the order set in the back room: title, by, url, store, image (in `assets/games/`; `wide` for a Steam header), tagline, tags, platforms, browser, status (`playing`, `finished` or `dropped`), played (YYYY-MM), hours, stars, note. The first game still being played goes in the handheld; the rest stand on the plank in order. games.html groups them by year. |
+| `data/games.json` | Games, in the order set in the back room: title, by, url, store, image (in `assets/games/`; `wide` for a Steam header), tagline, tags, platforms, browser, played (YYYY-MM), hours, stars, note. The first goes in the handheld; the rest stand on the plank in order. games.html groups them by year. |
 | `data/articles.json` | Clippings: title, author, source, url, date, minutes, blurb. A fallback: the live list comes from the wire (below). |
 | `data/thoughts.json` | Random thoughts, newest first: slug, title, date, body. Paragraphs are split by a blank line and lines starting `- ` are a list; `— ` starts a fragment, `![caption](src)` on its own line is a photo and `!sketch[caption](src)` a drawing. Pictures live in `assets/thoughts/`. |
 | `data/recent.json` | Fallback playlist when the cassette rack is unreachable. |
