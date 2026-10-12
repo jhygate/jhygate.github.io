@@ -20,7 +20,7 @@
   function cartHTML(g, i, extra = '') {
     return `<button class="gm-cart ${esc(g.status)}${extra}" data-i="${i}" title="${esc(g.title)}" aria-label="${esc(g.title)}, ${esc(g.status)}">
       <span class="gm-body"></span><span class="gm-grip"></span>${labelHTML(g)}
-      <span class="gm-ttl">${esc(g.title)}</span><span class="gm-arrow"></span><span class="gm-sticker">${esc(g.status)}</span></button>`;
+      <span class="gm-ttl">${esc(g.title)}</span><span class="gm-arrow"></span></button>`;
   }
   function screenHTML(g) {
     if (!g) return '<span class="gm-nocart">no cartridge</span>';
