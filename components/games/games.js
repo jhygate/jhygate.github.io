@@ -2,7 +2,7 @@
    played most recently (createGames), or every game a plank at a time on games.html ({ all: true }).
    games: [{ title, by, url, store, image, wide, tagline, tags, platforms, browser, status, played: "YYYY-MM",
    hours, stars, note }], newest first. status is playing, finished or dropped; the handheld holds the newest
-   game still being played, or the newest game when nothing is. */
+   game still being played, or the newest game when nothing is. Each cartridge's plastic takes the main colour of its cover. */
 (() => {
   'use strict';
   const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -18,7 +18,7 @@
       : `<span class="gm-label blank"><span>${esc(g.title)}</span></span>`;
   }
   function cartHTML(g, i, extra = '') {
-    return `<button class="gm-cart ${esc(g.status)}${extra}" data-i="${i}" title="${esc(g.title)}" aria-label="${esc(g.title)}, ${esc(g.status)}">
+    return `<button class="gm-cart ${esc(g.status)}${extra}" data-i="${i}"${g.image ? ` data-src="${esc(g.image)}"` : ''} title="${esc(g.title)}" aria-label="${esc(g.title)}, ${esc(g.status)}">
       <span class="gm-body"></span><span class="gm-grip"></span>${labelHTML(g)}
       <span class="gm-ttl">${esc(g.title)}</span><span class="gm-arrow"></span></button>`;
   }
@@ -37,6 +37,54 @@
         ${g.tags && g.tags.length ? `<p class="gm-tags">${g.tags.map(t => `<span>${esc(t)}</span>`).join('')}</p>` : ''}
         ${g.url ? `<a class="gm-go" href="${esc(g.url)}" target="_blank" rel="noopener">${go}</a>` : ''}</div>`;
   }
+  /* the cover's most common colourful hue, made into plastic: never too dark, too pale or too loud */
+  const tints = new Map();
+  function tintOf(src) {
+    if (!tints.has(src)) tints.set(src, new Promise(res => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const n = 32, cv = document.createElement('canvas');
+          cv.width = cv.height = n;
+          const ctx = cv.getContext('2d', { willReadFrequently: true });
+          ctx.drawImage(img, 0, 0, n, n);
+          const px = ctx.getImageData(0, 0, n, n).data, bins = Array.from({ length: 12 }, () => [0, 0, 0, 0]), all = [0, 0, 0];
+          for (let k = 0; k < px.length; k += 4) {
+            const [r, g, b] = [px[k], px[k + 1], px[k + 2]], [h, sat, l] = hsl(r, g, b);
+            all[0] += r; all[1] += g; all[2] += b;
+            if (sat < .25 || l < .12 || l > .9) continue;
+            const w = sat * (1 - Math.abs(l - .5)), bin = bins[Math.floor(h * 12) % 12];
+            bin[0] += r * w; bin[1] += g * w; bin[2] += b * w; bin[3] += w;
+          }
+          const best = bins.reduce((a, b) => (b[3] > a[3] ? b : a));
+          const [r, g, b] = best[3] > n * n * .02 ? best.slice(0, 3).map(v => v / best[3]) : all.map(v => v / (n * n));
+          let [h, sat, l] = hsl(r, g, b);
+          sat = Math.min(sat, .62); l = Math.min(Math.max(l, .42), .68);
+          res({ shell: `hsl(${h * 360} ${sat * 100}% ${l * 100}%)`, dark: `hsl(${h * 360} ${sat * 100}% ${(l - .13) * 100}%)`, light: l < .58 });
+        } catch { res(null); }
+      };
+      img.onerror = () => res(null);
+      img.src = src;
+    }));
+    return tints.get(src);
+  }
+  function hsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, d = max - min;
+    if (!d) return [0, 0, l];
+    const s = d / (1 - Math.abs(2 * l - 1));
+    const h = max === r ? ((g - b) / d + 6) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return [h / 6, s, l];
+  }
+  function tint(root) {
+    root.querySelectorAll('.gm-cart[data-src]:not([style*="--shell"])').forEach(c => tintOf(c.dataset.src).then(t => {
+      if (!t) return;
+      c.style.setProperty('--shell', t.shell);
+      c.style.setProperty('--shell-d', t.dark);
+      c.classList.toggle('on-dark', t.light);
+    }));
+  }
+
   const handheldHTML = `<div class="gm-hh on"><div class="gm-slot"></div><div class="gm-hh-body">
       <div class="gm-bezel"><div class="gm-led"><i></i>power</div><div class="gm-screen"></div></div>
       <div class="gm-brand"><b>jack</b> boy colour</div>
@@ -64,6 +112,7 @@
     function seat(boot) {
       const g = games[cur];
       slot.innerHTML = g ? cartHTML(g, cur, ' in') : '';
+      tint(slot);
       screen.innerHTML = screenHTML(g) + (boot && !reduced.matches ? '<span class="gm-boot"><b>jack®</b></span>' : '');
       if (boot) setTimeout(() => screen.querySelector('.gm-boot')?.remove(), 1300);
       card.innerHTML = g ? cardHTML(g, false) : '';
@@ -77,7 +126,8 @@
       const rest = games.map((_, i) => i).filter(i => i !== cur);
       const keep = shown.filter(i => i !== cur).slice(0, n);
       shown = keep.concat(rest.filter(i => !keep.includes(i))).slice(0, n);
-      carts.innerHTML = shown.map((i, p) => cartHTML(games[i], i)).join('');
+      carts.innerHTML = shown.map(i => cartHTML(games[i], i)).join('');
+      tint(carts);
     }
     async function play(pos, how) {
       if (busy || pos < 0 || pos >= shown.length) return;
@@ -102,6 +152,7 @@
       else shown[pos] = was;
       cur = j;
       carts.innerHTML = shown.map(i => cartHTML(games[i], i)).join('');
+      tint(carts);
       const back = carts.querySelector(`[data-i="${was}"]`);
       if (back && !reduced.matches) back.animate([{ transform: 'translateY(-1.2em)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 300, easing: 'ease-out' });
       hh.classList.add('on');
@@ -142,6 +193,7 @@
           ${planks.map(p => plankHTML(`<div class="gm-carts" role="list">${p.map(i => cartHTML(games[i], i, i === open ? ' lifted' : '')).join('')}</div>`) +
             (p.includes(open) ? `<div class="gm-card">${cardHTML(games[open], true)}</div>` : '')).join('')}</div>`;
       }).join('') || '<p class="gm-empty">nothing here yet</p>';
+      tint(years);
     }
     root.addEventListener('click', e => {
       const f = e.target.closest('[data-f]');
