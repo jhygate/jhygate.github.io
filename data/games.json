@@ -1,5 +1,28 @@
 [
   {
+    "title": "Breadwinner",
+    "by": "Mithika Games",
+    "url": "https://mithikagames.itch.io/breadwinner",
+    "store": "itch.io",
+    "image": "/assets/games/breadwinner-527ca7.webp",
+    "tagline": "Horrors of a family living on one salary.",
+    "wide": false,
+    "tags": [
+      "atmospheric",
+      "dark",
+      "filipino",
+      "horror",
+      "life simulation",
+      "management"
+    ],
+    "platforms": "Browser",
+    "browser": true,
+    "played": "2026-10",
+    "hours": null,
+    "stars": null,
+    "note": "Haunting, scary - god my life is easy."
+  },
+  {
     "title": "ROTETRA",
     "by": "sharkwithlasers",
     "url": "https://sharkwithlasers.itch.io/rotetra",
