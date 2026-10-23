@@ -1,0 +1,43 @@
+/* ---------- things i've been to: ticket stubs ---------- */
+.stubs-sec { position: relative; z-index: 1; max-width: var(--board-width); margin: 0 auto; padding: 0 var(--gutter) var(--section-gap); font-size: var(--board-type); }
+.stubs-sec .tape-title { margin-bottom: 1.6em; display: inline-block; }
+
+.st-wall { display: flex; flex-wrap: wrap; gap: 22px 18px; align-items: flex-start; max-width: 62em; }
+
+.st {
+  --ink: #2b2014; --paper: #f1e4c4; --band: #c0462f;
+  position: relative; display: flex; width: 17.5em; max-width: 100%; min-height: 7.6em;
+  color: var(--ink); text-decoration: none; background: var(--paper);
+  transform: rotate(var(--tilt, 0deg)); transition: transform .15s;
+  filter: drop-shadow(0 2px 1px rgba(0,0,0,.18)) drop-shadow(0 10px 12px rgba(0,0,0,.22));
+  /* the punched notches top and bottom where the stub tears off, and a torn right edge */
+  -webkit-mask: radial-gradient(circle at 4.6em 0, transparent .42em, #000 .45em) top / 100% 51% no-repeat,
+                radial-gradient(circle at 4.6em 100%, transparent .42em, #000 .45em) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle at 4.6em 0, transparent .42em, #000 .45em) top / 100% 51% no-repeat,
+                radial-gradient(circle at 4.6em 100%, transparent .42em, #000 .45em) bottom / 100% 51% no-repeat;
+  clip-path: polygon(0 0, 100% 0, 98.6% 8%, 100% 17%, 98.8% 27%, 100% 38%, 98.5% 49%, 100% 60%, 98.7% 71%, 100% 82%, 98.6% 92%, 100% 100%, 0 100%);
+}
+a.st:hover, a.st:focus-visible { transform: rotate(0deg) translateY(-3px); }
+.st-c1 { --paper: #e9eef0; --band: #2f5d8a; }
+.st-c2 { --paper: #f4dcd2; --band: #8a2f4f; }
+.st-c3 { --paper: #e3ead2; --band: #4f6b2a; }
+.st-c4 { --paper: #f6edb8; --band: #b5651d; }
+
+.st-side {
+  flex: none; width: 4.6em; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--band); color: var(--paper); border-right: 2px dashed rgba(0,0,0,.35); padding: .5em 0;
+  font: 400 .8em/1 "Courier Prime", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em;
+}
+.st-side b { font: 400 2.6em/0.95 "Bebas Neue", "Archivo Narrow", sans-serif; letter-spacing: 0; }
+.st-side i { font-style: normal; }
+
+.st-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .25em; padding: .7em 1em .75em .9em; }
+.st-admit { font: 400 .62em/1 "Courier Prime", ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--band); }
+.st-title { font: 400 1.5em/1 "Bebas Neue", "Archivo Narrow", sans-serif; letter-spacing: .02em; overflow-wrap: anywhere; }
+.st-venue { font: 400 .78em/1.2 "Courier Prime", ui-monospace, monospace; text-transform: lowercase; }
+.st-note { font: 700 1.05em/1.05 "Caveat", cursive; color: #1d3f8a; transform: rotate(-1.5deg); margin-top: .15em; }
+
+.st-more { margin-top: 1.4em; border: 0; cursor: pointer; padding: .45em .9em; background: #f7f1de; color: #2c2418;
+  font: 700 1.2em/1 "Caveat", cursive; transform: rotate(-1.5deg); box-shadow: 0 2px 4px rgba(0,0,0,.25); }
+
+@media (max-width: 560px) { .st { width: 100%; transform: rotate(calc(var(--tilt, 0deg) * .35)); } }
