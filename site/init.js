@@ -17,6 +17,10 @@ fetch('https://rss.jackhygate.co.uk/api/public/articles', { cache: 'no-store' })
   .catch(() => fetch('/data/articles.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()))
   .then(list => createScrapbook(document.getElementById('reading-scrapbook'), list, { newTab: true }))
   .catch(() => createScrapbook(document.getElementById('reading-scrapbook'), [], { newTab: true }));
+fetch('https://calendar.jackhygate.co.uk/api/public/been', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+  .catch(() => fetch('/data/been.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()))
+  .then(list => createStubs(document.getElementById('stubs'), list))
+  .catch(() => createStubs(document.getElementById('stubs'), []));
 fetch('/data/thoughts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
   .then(list => createNotebook(document.getElementById('notebook'), list))
   .catch(() => createNotebook(document.getElementById('notebook'), []));
