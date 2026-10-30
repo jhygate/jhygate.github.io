@@ -21,6 +21,6 @@ fetch('https://calendar.jackhygate.co.uk/api/public/been', { cache: 'no-store' }
   .catch(() => fetch('/data/been.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()))
   .then(list => createStubs(document.getElementById('stubs'), list))
   .catch(() => createStubs(document.getElementById('stubs'), []));
-fetch('/data/thoughts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+loadThoughts()
   .then(list => createNotebook(document.getElementById('notebook'), list))
   .catch(() => createNotebook(document.getElementById('notebook'), []));

@@ -33,9 +33,9 @@
   <h1 class="tape-title">random thoughts, all of them</h1>
   <div id="thoughts"></div>
 </main>
-<script src="/components/notebook/notebook.js?v=2026-09-28a"></script>
+<script src="/components/notebook/notebook.js?v=2026-10-30a"></script>
 <script>
-fetch('/data/thoughts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+loadThoughts()
   .then(list => createThoughtsIndex(document.getElementById('thoughts'), list))
   .catch(() => createThoughtsIndex(document.getElementById('thoughts'), []));
 </script>
