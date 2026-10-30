@@ -46,6 +46,8 @@ site must be served from the repo root, which is what Pages and `python3 -m http
 
 - Recently played: `jacks-cassettes.jackhygate.co.uk/api/public/recent` (repo `jhygate/cassette-rack`).
 - Venues and atlas scans: `venues.jackhygate.co.uk/api/public/venues` and `/atlas/` (repo `jhygate/venues`).
+- Random thoughts: `data/thoughts.json`, plus the ones ticked "into the notebook" in the thoughts app,
+  live from `thoughts.jackhygate.co.uk/api/public/notebook` (`~/services/thoughts` on the box). No deploy needed for those.
 - Whiteboard and notes: `wall.jackhygate.co.uk` (repo `jhygate/wall`), live over server-sent events.
 - Things i've read online: `rss.jackhygate.co.uk/api/public/articles`, from the wire, the feed reader that also
   keeps the read list (`~/CodeFun/the-wire`). Falls back to `data/articles.json` when it's unreachable.

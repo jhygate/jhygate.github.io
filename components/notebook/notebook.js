@@ -221,6 +221,14 @@
     return { turnTo, destroy() { document.removeEventListener('keydown', onKey); removeEventListener('resize', onResize); io.disconnect(); root.innerHTML = ''; root.classList.remove('nb', 'single'); } };
   };
 
+  // data/thoughts.json plus the ones ticked for the notebook in the thoughts app (thoughts.jackhygate.co.uk),
+  // which go up live with no deploy. Newest first; either source alone is enough.
+  const LIVE = 'https://thoughts.jackhygate.co.uk/api/public/notebook';
+  window.loadThoughts = () => Promise.all([
+    fetch('/data/thoughts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
+    fetch(LIVE, { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
+  ]).then(([kept, live]) => [...live, ...kept.filter(t => !live.some(l => l.slug === t.slug))].sort((a, b) => b.date.localeCompare(a.date)));
+
   window.createThoughtsIndex = function (root, thoughts) {
     root.classList.add('th');
     const years = [...new Set(thoughts.map(t => t.date.slice(0, 4)))];
