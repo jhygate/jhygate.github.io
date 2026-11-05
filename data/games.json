@@ -1,5 +1,28 @@
 [
   {
+    "title": "walk",
+    "by": "bilge",
+    "url": "https://bilgetbd.itch.io/walk",
+    "store": "itch.io",
+    "image": "/assets/games/walk-70cfac.webp",
+    "tagline": "it's about walking",
+    "wide": false,
+    "tags": [
+      "adventure",
+      "clicker",
+      "cozy",
+      "cute",
+      "exploration",
+      "life simulation"
+    ],
+    "platforms": "Browser, Windows",
+    "browser": true,
+    "played": "2026-11",
+    "hours": null,
+    "stars": null,
+    "note": "Sweet, simple, art is real and lovely and approachable - so cozy"
+  },
+  {
     "title": "Breadwinner",
     "by": "Mithika Games",
     "url": "https://mithikagames.itch.io/breadwinner",
