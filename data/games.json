@@ -1,5 +1,28 @@
 [
   {
+    "title": "Rotten Machines",
+    "by": "kenforest",
+    "url": "https://kenforest.itch.io/rotten-machines",
+    "store": "itch.io",
+    "image": "/assets/games/rotten-machines-680955.webp",
+    "tagline": "Short, atmospheric dark driving game",
+    "wide": false,
+    "tags": [
+      "3d",
+      "adventure",
+      "atmospheric",
+      "creepy",
+      "dark",
+      "driving"
+    ],
+    "platforms": "Browser, Windows",
+    "browser": true,
+    "played": "2026-11",
+    "hours": null,
+    "stars": null,
+    "note": ""
+  },
+  {
     "title": "walk",
     "by": "bilge",
     "url": "https://bilgetbd.itch.io/walk",
