@@ -1,5 +1,28 @@
 [
   {
+    "title": "Spectral Slash",
+    "by": "abhimonk",
+    "url": "https://abhimonk.itch.io/spectral-slash",
+    "store": "itch.io",
+    "image": "/assets/games/spectral-slash-ca52ac.webp",
+    "tagline": "Melee combat deckbuilder. Slash to gain energy, use energy to play cards.",
+    "wide": false,
+    "tags": [
+      "1 bit",
+      "2d",
+      "action",
+      "deck building",
+      "love2d",
+      "melee"
+    ],
+    "platforms": "Browser, Windows",
+    "browser": true,
+    "played": "2026-11",
+    "hours": null,
+    "stars": null,
+    "note": "Clean, fun, simple, nice loop"
+  },
+  {
     "title": "Rotten Machines",
     "by": "kenforest",
     "url": "https://kenforest.itch.io/rotten-machines",
